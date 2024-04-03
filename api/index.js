@@ -2,13 +2,22 @@
 'use strict'
 
 //importar mongoose
-var mongoose = require ('mongoose')
+var mongoose = require('mongoose');
+var app = require('./app');
+var port= 3800;
 
-mongoose.Promise=global.Promise;
-mongoose.connect('mongodb://localhost:27017/hammerland', {useMongoClient: true})
-    .then(()=>{
-        console.log('Conexión a la BBDD HAMMERLAND realizada correctamente')
+
+
+// Conexión a la base de datos
+mongoose.connect('mongodb://localhost:27017/hammerland')
+  .then(() => {
+    console.log('Conectado a la base de datos HAMMERLAND');
+
+    //crear el servidor
+    app.listen(port, ()=>{
+        console.log("Servidor corriendo en http://localhost:3800");
     })
-    .catch(err=>console.log(err));
-
-
+  })
+  .catch((error) => {
+    console.error('Error al conectar a la base de datos:', error);
+  });
