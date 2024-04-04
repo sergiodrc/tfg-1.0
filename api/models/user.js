@@ -13,7 +13,7 @@ var UserSchema = Schema(
         adress:String,
         email:String,
         password:String,
-        telef:Number;
+        telef:Number,
         image:String
     });
     module.exports=mongoose.model('User',UserSchema);
