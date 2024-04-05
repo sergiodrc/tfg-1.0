@@ -19,17 +19,17 @@ function saveUser(req,res){
     var params=req.body;
     var user = new User();
 
-    if (params.nombre && params.apellido && params.email && params.password 
-        && params.nickname && params.adress && params.edad && params.telef){
+    if (params.nombre_usuario && params.apellido_usuario && params.email_usuario && params.password_usuario 
+        && params.nickname_usuario && params.direccion_usuario && params.edad_usuario && params.telef_usuario){
 
-            user.nombre= params.nombre;
-            user.apellido= params.apellido;
-            user.email=params.email;
-            user.password=params.password;
-            user.nickname=params.nickname;
-            user.adress=params.adress;
-            user.edad=params.edad;
-            user.telef=params.telef;
+            user.nombre_usuario= params.nombre_usuario;
+            user.apellido_usuario= params.apellido_usuario;
+            user.email_usuario=params.email_usuario;
+            user.password_usuario=params.password_usuario;
+            user.nickname_usuario=params.nickname_usuario;
+            user.direccion_usuario=params.direccion_usuario;
+            user.edad_usuario=params.edad_usuario;
+            user.telef_usuario=params.telef_usuario;
         }
         else{
             res.status(200).send({
