@@ -5,15 +5,15 @@ var Schema =mongoose.Schema;
 
 var UserSchema = Schema(
     {
-        nombre:String,
-        apellido:String,
-        edad:Number,
-        nickname:String,
-        role:String,
-        adress:String,
-        email:String,
-        password:String,
-        telef:Number,
-        image:String
+        nombre_usuario:String,
+        apellido_usuario:String,
+        edad_usuario:Number,
+        nickname_usuario:String,
+        role_usuario:String,
+        direccion_usuario:String,
+        email_usuario:String,
+        password_usuario:String,
+        telef_usuario:Number,
+        imagen_usuario:String
     });
     module.exports=mongoose.model('User',UserSchema);
