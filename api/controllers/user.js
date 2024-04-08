@@ -1,44 +1,240 @@
 'use strict'
 
+var bcrypt = require('bcrypt-nodejs');
+
 var User = require('../models/user');
 
-function home(req,res){
+var jwt = require('../services/jwt');
+
+var mongoosePaginate = require('mongoose-pagination');
+
+var fs = require('fs');
+
+var path = require('path');
+
+
+//Funciones de prueba
+function home(req, res) {
     res.status(200).send({
-        message:'Accion de prueba'
+        message: 'Accion de prueba'
     });
 }
 
-function pruebas(req,res){
+function pruebas(req, res) {
     console.log(req.body);
     res.status(200).send({
-        message:'Pruebas de servidor de Node'
+        message: 'Pruebas de servidor de Node'
     });
 };
 
-function saveUser(req,res){
-    var params=req.body;
+//funcion de registro
+function saveUser(req, res) {
+    var params = req.body;
     var user = new User();
 
-    if (params.nombre_usuario && params.apellido_usuario && params.email_usuario && params.password_usuario 
-        && params.nickname_usuario && params.direccion_usuario && params.edad_usuario && params.telef_usuario){
+    if (params.nombre_usuario && params.apellido_usuario && params.email_usuario && params.password_usuario
+        && params.nickname_usuario && params.direccion_usuario && params.edad_usuario && params.telef_usuario && params.role_usuario && params.imagen_usuario) {
 
-            user.nombre_usuario= params.nombre_usuario;
-            user.apellido_usuario= params.apellido_usuario;
-            user.email_usuario=params.email_usuario;
-            user.password_usuario=params.password_usuario;
-            user.nickname_usuario=params.nickname_usuario;
-            user.direccion_usuario=params.direccion_usuario;
-            user.edad_usuario=params.edad_usuario;
-            user.telef_usuario=params.telef_usuario;
-        }
-        else{
-            res.status(200).send({
-                message:'Debes rellenar todos los campos'
-            })        }
+        user.nombre_usuario = params.nombre_usuario;
+        user.apellido_usuario = params.apellido_usuario;
+        user.email_usuario = params.email_usuario;
+        user.nickname_usuario = params.nickname_usuario;
+        user.direccion_usuario = params.direccion_usuario;
+        user.edad_usuario = params.edad_usuario;
+        user.telef_usuario = params.telef_usuario;
+        user.role_usuario = "ROLE_USER"; // por defecto los usuarios son simplemente USERS
+        user.imagen_usuario = null;
+
+        //Metodo para gestionar intentos de usuarios duplicados
+        User.find({
+            $or: [
+                { email_usuario: user.email_usuario.toLowerCase() },
+                { nickname_usuario: user.nickname_usuario.toLowerCase() }
+            ]
+        }).exec((err, users) => {
+            if (err) return res.status(500).send({ message: "Error al buscar el usuario" });
+
+            if (users && users.length >= 1) {
+                return res.status(200).send({ message: 'El usuario ya existe.' })
+            } else {
+                //Este metodo cifra la contraseña para guardarla en la base de datos de forma mas segura
+                bcrypt.hash(params.password_usuario, null, null, (err, hash) => {
+                    user.password_usuario = hash;
+                    user.save((err, userStored) => {
+                        if (err) return res.status(500).send({ message: `Error al guardar el usuario ${err}` });
+
+                        if (userStored) {
+                            res.status(200).send({ user: userStored });
+                        } else {
+                            res.status(404).send({ message: 'No se ha podido registrar el usuario' })
+                        }
+                    })
+
+
+
+                });
+            }
+        })
+
+
+    }
+    else {
+        res.status(200).send({
+            message: 'Debes rellenar todos los campos'
+        })
+    }
 }
 
+//Funcion de Log in
+function loginUser(req, res) {
+    var params =req.body;
 
-module.exports= {
+    var email_usuario =params.email_usuario;
+    var  password_usuario=params.password_usuario;
+
+     User.findOne({ email_usuario: email_usuario }, (err, user) => {
+          if(err) return res.status.send({message:'error en la peticion'});
+
+          if(user) {
+            bcrypt.compare(password_usuario, user.password_usuario, (err, check) => {
+                if(check) {
+                    if(params.gettoken) {
+                        return res.status(200).send({
+                            token: jwt.createToken(user)
+                        })
+                    } else {
+                        user.password_usuario = undefined;
+                        return res.status(200).send({user})
+                    }
+                    
+                } else {
+                    return  res.status(404).send({message:"Usuario o contraseña incorrectos"})
+                }
+            })
+          }
+})
+}
+
+//Funcion Conseguir Datos usuario
+function getUser(req,res){
+    var UserId = req.params.id_usuario
+    
+    User.findById(userId, (err,user) => {
+        if(err) return  res.status(500).send({message : "Error al realizar la consulta del Usuario"})
+        if(!user) return  res.status(404).send({message : "No se ha encontrado un Usuario con el id " + userId})
+        return res.status(200).send({user});
+    })
+}
+
+//Funcion para devolver Usuarios Paginados
+function getAllUsers(req,res){
+    var identity_user_id = req.user.sub;
+    var page = 1;
+
+    if(req.params.page) {
+        page = req.params.page;
+    }
+
+    var itemsPerPage = 5;
+
+    User.find().sort('_id').paginate(page,itemsPerPage, (err,users,total) => {
+        if (err) return res.status(500).send({message:'Error en la petición'});
+
+        if(!users) return res.status(404).send({message:'No hay usuarios disponibles'});
+
+        return res.status(200).send({
+            users,
+            total,
+            //Numero total de paginas
+            pages: Math.ceil(total/itemsPerPage),
+
+        });
+    })
+}
+
+//Funcion para actualizar el usuario
+function updateUser(req,res) {
+    var userId = req.params.id;
+    var update = req.body;
+
+    //Borrar propiedad password ya que es mas seguro hacer un metodo a parte para actualizar la contraseña
+    delete  update.password;
+
+    if(userId != req.user.sub) {
+        return res.status(500).send ({ message: 'El usuario no tiene permisos para editar este usuario'})
+}else {
+    User.findByIdAndUpdate(userId,update,{new:true}, (err, userUpdated)=>{
+        if(err) return res.status(500).send({message:"Error al actualizar el usuario"});
+
+        if (!userUpdated) return res.status(404).send({message:"No se ha podido encontrar el usuario"});
+
+        return  res.status(200).send({user: userUpdated});
+
+        
+})
+}
+}
+
+//Funcion para subir una foto de avatar a la base de datos
+function uploadImage(req,res){
+    var userId = require.params.id;
+
+    if(userId != req.user.sub) {
+        return removeFilesOfUploads(res, file_path, 'La imagen del perfil solo puede ser cargada por el usuario corresponddiente');
+        
+}
+if(req.files) {
+    var file_path = req.files.image.path;
+    var file_split = file_path.split('\\')
+
+    var file_name  = file_split[2]
+    var ext_split = file_name.split('\.');
+    var file_ext  = ext_split[1];
+
+    if(file_ext == 'png' || file_ext == 'jpg' || file_ext == 'jpeg' || file_ext == 'gif') {
+        User.findByIdAndUpdate(userId, {imagen_usuario: file_name}, {new:true}, (err, userUpdated) =>{
+            if(err) return res.status(500).send({message:"Error al actualizar la imagen"});
+
+            if (!userUpdated) return res.status(404).send({message:"No se ha podido encontrar el usuario"});
+    
+            return  res.status(200).send({user: userUpdated});
+        }); 
+    } else {
+        return removeFilesOfUploads(res, file_path, 'Extension no valida');
+    }
+} else {
+    res.status(200).send({message: "No ha enviado ninguna imagen"});
+}
+};
+
+function removeFilesOfUploads(res, file_path, message) {
+    fs.unlink(file_path, (err) => {
+        if(err) return res.status(200).send({message: message})
+     });
+};
+
+function  getImageFile(req, res) {
+    var image_file = req.params.imageFile;
+    var path_file = './uploads/images/' + req.params.image_file;
+
+    fs.exists(image_file, (exist) => {
+         if(exist) {
+            res.sendFile(image_file);
+        } else {
+            return res.status(404).send({message: "La imagen no existe"});
+        }
+    });
+};
+
+
+module.exports = {
     home,
-    pruebas
+    pruebas,
+    saveUser,
+    loginUser,
+    getUser,
+    getAllUsers,
+    updateUser,
+    uploadImage,
+    getImageFile
 }
