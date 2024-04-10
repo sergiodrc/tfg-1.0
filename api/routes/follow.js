@@ -14,3 +14,5 @@ api.post('/follow',md_auth.ensureAuth , followController.saveFollow);
 
 //Rutas DELETE
 api.delete('/follow/:id',md_auth.ensureAuth, followController.deleteFollow);
+
+module.exports=api;

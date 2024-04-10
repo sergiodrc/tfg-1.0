@@ -4,6 +4,7 @@ var bcrypt = require('bcrypt-nodejs');
 
 var User = require('../models/user');
 var Follow = require('../models/follow');
+var Publicacion = require('../models/publicacion')
 
 var jwt = require('../services/jwt');
 
@@ -222,7 +223,7 @@ function getCounters(req,res) {
      });
 }
 
-async function getCountFollow(userId) {
+async function getCountFollow(user_id) {
     var following = await follow.count({'user':user_id}).exec((err,count) => {
         if(err) return handleError(err)
         return count;
@@ -233,9 +234,16 @@ async function getCountFollow(userId) {
         return count;        
     });
 
+    var publications = await Publication.count({'user': user_id}).exec((err, count) => {
+        if(err) return handleError(err)
+        return count;
+
+    })
+
     return {
         following: following,
         followed: followed
+        publications: publications
     }
 } 
 
@@ -266,10 +274,7 @@ function updateUser(req,res) {
 function uploadImage(req,res){
     var userId = require.params.id;
 
-    if(userId != req.user.sub) {
-        return removeFilesOfUploads(res, file_path, 'La imagen del perfil solo puede ser cargada por el usuario corresponddiente');
-        
-}
+
 if(req.files) {
     var file_path = req.files.image.path;
     var file_split = file_path.split('\\')
@@ -278,6 +283,10 @@ if(req.files) {
     var ext_split = file_name.split('\.');
     var file_ext  = ext_split[1];
 
+    if(userId != req.user.sub) {
+        return removeFilesOfUploads(res, file_path, 'La imagen del perfil solo puede ser cargada por el usuario corresponddiente');
+        
+}
     if(file_ext == 'png' || file_ext == 'jpg' || file_ext == 'jpeg' || file_ext == 'gif') {
         User.findByIdAndUpdate(userId, {imagen_usuario: file_name}, {new:true}, (err, userUpdated) =>{
             if(err) return res.status(500).send({message:"Error al actualizar la imagen"});
