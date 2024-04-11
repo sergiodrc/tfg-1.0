@@ -242,8 +242,8 @@ async function getCountFollow(user_id) {
 
     return {
         following: following,
-        followed: followed
-        publications: publications
+        followed: followed,
+        publications: publications,
     }
 } 
 
