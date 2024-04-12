@@ -5,11 +5,13 @@ var bodyParser= require('body-parser');
 
 var app = express();
 
+
 //cargar rutas
 var user_routes=require('./routes/user');
 var follow_routes = require('./routes/follow');
 var publicacion_routes = require('./routes/publicacion');
 var message_routes = require('./routes/message');
+
 
 //middlewares
 app.use(bodyParser.urlencoded({extended:false}));
@@ -27,7 +29,6 @@ app.use((req, res, next) => {
 
 }) 
     
-
 
 //rutas
 app.use('/api', user_routes);
