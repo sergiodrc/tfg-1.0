@@ -30,7 +30,7 @@ function pruebas(req, res) {
 };
 
 //funcion de registro
-function saveUser(req, res) {
+async function saveUser(req, res) {
     var params = req.body;
     var user = new User();
 
@@ -46,87 +46,61 @@ function saveUser(req, res) {
         user.telef_usuario = params.telef_usuario;
         user.role_usuario = "ROLE_USER"; // por defecto los usuarios son simplemente USERS
         user.imagen_usuario = null;
+        user.password_usuario = params.password_usuario;
 
-        //Metodo para gestionar intentos de usuarios duplicados
-        User.find({
-            $or: [
-                { email_usuario: user.email_usuario.toLowerCase() },
-                { nickname_usuario: user.nickname_usuario.toLowerCase() }
-            ]
-        }).exec((err, users) => {
-            if (err) return res.status(500).send({ message: "Error al buscar el usuario" });
+        // Método para gestionar intentos de usuarios duplicados
+        try {
+            const users = await User.find({
+                $or: [
+                    { email_usuario: user.email_usuario.toLowerCase() },
+                    { nickname_usuario: user.nickname_usuario.toLowerCase() }
+                ]
+            });
 
             if (users && users.length >= 1) {
                 return res.status(200).send({ message: 'El usuario ya existe.' })
             } else {
-                //Este metodo cifra la contraseña para guardarla en la base de datos de forma mas segura
-                bcrypt.hash(params.password_usuario, null, null, (err, hash) => {
-                    user.password_usuario = hash;
-                    user.save((err, userStored) => {
-                        if (err) return res.status(500).send({ message: `Error al guardar el usuario ${err}` });
-
-                        if (userStored) {
-                            res.status(200).send({ user: userStored });
-                        } else {
-                            res.status(404).send({ message: 'No se ha podido registrar el usuario' })
-                        }
-                    })
-
-
-
-                });
+                await user.save();
+                console.log('Usuario guardado correctamente');
+                res.status(200).send({ message: 'Usuario guardado correctamente' });
             }
-        })
+        } catch (error) {
+            console.error('Error:', error);
+            res.status(500).send({ message: 'Error al procesar la solicitud' });
+        }
 
-
-    }
-    else {
+    } else {
         res.status(200).send({
             message: 'Debes rellenar todos los campos'
-        })
+        });
     }
 }
-
 //Funcion de Log in
-function loginUser(req, res) {
-    var params =req.body;
+async function loginUser(req, res) {
+    const { email_usuario, password_usuario } = req.body;
 
-    var email_usuario =params.email_usuario;
-    var  password_usuario=params.password_usuario;
+    const user = await User.findOne({ email_usuario }).exec();
 
-     User.findOne({ email_usuario: email_usuario }, (err, user) => {
-          if(err) return res.status.send({message:'error en la peticion'});
+    if (!user) {
+        return res.status(404).send({ message: "El usuario no existe" });
+    }
 
-          if(user) {
-            bcrypt.compare(password_usuario, user.password_usuario, (err, check) => {
-                if(check) {
-                    if(params.gettoken) {
-                        return res.status(200).send({
-                            token: jwt.createToken(user)
-                        })
-                    } else {
-                        user.password_usuario = undefined;
-                        return res.status(200).send({user})
-                    }
-                    
-                } else {
-                    return  res.status(404).send({message:"Usuario o contraseña incorrectos"})
-                }
-            })
-          }
-})
+    if (password_usuario!== user.password_usuario) {
+        return res.status(401).send({ message: "La contraseña es incorrecta" });
+    }
+
+    return user
 }
-
 //Funcion Conseguir Datos usuario
-function getUser(req,res){
+function getUser(req, res) {
     var userId = req.params.id_usuario
-    
-    User.findById(userId, (err,user) => {
-        if(err) return  res.status(500).send({message : "Error al realizar la consulta del Usuario"})
-        if(!user) return  res.status(404).send({message : "No se ha encontrado un Usuario con el id " + userId})
+
+    User.findById(userId, (err, user) => {
+        if (err) return res.status(500).send({ message: "Error al realizar la consulta del Usuario" })
+        if (!user) return res.status(404).send({ message: "No se ha encontrado un Usuario con el id " + userId })
         followThisUser(req.user.sub, userId).then((value) => {
-            return  res.status(200).send({
-                user, 
+            return res.status(200).send({
+                user,
                 following: value.following,
                 followed: value.followed
             });
@@ -137,14 +111,14 @@ function getUser(req,res){
 //Metodo asincrono para los seguidores y los seguidos
 async function followThisUser(identity_user_id, user_id) {
     user.password_usuario = undefined
-    var following = await Follow.findOne({'user': identity_user_id, 'seguido': user_id}).exec((err,follow) => {
-        if(err) return handleError(err);
-    return follow;    
+    var following = await Follow.findOne({ 'user': identity_user_id, 'seguido': user_id }).exec((err, follow) => {
+        if (err) return handleError(err);
+        return follow;
     })
 
-    var followed = await Follow.findOne({'user': identity_user_id, 'seguido': user_id}).exec((err,follow) => {
-        if(err) return handleError(err);
-    return follow;  
+    var followed = await Follow.findOne({ 'user': identity_user_id, 'seguido': user_id }).exec((err, follow) => {
+        if (err) return handleError(err);
+        return follow;
     })
 
     return {
@@ -154,20 +128,20 @@ async function followThisUser(identity_user_id, user_id) {
 }
 
 //Funcion para devolver Usuarios Paginados
-function getAllUsers(req,res){
+function getAllUsers(req, res) {
     var identity_user_id = req.user.sub;
     var page = 1;
 
-    if(req.params.page) {
+    if (req.params.page) {
         page = req.params.page;
     }
 
     var itemsPerPage = 5;
 
-    User.find().sort('_id').paginate(page,itemsPerPage, (err,users,total) => {
-        if (err) return res.status(500).send({message:'Error en la petición'});
+    User.find().sort('_id').paginate(page, itemsPerPage, (err, users, total) => {
+        if (err) return res.status(500).send({ message: 'Error en la petición' });
 
-        if(!users) return res.status(404).send({message:'No hay usuarios disponibles'});
+        if (!users) return res.status(404).send({ message: 'No hay usuarios disponibles' });
 
         followUsersIds(identity_user_id).then((value) => {
 
@@ -178,8 +152,8 @@ function getAllUsers(req,res){
                 users_follow_me: value.followed,
                 total,
                 //Numero total de paginas
-                pages: Math.ceil(total/itemsPerPage),
-    
+                pages: Math.ceil(total / itemsPerPage),
+
             });
         });
 
@@ -187,10 +161,10 @@ function getAllUsers(req,res){
 }
 
 async function followUsersIds(user_id) {
-    var following = await Follow.find({'user': user_id}).select({'_id':0,'__v':0,'user':0}).exec((err, follows) => {
+    var following = await Follow.find({ 'user': user_id }).select({ '_id': 0, '__v': 0, 'user': 0 }).exec((err, follows) => {
         return follows;
     });
-    var followed = await Follow.find({'seguido': user_id}).select({'_id':0,'__v':0,'seguido':0}).exec((err, follows) => {
+    var followed = await Follow.find({ 'seguido': user_id }).select({ '_id': 0, '__v': 0, 'seguido': 0 }).exec((err, follows) => {
 
         return follows;
     });
@@ -212,30 +186,30 @@ async function followUsersIds(user_id) {
 
 }
 
-function getCounters(req,res) {
+function getCounters(req, res) {
     var userId = req.user.sub;
-    if(req.params.id){
+    if (req.params.id) {
         userId = req.params.id
     }
-    
+
     getCountFollow(req.params.id).then((value) => {
         return res.status(200).send(value);
-     });
+    });
 }
 
 async function getCountFollow(user_id) {
-    var following = await follow.count({'user':user_id}).exec((err,count) => {
-        if(err) return handleError(err)
+    var following = await follow.count({ 'user': user_id }).exec((err, count) => {
+        if (err) return handleError(err)
         return count;
     });
 
-    var followed = await Follow.count({'seguido': user_id}).exec((err, count) => {
-        if(err) return handleError(err)
-        return count;        
+    var followed = await Follow.count({ 'seguido': user_id }).exec((err, count) => {
+        if (err) return handleError(err)
+        return count;
     });
 
-    var publications = await Publication.count({'user': user_id}).exec((err, count) => {
-        if(err) return handleError(err)
+    var publications = await Publication.count({ 'user': user_id }).exec((err, count) => {
+        if (err) return handleError(err)
         return count;
 
     })
@@ -245,79 +219,79 @@ async function getCountFollow(user_id) {
         followed: followed,
         publications: publications,
     }
-} 
+}
 
 //Funcion para actualizar el usuario
-function updateUser(req,res) {
+function updateUser(req, res) {
     var userId = req.params.id;
     var update = req.body;
 
     //Borrar propiedad password ya que es mas seguro hacer un metodo a parte para actualizar la contraseña
-    delete  update.password;
+    delete update.password;
 
-    if(userId != req.user.sub) {
-        return res.status(500).send ({ message: 'El usuario no tiene permisos para editar este usuario'})
-}else {
-    User.findByIdAndUpdate(userId,update,{new:true}, (err, userUpdated)=>{
-        if(err) return res.status(500).send({message:"Error al actualizar el usuario"});
+    if (userId != req.user.sub) {
+        return res.status(500).send({ message: 'El usuario no tiene permisos para editar este usuario' })
+    } else {
+        User.findByIdAndUpdate(userId, update, { new: true }, (err, userUpdated) => {
+            if (err) return res.status(500).send({ message: "Error al actualizar el usuario" });
 
-        if (!userUpdated) return res.status(404).send({message:"No se ha podido encontrar el usuario"});
+            if (!userUpdated) return res.status(404).send({ message: "No se ha podido encontrar el usuario" });
 
-        return  res.status(200).send({user: userUpdated});
+            return res.status(200).send({ user: userUpdated });
 
-        
-})
-}
+
+        })
+    }
 }
 
 //Funcion para subir una foto de avatar a la base de datos
-function uploadImage(req,res){
+function uploadImage(req, res) {
     var userId = require.params.id;
 
 
-if(req.files) {
-    var file_path = req.files.image.path;
-    var file_split = file_path.split('\\')
+    if (req.files) {
+        var file_path = req.files.image.path;
+        var file_split = file_path.split('\\')
 
-    var file_name  = file_split[2]
-    var ext_split = file_name.split('\.');
-    var file_ext  = ext_split[1];
+        var file_name = file_split[2]
+        var ext_split = file_name.split('\.');
+        var file_ext = ext_split[1];
 
-    if(userId != req.user.sub) {
-        return removeFilesOfUploads(res, file_path, 'La imagen del perfil solo puede ser cargada por el usuario corresponddiente');
-        
-}
-    if(file_ext == 'png' || file_ext == 'jpg' || file_ext == 'jpeg' || file_ext == 'gif') {
-        User.findByIdAndUpdate(userId, {imagen_usuario: file_name}, {new:true}, (err, userUpdated) =>{
-            if(err) return res.status(500).send({message:"Error al actualizar la imagen"});
+        if (userId != req.user.sub) {
+            return removeFilesOfUploads(res, file_path, 'La imagen del perfil solo puede ser cargada por el usuario corresponddiente');
 
-            if (!userUpdated) return res.status(404).send({message:"No se ha podido encontrar el usuario"});
-    
-            return  res.status(200).send({user: userUpdated});
-        }); 
+        }
+        if (file_ext == 'png' || file_ext == 'jpg' || file_ext == 'jpeg' || file_ext == 'gif') {
+            User.findByIdAndUpdate(userId, { imagen_usuario: file_name }, { new: true }, (err, userUpdated) => {
+                if (err) return res.status(500).send({ message: "Error al actualizar la imagen" });
+
+                if (!userUpdated) return res.status(404).send({ message: "No se ha podido encontrar el usuario" });
+
+                return res.status(200).send({ user: userUpdated });
+            });
+        } else {
+            return removeFilesOfUploads(res, file_path, 'Extension no valida');
+        }
     } else {
-        return removeFilesOfUploads(res, file_path, 'Extension no valida');
+        res.status(200).send({ message: "No ha enviado ninguna imagen" });
     }
-} else {
-    res.status(200).send({message: "No ha enviado ninguna imagen"});
-}
 };
 
 function removeFilesOfUploads(res, file_path, message) {
     fs.unlink(file_path, (err) => {
-        if(err) return res.status(200).send({message: message})
-     });
+        if (err) return res.status(200).send({ message: message })
+    });
 };
 
-function  getImageFile(req, res) {
+function getImageFile(req, res) {
     var image_file = req.params.imageFile;
     var path_file = './uploads/images/' + req.params.image_file;
 
     fs.exists(image_file, (exist) => {
-         if(exist) {
+        if (exist) {
             res.sendFile(image_file);
         } else {
-            return res.status(404).send({message: "La imagen no existe"});
+            return res.status(404).send({ message: "La imagen no existe" });
         }
     });
 };

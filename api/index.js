@@ -9,7 +9,7 @@ var port= 3800;
 
 
 // Conexión a la base de datos
-mongoose.connect('mongodb://localhost:27017/hammerland')
+mongoose.connect('mongodb+srv://SergioGueto:Patata00@clusterhammerland.bbze5rp.mongodb.net/')
   .then(() => {
     console.log('Conectado a la base de datos HAMMERLAND');
 
