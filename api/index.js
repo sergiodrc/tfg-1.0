@@ -9,10 +9,10 @@ var port= 3800;
 
 
 // Conexión a la base de datos
-mongoose.connect('mongodb+srv://SergioGueto:Patata00@clusterhammerland.bbze5rp.mongodb.net/')
+var conn = mongoose.connect('mongodb+srv://SergioGueto:Patata00@clusterhammerland.bbze5rp.mongodb.net/')
   .then(() => {
+    console.log(conn)
     console.log('Conectado a la base de datos HAMMERLAND');
-
     //crear el servidor
     app.listen(port, ()=>{
         console.log("Servidor corriendo en http://localhost:3800");

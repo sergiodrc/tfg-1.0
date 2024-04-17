@@ -16,4 +16,4 @@ var UserSchema = Schema(
         telef_usuario:Number,
         imagen_usuario:String
     });
-    module.exports=mongoose.model('User',UserSchema);
+    module.exports = mongoose.model('User',UserSchema);

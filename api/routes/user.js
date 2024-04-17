@@ -11,7 +11,7 @@ var md_upload = multipart({uploadDir: './uploads/users'});
 
 //Rutas GET
 api.get('/home',UserController.home);
-api.get('/pruebas',md_auth.ensureAuth,UserController.pruebas);
+api.get('/pruebas',UserController.pruebas);
 api.get('/user/:id',md_auth.ensureAuth,UserController.getUser);
 api.get('/all-users/:page?',md_auth.ensureAuth,UserController.getAllUsers);
 api.get('/get-image-user/:imageFile',UserController.getImageFile);

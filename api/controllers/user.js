@@ -1,6 +1,6 @@
 'use strict'
 
-var bcrypt = require('bcrypt-nodejs');
+var bcrypt = require('bcrypt');
 
 var User = require('../models/user');
 var Follow = require('../models/follow');
@@ -76,26 +76,45 @@ async function saveUser(req, res) {
     }
 }
 //Funcion de Log in
-async function loginUser(req, res) {
-    const { email_usuario, password_usuario } = req.body;
+function loginUser(req, res) {
+    var params =req.body;
 
-    const user = await User.findOne({ email_usuario }).exec();
+    var email_usuario =params.email_usuario;
+    var  password_usuario=params.password_usuario;
 
-    if (!user) {
-        return res.status(404).send({ message: "El usuario no existe" });
-    }
+     User.findOne({ email_usuario: email_usuario }, (err, user) => {
+          if(err) return res.status.send({message:'error en la peticion'});
 
-    if (password_usuario!== user.password_usuario) {
-        return res.status(401).send({ message: "La contraseña es incorrecta" });
-    }
-
-    return user
+          if(user) {
+            bcrypt.compare(password_usuario, user.password_usuario, (err, check) => {
+                if(check) {
+                    if(params.gettoken) {
+                        return res.status(200).send({
+                            token: jwt.createToken(user)
+                        })
+                    } else {
+                        user.password_usuario = undefined;
+                        return res.status(200).send({user})
+                    }
+                    
+                } else {
+                    return  res.status(404).send({message:"Usuario o contraseña incorrectos"})
+                }
+            })
+          }
+})
 }
 //Funcion Conseguir Datos usuario
-function getUser(req, res) {
-    var userId = req.params.id_usuario
+async function getUser(req, res) {
 
-    User.findById(userId, (err, user) => {
+    try {
+        var userId = req.params.id_usuario
+        const user = await User.findById(userId)
+        res.status(200).json(user)
+    } catch (err) {
+        res.status(500).json({message: 'Error al mostrar el usuario'})
+    }
+    /*User.findById(userId, (err, user) => {
         if (err) return res.status(500).send({ message: "Error al realizar la consulta del Usuario" })
         if (!user) return res.status(404).send({ message: "No se ha encontrado un Usuario con el id " + userId })
         followThisUser(req.user.sub, userId).then((value) => {
@@ -105,7 +124,7 @@ function getUser(req, res) {
                 followed: value.followed
             });
         });
-    });
+    });*/
 }
 
 //Metodo asincrono para los seguidores y los seguidos
