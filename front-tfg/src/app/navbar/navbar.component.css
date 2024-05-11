@@ -1,0 +1,8 @@
+mat-toolbar{
+    font-size: 40px;
+    
+}
+mat-toolbar a{
+    text-decoration: none;
+    color: #131A29;;
+}
