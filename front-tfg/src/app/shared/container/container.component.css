@@ -1,0 +1,12 @@
+.container {
+    background-color: rgb(211, 211, 211);
+    margin: 5%; /* Margen del 5% del ancho del viewport */
+    width: 100%; /* Ancho del 60% del viewport */
+    max-width: 90vw; /* Ancho máximo de 800px para evitar que crezca demasiado en pantallas muy grandes */
+    display: flex;
+    height: 100%;
+    max-height: 70vh;
+    min-height: 20rem;
+    border-radius: 10px;
+    justify-content: center;
+}

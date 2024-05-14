@@ -1,0 +1,21 @@
+mat-toolbar{
+    font-size: 40px;
+    width: auto;
+    background-color: #ebc752;
+}
+mat-toolbar a{
+    text-decoration: none;
+    color: #131A29;
+    font-weight: 600;
+    font-size: 45px;
+}
+
+.imgUser{
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    background-color: rgb(195, 195, 195);
+}
+.spacer {
+    flex: 1; 
+  }
