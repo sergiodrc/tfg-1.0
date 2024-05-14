@@ -7,6 +7,8 @@ var mongoosePaginate = require('mongoose-pagination');
 var User = require('../models/follow');
 var Follow = require('../models/follow');
 
+
+//Funcioanlidad para seguir a un usuario
 function saveFollow (req, res) {
     var follow = new follow();
     follow.user = req.user.sub;
@@ -22,6 +24,8 @@ function saveFollow (req, res) {
 
 }
 
+
+//Funcionalidad dejar de seguir a un usuario
 function deleteFollow(req,res) {
     var userId = req.user.sub;
     var followId = req.params.id;
@@ -33,6 +37,8 @@ function deleteFollow(req,res) {
     });
 }
 
+
+//Funcionalidad conseguir usuarios seguidos
 function getFollowingUsers(req, res) {
     var userId = req.user.sub;
     var page = 1;
@@ -62,6 +68,8 @@ function getFollowingUsers(req, res) {
 
 }
 
+
+//Funcionalidad ver usaurios que te siguen
 function getFollowedUsers(res, req) {
     var userId = req.user.sub;
     var page = 1;

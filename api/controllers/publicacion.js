@@ -8,6 +8,8 @@ var Publicacion = require('../models/publicacion');
 var User = require('../models/user');
 var Follow = require('../models/follow');
 
+
+//Crear Publicacion
 function savePublicacion(res, req) {
     var params = req.body;
 
@@ -28,6 +30,7 @@ function savePublicacion(res, req) {
     })
 }
 
+//Ver todas las publicaciones
 function getPublicaciones(req, res) {
     var page = 1;
     if (req.params.page) {
@@ -61,6 +64,8 @@ function getPublicaciones(req, res) {
     });
 }
 
+
+//Ver 1 publicacion
 function getPublicacion(req, res) {
     var publicacionId = req.params.id;
 
@@ -73,6 +78,8 @@ function getPublicacion(req, res) {
     })
 }
 
+
+//Eliminar publicacion
 function deletePublicacion(req, res) {
     var publicacionId = req.params.id;
 
@@ -87,6 +94,8 @@ function deletePublicacion(req, res) {
     })
 }
 
+
+//Actualizar la imagen de una publicacion
 function uploadImage(req, res) {
     var publicationId = require.params.id;
 
@@ -123,12 +132,15 @@ function uploadImage(req, res) {
     }
 };
 
+
+//Eliminar los archivos
 function removeFilesOfUploads(res, file_path, message) {
     fs.unlink(file_path, (err) => {
         if (err) return res.status(200).send({ message: message })
     });
 };
 
+//Metodo para poder leer y guardar la imagen
 function getImageFile(req, res) {
     var image_file = req.params.imageFile;
     var path_file = './uploads/publications/' + req.params.image_file;

@@ -3,6 +3,7 @@
 var mongoose = require('mongoose');
 var Schema =mongoose.Schema;
 
+//Modelo de la tabla publicaciones
 var PublicacionSchema= Schema ({
     texto_publicacion: String,
     archivo_publicacion: String,

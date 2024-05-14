@@ -3,6 +3,7 @@
 var mongoose = require('mongoose');
 var Schema =mongoose.Schema;
 
+//Modelo de la tabla mensajes
 var MessageSchema = Schema({
 
     text_mensaje: String,

@@ -3,6 +3,7 @@
 var mongoose = require('mongoose');
 var Schema =mongoose.Schema;
 
+//Modelo de la tabla usaurios
 var UserSchema = Schema(
     {
         nombre_usuario:String,

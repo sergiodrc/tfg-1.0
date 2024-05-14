@@ -4,6 +4,7 @@ var jwt = require('jwt-simple')
 var moment = require('moment')
 var secret = 'root'
 
+//Clase necesaria para la creacion de los tokens de validacion
 exports.createToken = function(user) {
     var payload = {
         sub: user._id,

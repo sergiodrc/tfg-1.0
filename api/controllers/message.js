@@ -7,6 +7,7 @@ var User = require('../models/user');
 var Follow = require('../models/follow');
 var Message = require('../models/message');
 
+//Crear mensaje
 function saveMessage(req, res) {
     var params = req.body;
 
@@ -28,6 +29,7 @@ function saveMessage(req, res) {
     })
 };
 
+//Ver mensajes recibidos
 function getReceivedMessages(req, res) {
     var userId = req.user.sub;
 
@@ -51,6 +53,8 @@ function getReceivedMessages(req, res) {
 
 }
 
+
+//Ver mensajes enviados
 function getEmmitMessages(req, res) {
     var userId = req.user.sub;
 
@@ -74,6 +78,7 @@ function getEmmitMessages(req, res) {
 
 };
 
+//Ver mensajes sin leer
 function getUnviewedMessages(req, res) {
     var userId = req.user.sub;
 
@@ -87,6 +92,7 @@ function getUnviewedMessages(req, res) {
     })
 }
 
+//Marcar los mensajes como leidos
 function setViewedMessages(req, res) {
     var userId = req.user.sub;
 
