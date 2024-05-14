@@ -4,16 +4,20 @@ var mongoose = require('mongoose');
 var Schema =mongoose.Schema;
 
 var MessageSchema = Schema({
+
+    text_mensaje: String,
+    fecha_creacion_mensaje: String,
+    viewed: String,
+    
     //emisor
-    emmiter: {
+    emitter: {
         type:Schema.ObjectId, ref:'User'
     },
     //receptor
     receiver: {
         type:Schema.ObjectId, ref:'User'
     },
-    text:String,
-    fecha_creacion:String,
+
 });
 
 module.exports=mongoose.model('Message', MessageSchema)

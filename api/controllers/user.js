@@ -3,6 +3,8 @@
 var bcrypt = require('bcrypt-nodejs');
 
 var User = require('../models/user');
+var Follow = require('../models/follow');
+var Publicacion = require('../models/publicacion')
 
 var jwt = require('../services/jwt');
 
@@ -117,13 +119,38 @@ function loginUser(req, res) {
 
 //Funcion Conseguir Datos usuario
 function getUser(req,res){
-    var UserId = req.params.id_usuario
+    var userId = req.params.id_usuario
     
     User.findById(userId, (err,user) => {
         if(err) return  res.status(500).send({message : "Error al realizar la consulta del Usuario"})
         if(!user) return  res.status(404).send({message : "No se ha encontrado un Usuario con el id " + userId})
-        return res.status(200).send({user});
+        followThisUser(req.user.sub, userId).then((value) => {
+            return  res.status(200).send({
+                user, 
+                following: value.following,
+                followed: value.followed
+            });
+        });
+    });
+}
+
+//Metodo asincrono para los seguidores y los seguidos
+async function followThisUser(identity_user_id, user_id) {
+    user.password_usuario = undefined
+    var following = await Follow.findOne({'user': identity_user_id, 'seguido': user_id}).exec((err,follow) => {
+        if(err) return handleError(err);
+    return follow;    
     })
+
+    var followed = await Follow.findOne({'user': identity_user_id, 'seguido': user_id}).exec((err,follow) => {
+        if(err) return handleError(err);
+    return follow;  
+    })
+
+    return {
+        following: following,
+        followed: followed
+    }
 }
 
 //Funcion para devolver Usuarios Paginados
@@ -142,15 +169,83 @@ function getAllUsers(req,res){
 
         if(!users) return res.status(404).send({message:'No hay usuarios disponibles'});
 
-        return res.status(200).send({
-            users,
-            total,
-            //Numero total de paginas
-            pages: Math.ceil(total/itemsPerPage),
+        followUsersIds(identity_user_id).then((value) => {
 
+
+            return res.status(200).send({
+                users,
+                users_following: value.following,
+                users_follow_me: value.followed,
+                total,
+                //Numero total de paginas
+                pages: Math.ceil(total/itemsPerPage),
+    
+            });
         });
-    })
+
+    });
 }
+
+async function followUsersIds(user_id) {
+    var following = await Follow.find({'user': user_id}).select({'_id':0,'__v':0,'user':0}).exec((err, follows) => {
+        return follows;
+    });
+    var followed = await Follow.find({'seguido': user_id}).select({'_id':0,'__v':0,'seguido':0}).exec((err, follows) => {
+
+        return follows;
+    });
+
+    var following_clean = [];
+    follows.forEach((follow) => {
+        following_clean.push(follow.following);
+    });
+
+    var followed_clean = [];
+    follows.forEach((follow) => {
+        followed_clean.push(follow.user);
+    });
+
+    return {
+        following: following_clean,
+        followed: followed_clean
+    }
+
+}
+
+function getCounters(req,res) {
+    var userId = req.user.sub;
+    if(req.params.id){
+        userId = req.params.id
+    }
+    
+    getCountFollow(req.params.id).then((value) => {
+        return res.status(200).send(value);
+     });
+}
+
+async function getCountFollow(user_id) {
+    var following = await follow.count({'user':user_id}).exec((err,count) => {
+        if(err) return handleError(err)
+        return count;
+    });
+
+    var followed = await Follow.count({'seguido': user_id}).exec((err, count) => {
+        if(err) return handleError(err)
+        return count;        
+    });
+
+    var publications = await Publication.count({'user': user_id}).exec((err, count) => {
+        if(err) return handleError(err)
+        return count;
+
+    })
+
+    return {
+        following: following,
+        followed: followed,
+        publications: publications,
+    }
+} 
 
 //Funcion para actualizar el usuario
 function updateUser(req,res) {
@@ -179,10 +274,7 @@ function updateUser(req,res) {
 function uploadImage(req,res){
     var userId = require.params.id;
 
-    if(userId != req.user.sub) {
-        return removeFilesOfUploads(res, file_path, 'La imagen del perfil solo puede ser cargada por el usuario corresponddiente');
-        
-}
+
 if(req.files) {
     var file_path = req.files.image.path;
     var file_split = file_path.split('\\')
@@ -191,6 +283,10 @@ if(req.files) {
     var ext_split = file_name.split('\.');
     var file_ext  = ext_split[1];
 
+    if(userId != req.user.sub) {
+        return removeFilesOfUploads(res, file_path, 'La imagen del perfil solo puede ser cargada por el usuario corresponddiente');
+        
+}
     if(file_ext == 'png' || file_ext == 'jpg' || file_ext == 'jpeg' || file_ext == 'gif') {
         User.findByIdAndUpdate(userId, {imagen_usuario: file_name}, {new:true}, (err, userUpdated) =>{
             if(err) return res.status(500).send({message:"Error al actualizar la imagen"});
@@ -234,6 +330,7 @@ module.exports = {
     loginUser,
     getUser,
     getAllUsers,
+    getCounters,
     updateUser,
     uploadImage,
     getImageFile
