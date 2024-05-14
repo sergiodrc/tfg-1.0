@@ -186,6 +186,7 @@ function getAllUsers(req,res){
     });
 }
 
+//Conseguir los nombres de usuarios de los usuarios
 async function followUsersIds(user_id) {
     var following = await Follow.find({'user': user_id}).select({'_id':0,'__v':0,'user':0}).exec((err, follows) => {
         return follows;
@@ -212,17 +213,20 @@ async function followUsersIds(user_id) {
 
 }
 
+//Contador de usuarios que te siguen
 function getCounters(req,res) {
     var userId = req.user.sub;
     if(req.params.id){
         userId = req.params.id
     }
     
+    //Contador de los usuarios que sigues
     getCountFollow(req.params.id).then((value) => {
         return res.status(200).send(value);
      });
 }
 
+//Ver un usuario en especifico que te sigue
 async function getCountFollow(user_id) {
     var following = await follow.count({'user':user_id}).exec((err,count) => {
         if(err) return handleError(err)

@@ -8,9 +8,9 @@ var md_auth = require('../middlewares/autentication');
 
 var multipart = require('connect-multiparty');
 var md_upload = multipart({uploadDir: './uploads/publicaciones'});
-
+//Rutas POST
 api.post('/message', md_auth.ensureAuth, MessageController.saveMessage)
-
+//Rutas GET
 api.get('/my-messages/:page?', md_auth.ensureAuth, MessageController.getReceivedMessages)
 api.get('/messages/:page?', md_auth.ensureAuth, MessageController.getEmmitMessages)
 api.get('/unviewed-messages', md_auth.ensureAuth, MessageController.getUnviewedMessages)
