@@ -3,7 +3,7 @@
 var jwt = require('jwt-simple');
 var moment = require('moment');
 var secret = 'root';
-
+//Este metodo esta pensado y desarrollado para la autenticacion de usaurios y aumentar la seguridad de la aplicacion
 exports.ensureAuth = function(req,res,next) {
     if(!req.headers.authorization) {
         return res.status(403).send({message: "Requiere token"});

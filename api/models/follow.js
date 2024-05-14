@@ -1,5 +1,6 @@
 'use strict'
 
+//Modelo de la tabla seguidos
 var mongoose = require('mongoose');
 var Schema =mongoose.Schema;
 

@@ -13,8 +13,9 @@ var md_upload = multipart({uploadDir: './uploads/users'});
 api.get('/home',UserController.home);
 api.get('/pruebas',md_auth.ensureAuth,UserController.pruebas);
 api.get('/user/:id',md_auth.ensureAuth,UserController.getUser);
-api.get('/all-users',md_auth.ensureAuth,UserController.getAllUsers);
+api.get('/all-users/:page?',md_auth.ensureAuth,UserController.getAllUsers);
 api.get('/get-image-user/:imageFile',UserController.getImageFile);
+api.get('/counters/:id?',UserController.getCounters);
 
 //Rutas POST
 api.post('/register',UserController.saveUser);
