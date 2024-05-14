@@ -1,3 +1,5 @@
+<app-navbar></app-navbar>
+
 <div class="body">
 <div class="container">
     <mat-card class="card">
@@ -5,14 +7,14 @@
           <div  class="card-imagen"></div>
           <mat-card-title>Publicaciones</mat-card-title>
         </mat-card-header>
-        <img mat-card-image src="../../assets/img/publicacion-card-img.jpg" alt="Imagen de Timeline">
+        <img mat-card-image src="../../assets/img/publicacion-card-img.png" alt="Imagen de Timeline">
         <mat-card-content>
           <p>
             Comparte tus logros y contenido. También podrás ver lo que otros usuarios han compartido.
           </p>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-button>Entrar</button>
+          <button mat-button routerLink="/timeline">Entrar</button>
         </mat-card-actions>
       </mat-card>
       <mat-card class="card">

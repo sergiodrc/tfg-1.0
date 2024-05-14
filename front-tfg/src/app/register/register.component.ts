@@ -6,10 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['../login/login.component.css']
 })
 export class RegisterComponent implements OnInit {
+  router: any;
 
   constructor() { }
 
   ngOnInit(): void {
   }
+
+
 
 }

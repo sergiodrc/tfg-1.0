@@ -9,18 +9,36 @@
 
 .container{
     border-radius: 10px;
-    gap: 2rem;
+    gap: 1.5rem;
     display: flex;
     margin: 6rem;
     justify-content: center;
 }
-.card{
-height: fit-content;
-padding-bottom: 3rem;
-border-radius: 20px;
-width: 14rem;
-transition: transform 0.3s; 
-}
+
+.card {
+    height: 40%;
+    padding-bottom: 3%;
+    border-radius: 20px;
+    background-color: rgb(210, 209, 209);
+    transition: transform 0.3s; 
+  }
+  
+  /*medidas responsives de las tarjetas*/
+  
+  @media screen and (max-width: 1300px) {
+    .card {
+      /* no tocar ancho */
+      width: 16rem; 
+      height: 26rem;
+    }
+  }
+  
+  @media screen and (min-width: 1300px) {
+    .card {
+      width: 17rem;
+      height: 25rem;
+    }
+  }
 .card:hover {
   transform: scale(1.1); 
 }
@@ -35,8 +53,8 @@ button{
     padding: 7px 15px;
     border-radius: 10px;
     color: white;
-    font-weight: 600;
-    box-shadow: 4px 5px 6px 0px rgba(19, 26, 41, 0.5); 
+    font-weight: 500;
+    box-shadow: 3px 5px 6px 0px rgba(19, 26, 41, 0.5); 
     cursor: pointer;
     background-color:#131A29;
 }
@@ -54,4 +72,5 @@ button:hover{
 }
 .mat-card-content{
     padding: 0.4rem;
+    margin-top: 0.5rem;
 }
