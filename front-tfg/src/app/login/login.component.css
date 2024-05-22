@@ -1,5 +1,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import "~bootstrap/dist/css/bootstrap.min.css";
 
 :host{
     height: 100%;
@@ -13,8 +14,6 @@
     width: 100%;
     background-color: #131A29;
     font-family: "Open Sans", sans-serif;
-    /* background-image: url(../assets/img/wallpaperHome.svg);
-    background-size: cover; */
     display: flex;
     flex-direction: row;
 }
@@ -62,6 +61,13 @@
 
 }
 .titleForm{
+    font-size: 30px;
+    font-weight: 500;
+    color: white;
+    margin-bottom: 5rem;
+    
+}
+.titleFormR{
     font-size: 30px;
     font-weight: 500;
     color: white;
@@ -115,4 +121,7 @@
 }
 a{
     text-decoration: none;
+} 
+.amarillo{
+    background-color: #ebc752;
 }

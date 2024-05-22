@@ -16,29 +16,17 @@
 }
 
 .card {
-    height: 40%;
+    
     padding-bottom: 3%;
     border-radius: 20px;
     background-color: rgb(210, 209, 209);
     transition: transform 0.3s; 
+    height: 26rem;
   }
   
   /*medidas responsives de las tarjetas*/
   
-  @media screen and (max-width: 1300px) {
-    .card {
-      /* no tocar ancho */
-      width: 16rem; 
-      height: 26rem;
-    }
-  }
-  
-  @media screen and (min-width: 1300px) {
-    .card {
-      width: 17rem;
-      height: 25rem;
-    }
-  }
+ 
 .card:hover {
   transform: scale(1.1); 
 }

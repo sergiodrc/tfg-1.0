@@ -10,65 +10,86 @@
 
 .container {
   border-radius: 10px;
-  gap: 2rem;
   display: flex;
   margin: 5rem;
   justify-content: center;
 }
 
 .card {
-  color: wheat;
+  color: black;
   padding-bottom: 5%;
   border-radius: 20px;
-  background-color: rgba(210, 209, 209, 0.281);
+  background-color: rgba(239, 239, 239, 0.674);
 }
+
+
+.btn-home{
+  cursor: pointer;
+  /* margin-top:1.3rem; */
+  padding: 1rem;
+  background-color: #d3c8a6;
+  width: fit-content;
+  border-radius: 50%;
+
+  &:hover{
+    background-color: #ebc752;;
+  }
+}
+
 
 /*medidas responsives de las tarjetas*/
 
 /* portatil */
 @media screen and (max-width: 1300px) {
   .card {
-    width: 18rem;
+    
     height: 25rem;
   }
   .nombreSeccion {
     font-size: 3.5rem;
     color: rgb(255, 255, 255);
     font-weight: 300;
-    margin-top: 2rem;
+    
   }
-}
-
-/* pantalla grande */
-@media screen and (min-width: 1300px) {
-  .card {
-    width: 17rem;
-    height: 25rem;
-  }
-  .nombreSeccion {
-    font-size: 4rem;
-    color: white;
-    margin-top: 4rem;
-    margin-bottom: 2rem;
-  }
-  img {
-    width: 100%;
-    height: 200px;
-    margin: 1px;
-    border-radius: 10px 10px 0 0;
-  }
-}
-
-.mat-card-title {
-  font-weight: 400;
-}
-
+ 
 img {
   width: 100%;
   height: 200px;
   margin: 1px;
   border-radius: 10px 10px 0 0;
 }
+}
+
+/* pantalla grande */
+@media screen and (min-width: 1300px) {
+ .container{
+  gap:1rem;
+ }
+  .card {
+   display: flex;
+    width: 18rem;
+    height: 26rem;
+  }
+  .nombreSeccion {
+    font-size: 4rem;
+    color: white;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+  img {
+    width: 100%;
+    height: 200px;
+    
+    margin: 1px;
+    border-radius: 10px 10px 0 0;
+  }
+ 
+}
+
+.mat-card-title {
+  font-weight: 400;
+}
+
 button {
   border: none;
   padding: 7px 15px;
