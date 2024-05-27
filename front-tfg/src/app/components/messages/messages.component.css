@@ -1,105 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
 .body {
   height: 100%;
   margin: 0;
   width: 100%;
+  font-family: "Open Sans", sans-serif;  
   background-color: #131a29;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
 .btn-home {
   cursor: pointer;
   padding: 1rem;
-  color:white;
+  color: white;
   font-size: 2rem;
   width: fit-content;
   border-radius: 50%;
 }
-
 .btn-home:hover {
   background-color: #ebc752;
-  color: black;
+  color: #000000;
+}
+.mat-icon {
+  background-color: none;
+}
+.mat-flat-button:hover {
+  background-color: #29357f;
 }
 
-mat-radio-button {
-  color: #131A29;
-  font-size: 1.25rem;
+mat-icon {
+  background-color: none;
 }
-
-table {
-  background-color: #ffffffac;
-  width: 100%;
-
+.mat-stroked-button {
+  border: none;
 }
-
-th {
-  font-weight: 600;
-  font-size: 1rem;
-}
-
-.fa-plus::before {
-  margin-right: 1rem;
-}
-
 .mat-raised-button {
-  padding: 0.5rem 1rem;
-  background-color: #383f64;
+  padding: 0.2rem 1rem;
+
+  box-shadow: 3px 4px 5px 0px #8d8e93;
+  color: #131a29;
+  background-color: #e7c659;
   width: fit-content;
   &:hover {
-    background-color: #131a41;
+    background-color: #ddb120;
   }
 }
-
-
-
-.contenedor {
-  background-color: #ebc752;
-  border-radius: 0.75rem;
+button mat-raised-button i {
+  margin-right: 18px; 
 }
 
-mat-radio-group {
-  display: flex;
-  flex-direction: row;
-  gap: 5rem;
+mat-form-field {
+  background-color: #eeeeee;
+  border-radius: 0.5rem;
 }
+.btnDelete {
+  background-color: rgb(236, 36, 36);
 
-.mat-stroked-button{
-  border:none;
+  color: #ffffff;
+  &:hover {
+    background-color: rgb(214, 14, 14);
+  }
 }
-.mat-dialog-title{
-  margin: 0 0 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 
 /* Portátil */
 @media screen and (max-width: 1300px) {
-  .contenedor {
-    width: 80%;
-    margin-top: 2rem;
-    padding: 1rem 0;
-  }
-
   .nombreSeccion {
     font-size: 3.5rem;
     color: rgb(255, 255, 255);
     font-weight: 300;
+    width: fit-content;
   }
-
   .mat-raised-button {
-    padding: 0.5rem 1rem;
-    width: fit-content; 
+    font-size: 12px;
   }
 }
-
 /* Pantalla grande */
 @media screen and (min-width: 1300px) {
   .contenedor {
     width: 70%;
-   
     border-radius: 0.75rem;
     padding: 1rem;
     margin-top: 2rem;
@@ -111,7 +90,8 @@ mat-radio-group {
 
   .nombreSeccion {
     font-size: 4rem;
-    
+    width: fit-content;
+    display: flex;
     color: white;
     margin-top: 2rem;
     margin-bottom: 2rem;

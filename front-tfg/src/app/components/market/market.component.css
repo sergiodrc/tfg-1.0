@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+.body {
+  height: 100%;
+  margin: 0;
+  width: 100%;
+  font-family: "Open Sans", sans-serif;  
+  background-color: #131a29;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.btn-home {
+  cursor: pointer;
+  padding: 1rem;
+  color: white;
+  font-size: 2rem;
+  width: fit-content;
+  border-radius: 50%;
+}
+.btn-home:hover {
+  background-color: #ebc752;
+  color: #000000;
+}
+
+mat-focus-indicator :hover{
+    background-color: #ebc752;
+}
+/* Portátil */
+@media screen and (max-width: 1300px) {
+  .nombreSeccion {
+    font-size: 3.5rem;
+    color: rgb(255, 255, 255);
+    font-weight: 300;
+    width: fit-content;
+  }
+}
+/* Pantalla grande */
+@media screen and (min-width: 1300px) {
+  .contenedor {
+    width: 70%;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin-top: 2rem;
+  }
+  mat-dialog-container {
+    border-radius: 2rem;
+  }
+  .nombreSeccion {
+    font-size: 4rem;
+    width: fit-content;
+    display: flex;
+    color: white;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+}

@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog } from '@angular/material/dialog'; // Asegúrate de importar MatDialog
+import { MatDialog } from '@angular/material/dialog'; 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 export interface Tournaments {
@@ -23,7 +23,7 @@ export class TournamentsComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort | undefined;
   @ViewChild('addGameModal') addGameModal = {} as TemplateRef<string>;
   detailData: any;
-
+  dialogRef: any;
 
   constructor(
     public dialog: MatDialog,
@@ -38,7 +38,7 @@ this.addGameForm=this.fb.group({
 
 
   }
-  dialogRef: any;
+
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {

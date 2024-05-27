@@ -1,0 +1,9 @@
+
+.breadcrumb-item.active{
+    color:#ebc752;
+}
+@media(max-width:1300px){
+    nav{
+        padding: 2rem 0  0 2rem;
+    }
+}

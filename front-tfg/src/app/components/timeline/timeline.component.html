@@ -1,0 +1,179 @@
+<app-navbar></app-navbar>
+<div class="body">
+  <div
+    class="row"
+    style="
+      flex-direction: row;
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      margin-top: 2rem;
+    "
+  >
+    <div class="col-md-2" style="align-content: center">
+      <div
+        class="fa-solid fa-house btn-home"
+        routerLink="/home"
+        mat-raised-button
+        matTooltip="Volver a la pantalla principal"
+        matTooltipPosition="above"
+      ></div>
+    </div>
+    <div class="col-md-8 nombreSeccion">Publicaciones</div>
+  </div>
+  <div class="row container">
+    <div class="col-md-4 col-xl-3">
+      <mat-card class="card">
+       
+        <img
+          mat-card-image
+          src="../../assets/img/publicacion-card-img.png"
+          style="border-radius: 10px 10px 0 0;"
+          alt="Imagen de Timeline"
+        />
+        <mat-card-content>
+          <p>Titulo de la foto</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <div class="row d-flex w-100" style="padding-left: 1rem; gap: 1.5rem">
+            <div class="col-md-2">
+              <button class="fa-solid fa-heart"></button>
+            </div>
+            <div class="col-md-2">
+              <button
+                class="fa-solid fa-comment"
+                (click)="openCommentModal(addCommentMod)"
+              ></button>
+            </div>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <div class="col-md-4 col-xl-3">
+      <mat-card class="card">
+        <mat-card-header>
+          <div class="card-imagen"></div>
+          <mat-card-title>@nombreUser</mat-card-title>
+        </mat-card-header>
+        <img
+          mat-card-image
+          src="../../assets/img/publicacion-card-img.png"
+          alt="Imagen de Timeline"
+        />
+        <mat-card-content>
+          <p>titulo de la foto</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <div class="row d-flex w-100" style="padding-left: 1rem; gap: 1.5rem">
+            <div class="col-md-2">
+              <button class="fa-solid fa-heart"></button>
+            </div>
+            <div class="col-md-2">
+              <button
+                class="fa-solid fa-comment"
+                (click)="openCommentModal(addCommentMod)"
+              ></button>
+            </div>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <div class="col-md-4 col-xl-3">
+      <mat-card class="card">
+        <mat-card-header>
+          <div class="card-imagen"></div>
+          <mat-card-title>@nombreUser</mat-card-title>
+        </mat-card-header>
+        <img
+          mat-card-image
+          src="../../assets/img/publicacion-card-img.png"
+          alt="Imagen de Timeline"
+        />
+        <mat-card-content>
+          <p>titulo de la foto</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <div class="row d-flex w-100" style="padding-left: 1rem; gap: 1.5rem">
+            <div class="col-md-2" id="like">
+              <button class="fa-solid fa-heart"></button>
+            </div>
+            <div class="col-md-2" id="comment">
+              <button
+                class="fa-solid fa-comment"
+                (click)="openCommentModal(addCommentMod)"
+              ></button>
+            </div>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
+<ng-template #addCommentMod>
+  <div mat-dialog-title>
+    Detalles publicación
+    <button
+      mat-icon-button
+      class="close-btn"
+      style="float: right"
+      (click)="closeCommentModal()"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div mat-dialog-content>
+    <div>
+      <div class="row" style="padding: 0.5rem 1rem">
+        <div
+          class="col-md-5"
+          style="
+            background-color: rgb(240, 240, 240);
+            border-radius: 1rem 0 0 1rem;
+          "
+        >
+          <div class="row" style="padding: 1rem 1rem 0; font-size: 1.25rem">
+            Titulo publicacion
+          </div>
+          <div class="row" style="padding: 0.5rem 1rem">@usuario</div>
+          <div class="row" style="padding: 0.5rem 1rem 1rem">
+            <div class="col-md-12">
+              <img src="../../../assets/img/publicacion-card-img.jpg" 
+              style="border-radius: 10px;"/>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-7" style="background-color: #edc84e ;
+        border-radius: 0 1rem 1rem 0;">
+          <div class="row" style="padding: 0.5rem 1rem;
+          ">
+            <div
+              _ngcontent-qro-c116=""
+              class="row"
+              style="padding: 0.5rem 1rem; font-size: 1.25rem"
+            >
+              Comentarios
+            </div>
+            <div class="row">
+              <div
+                class="col-md-12"
+                style="padding: 0.5rem 0.5rem !important ;"
+              >
+                Nombre usuario
+              </div>
+              <div
+                class="col-md-12"
+                style="padding: 0.5rem 0.5rem !important; font-size: 0.8rem"
+              >
+                Contenido comentario Contenido comentario Contenido comentario
+                Contenido comentario Contenido comentario Contenido comentario
+                Contenido comentario Contenido comentario Contenido comentario
+                Contenido comentario
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
