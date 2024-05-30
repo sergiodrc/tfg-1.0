@@ -7,10 +7,10 @@
       display: flex;
       align-items: center;
       gap: 3rem;
-      margin-top: 2rem;
+      margin-top: 4rem;
     "
   >
-    <div class="col-md-2" style="align-content: center">
+    <div class="col-md-1" style="align-content: center">
       <div
         class="fa-solid fa-house btn-home"
         routerLink="/home"
@@ -24,15 +24,17 @@
   <div class="row container">
     <div class="col-md-4 col-xl-3">
       <mat-card class="card">
-       
+        <mat-card-header>
+          <div class="card-imagen"></div>
+          <mat-card-title>@nombreUser</mat-card-title>
+        </mat-card-header>
         <img
           mat-card-image
           src="../../assets/img/publicacion-card-img.png"
-          style="border-radius: 10px 10px 0 0;"
           alt="Imagen de Timeline"
         />
         <mat-card-content>
-          <p>Titulo de la foto</p>
+          <p>titulo de la foto</p>
         </mat-card-content>
         <mat-card-actions>
           <div class="row d-flex w-100" style="padding-left: 1rem; gap: 1.5rem">
@@ -124,7 +126,7 @@
 
   <div mat-dialog-content>
     <div>
-      <div class="row" style="padding: 0.5rem 1rem">
+      <div class="row" style="padding: 0.5rem 1rem; height: 23rem">
         <div
           class="col-md-5"
           style="
@@ -138,15 +140,18 @@
           <div class="row" style="padding: 0.5rem 1rem">@usuario</div>
           <div class="row" style="padding: 0.5rem 1rem 1rem">
             <div class="col-md-12">
-              <img src="../../../assets/img/publicacion-card-img.jpg" 
-              style="border-radius: 10px;"/>
+              <img
+                src="../../../assets/img/publicacion-card-img.jpg"
+                style="border-radius: 10px"
+              />
             </div>
           </div>
         </div>
-        <div class="col-md-7" style="background-color: #edc84e ;
-        border-radius: 0 1rem 1rem 0;">
-          <div class="row" style="padding: 0.5rem 1rem;
-          ">
+        <div
+          class="col-md-7"
+          style="background-color: #edc84e; border-radius: 0 1rem 1rem 0"
+        >
+          <div class="row" style="padding: 0.5rem 1rem">
             <div
               _ngcontent-qro-c116=""
               class="row"
@@ -154,21 +159,32 @@
             >
               Comentarios
             </div>
-            <div class="row">
-              <div
-                class="col-md-12"
-                style="padding: 0.5rem 0.5rem !important ;"
-              >
-                Nombre usuario
+            <div style="background-color: #e3dbc3; border-radius: 10px;">
+              <div class="row">
+                <div
+                  class="col-md-12"
+                  style="padding: 0.5rem 0.5rem !important;"
+                >
+                  Nombre usuario
+                </div>
+                <div
+                  class="col-md-12"
+                  style="padding: 0.5rem 0.5rem !important; font-size: 0.8rem"
+                >
+                  Aqui hay que visualizar los comentarios de los demas usuarios
+                </div>
               </div>
-              <div
-                class="col-md-12"
-                style="padding: 0.5rem 0.5rem !important; font-size: 0.8rem"
-              >
-                Contenido comentario Contenido comentario Contenido comentario
-                Contenido comentario Contenido comentario Contenido comentario
-                Contenido comentario Contenido comentario Contenido comentario
-                Contenido comentario
+            </div>
+            <div class="row">
+              <div class="col-md-10">
+                <button
+                  style="
+                    font-weight: 500;
+                    padding: 1rem !important;
+                    width: 100%;
+                  "
+                  [textContent]="'Comentar'"
+                ></button>
               </div>
             </div>
           </div>

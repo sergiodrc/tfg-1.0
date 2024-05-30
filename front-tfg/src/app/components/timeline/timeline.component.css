@@ -2,6 +2,7 @@
   height: 100%;
   margin: 0;
   width: 100%;
+  font-family: "Open Sans", sans-serif;  
   background-color: #131a29;
   display: flex;
   flex-direction: column;
@@ -22,18 +23,17 @@
   background-color: rgba(239, 239, 239, 0.674);
 }
 
-
-.btn-home{
+.btn-home {
   cursor: pointer;
-  /* margin-top:1.3rem; */
   padding: 1rem;
-  background-color: #d3c8a6;
+  color: white;
+  font-size: 2rem;
   width: fit-content;
   border-radius: 50%;
-
-  &:hover{
-    background-color: #ebc752;
-  }
+}
+.btn-home:hover {
+  background-color: #ebc752;
+  color: #000000;
 }
 
 
@@ -92,7 +92,7 @@ img {
 
 button {
   border: none;
-  padding: 7px 15px;
+  padding: 1rem;
   border-radius: 10px;
   color: white;
   font-weight: 600;

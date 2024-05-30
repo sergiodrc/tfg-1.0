@@ -7,6 +7,7 @@ import { TimelineComponent } from './components/timeline/timeline.component';
 import { MessagesComponent } from './components/messages/messages.component';
 import { TournamentsComponent} from './components/tournaments/tournaments.component';
 import { MarketComponent } from './components/market/market.component';
+import { UserComponent } from './components/user/user.component';
 
 // aqui se establecen todas las rutas y los componentes
 const routes: Routes = [
@@ -31,6 +32,9 @@ const routes: Routes = [
 },
 {
   path:'market', component: MarketComponent
+},
+{
+  path:'user', component: UserComponent
 },
   
 

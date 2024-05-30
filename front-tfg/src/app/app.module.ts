@@ -28,6 +28,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { BreadcrumbComponent } from './shared/breadcrumb/breadcrumb.component';
 import { ErrorMessageDirective } from './directives/error-message.directive';
 import { MarketComponent } from './components/market/market.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { UserComponent } from './components/user/user.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,8 @@ import { MarketComponent } from './components/market/market.component';
     TournamentsComponent,
     BreadcrumbComponent,
     ErrorMessageDirective,
-    MarketComponent, 
+    MarketComponent,
+    UserComponent, 
     // ErrorMessageDirective para controlar que el usuario rellene el campo (directiva creada)
   ],
   imports: [
@@ -62,7 +65,8 @@ import { MarketComponent } from './components/market/market.component';
     MatIconModule,
     ReactiveFormsModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatSnackBarModule
    
   ],
   providers: [

@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog'; 
-import { ErrorMessageDirective } from '../../directives/error-message.directive';
+
 
 
 @Component({
@@ -26,6 +26,7 @@ export class MessagesComponent implements OnInit {
     public dialog: MatDialog,
     private fb: FormBuilder
   ) {
+    // formularios
     this.messageForm= this.fb.group({
       receiver:['', Validators.required],
       msgBody:['', Validators.required]

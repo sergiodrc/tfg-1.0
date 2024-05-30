@@ -1,0 +1,158 @@
+<app-navbar></app-navbar>
+
+<div class="body">
+  <div
+    class="row"
+    style="
+      flex-direction: row;
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      margin-top: 4rem;
+    "
+  >
+    <div class="col-md-1" style="align-content: center">
+      <div
+        class="fa-solid fa-house btn-home"
+        routerLink="/home"
+        mat-raised-button
+        matTooltip="Volver a la pantalla principal"
+        matTooltipPosition="above"
+      ></div>
+    </div>
+    <div class="col-md-8 nombreSeccion">Perfil de usuario</div>
+  </div>
+
+  <div class="row w-100 mt-4" style="justify-content: center">
+    <div
+      class="col-md-10 col-xs-12 contenedor"
+      style="
+        background-color: hsla(0, 0%, 86%, 0.993);
+        border-radius: 0.5rem;
+        display: flex;
+        justify-content: center;
+        padding: 1rem;
+      "
+    >
+      <div class="row w-100">
+        <div
+          class="col-md-5 col-xs-12 mt-4"
+          style="
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+          "
+        >
+          <div>
+            <img
+              src="../../../assets/img/MicrosoftTeams-image.png"
+              alt="Imagen de usuario"
+            />
+          </div>
+          <div class="mt-2">
+            <button
+              class="btn-change-img"
+              mat-raised-button
+              [textContent]="'Cambiar imagen de perfil'"
+            ></button>
+          </div>
+        </div>
+        <div class="col-md-7 col-xs-12 mt-4" *ngIf="showInfo">
+          <div class="row mt-2">
+            <span class="gray-span">Nombre: </span>
+          </div>
+          <div class="row mt-2">
+            <span class="gray-span">Apellidos: </span>
+          </div>
+          <div class="row mt-2">
+            <span class="gray-span">Nombre de usuario: </span>
+          </div>
+          <div class="row mt-2">
+            <span class="gray-span">Correo: </span>
+          </div>
+          <div class="row mt-2">
+            <span class="gray-span">Teléfono: </span>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12" style="padding-left: 0 !important">
+              <button
+                mat-raised-button
+                class="btn-edit-info"
+                (click)="editInfo()"
+                style="width: 30rem;"
+                [textContent]="'Editar datos'"
+              ></button>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12" style="padding-left: 0 !important">
+              <button
+                mat-raised-button
+                class="btn-delete"
+                
+                [textContent]="'Eliminar cuenta'"
+              ></button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-7 col-xs-12 mt-4" *ngIf="!showInfo">
+          <div [formGroup]="editForm">
+            <div class="row mt-2">
+              <mat-form-field
+                class="example-form-field w-100"
+                appearance="fill"
+              >
+                <mat-label>Nombre:</mat-label>
+                <input matInput type="text" formControlName="name" />
+              </mat-form-field>
+            </div>
+            <div class="row mt-2"><mat-form-field
+                class="example-form-field w-100"
+                appearance="fill"
+              >
+                <mat-label>Apellidos:</mat-label>
+                <input matInput type="text" formControlName="surname" />
+              </mat-form-field>
+            </div>
+            <div class="row mt-2">
+                <mat-form-field
+                class="example-form-field w-100"
+                appearance="fill"
+              >
+                <mat-label>Nombre de usuario</mat-label>
+                <input matInput type="text" formControlName="nickname" />
+              </mat-form-field>
+            </div>
+            <div class="row mt-2"> <mat-form-field
+                class="example-form-field w-100"
+                appearance="fill"
+              >
+                <mat-label>Correo</mat-label>
+                <input matInput type="text" formControlName="email" />
+              </mat-form-field></div>
+            <div class="row mt-2"> <mat-form-field
+                class="example-form-field w-100"
+                appearance="fill"
+              >
+                <mat-label>Número de teléfono</mat-label>
+                <input matInput type="text" formControlName="phone" />
+              </mat-form-field></div>
+            <div class="row mt-3">
+              <div class="col-md-12" style="padding-left: 0 !important">
+                <button
+                  mat-raised-button
+                  class="btn-update-info"
+                  (click)="editInfo()"
+                  style="width: 30rem;"
+                  type="submit"
+                  [textContent]="'Guardar nuevos datos'"
+                ></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 
 .body {
   height: 100%;
   margin: 0;
   width: 100%;
-  font-family: "Open Sans", sans-serif;  
+  font-family: "Open Sans", sans-serif;
   background-color: #131a29;
   display: flex;
   flex-direction: column;
@@ -22,54 +22,51 @@
   background-color: #ebc752;
   color: #000000;
 }
-.mat-icon {
-  background-color: none;
-}
-.mat-flat-button:hover {
-  background-color: #29357f;
+
+.gray-span {
+  padding: 0.6rem;
+  border-radius: 0.5rem;
+  width: 30rem;
+  background-color: #f5cf53;
 }
 
-mat-icon {
-  background-color: none;
-}
-.mat-stroked-button {
-  border: none;
-}
-
-
-.fa-reply::before {
-  margin-right: 1rem;
-}
-.fa-trash::before {
-  margin-right: 1rem;
+img {
+  width: 15rem;
+  height: 15rem;
+  border-radius: 50%;
 }
 
-.mat-raised-button {
-  padding: 0.2rem 1rem;
-
-  box-shadow: 3px 4px 5px 0px #8d8e93;
-  color: #131a29;
-  background-color: #e7c659;
-  width: fit-content;
+.btn-change-img {
+  background-color: #ffffff;
   &:hover {
-    background-color: #ddb120;
+    background-color: #ebc752;
   }
 }
-button mat-raised-button i {
-  margin-right: 18px; 
-}
 
-mat-form-field {
-  background-color: #eeeeee;
-  border-radius: 0.5rem;
-}
-.btnDelete {
-  background-color: rgb(236, 36, 36);
-
+.btn-edit-info {
+  background-color: #394357;
   color: #ffffff;
   &:hover {
-    background-color: rgb(190, 10, 10);
+    background-color: #131a29;
   }
+}
+
+.btn-update-info {
+  background-color: #640b80;
+  color: #ffffff;
+}
+
+.btn-delete {
+  width: 30rem;
+  background-color: rgb(207, 48, 48);
+  color: white;
+  &:hover{
+    background-color: rgb(201, 7, 0);
+  }
+}
+
+.example-form-field {
+  padding-left: 0 !important;
 }
 
 /* Portátil */
@@ -80,12 +77,13 @@ mat-form-field {
     font-weight: 300;
     width: fit-content;
   }
-  .mat-raised-button {
-    font-size: 12px;
+  .contenedor {
+    width: 90%;
   }
 }
+
 /* Pantalla grande */
-@media screen and (min-width: 1300px) {
+@media screen and (min-width: 1301px) {
   .contenedor {
     width: 70%;
     border-radius: 0.75rem;
