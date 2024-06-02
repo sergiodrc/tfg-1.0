@@ -10,6 +10,50 @@
   flex-direction: column;
   align-items: center;
 }
+.header{
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  margin-top: 4rem;
+}
+
+
+
+.gray-span {
+  padding: 0.6rem;
+  border-radius: 0.5rem;
+  width: 30rem;
+  background-color: #f5cf53;
+}
+
+
+.contenedor{
+  background-color: hsla(0, 0%, 86%, 0.993);
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: center;
+  padding: 0rem 3rem 2rem 0rem;
+
+}
+
+.contenedor-update{
+  background-color: hsla(0, 0%, 86%, 0.993);
+  border: 10px solid #640b80;
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: center;
+  padding: 0rem 3rem 2rem 0rem;
+}
+
+img {
+  width: 12rem;
+  height: 12rem;
+  border-radius: 50%;
+}
+
+
+/*estilos para botones*/
 .btn-home {
   cursor: pointer;
   padding: 1rem;
@@ -23,25 +67,14 @@
   color: #000000;
 }
 
-.gray-span {
-  padding: 0.6rem;
-  border-radius: 0.5rem;
-  width: 30rem;
-  background-color: #f5cf53;
-}
 
-img {
-  width: 15rem;
-  height: 15rem;
-  border-radius: 50%;
-}
-
-.btn-change-img {
+ .btn-change-img {
   background-color: #ffffff;
   &:hover {
     background-color: #ebc752;
   }
 }
+
 
 .btn-edit-info {
   background-color: #394357;
@@ -54,6 +87,9 @@ img {
 .btn-update-info {
   background-color: #640b80;
   color: #ffffff;
+  &:hover {
+    background-color: #47035b;
+  }
 }
 
 .btn-delete {
@@ -64,31 +100,63 @@ img {
     background-color: rgb(201, 7, 0);
   }
 }
+.btn-cancel {
+  width: 30rem;
+  background-color: #756b79;
+  color: white;
+  &:hover{
+    background-color:rgb(183, 51, 47);
+  }
+}
 
 .example-form-field {
   padding-left: 0 !important;
 }
 
+
+.mat-raised-button{
+  width:100%
+}
+
 /* Portátil */
 @media screen and (max-width: 1300px) {
+
+  .body{
+    height: 45rem;
+  }
   .nombreSeccion {
     font-size: 3.5rem;
     color: rgb(255, 255, 255);
     font-weight: 300;
     width: fit-content;
   }
-  .contenedor {
+  .header{
+    margin-top: 2rem;
+  }
+
+  .contenedor-update {
     width: 90%;
+    padding: 0rem 3rem 2rem 0rem;
   }
 }
 
 /* Pantalla grande */
 @media screen and (min-width: 1301px) {
+
+
   .contenedor {
-    width: 70%;
+    width: 55rem;
     border-radius: 0.75rem;
     padding: 1rem;
     margin-top: 2rem;
+    padding: 0rem 3rem 2rem 0rem;
+  }
+  .contenedor-update{
+    width: 55rem;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin-top: 2rem;
+    padding: 0rem 3rem 2rem 0rem;
   }
 
   mat-dialog-container {

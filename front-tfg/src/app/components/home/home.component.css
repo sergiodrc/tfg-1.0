@@ -69,7 +69,10 @@ button:hover{
 
 
 /* portatil */
-@media screen and  (max-width:1300px){
+@media screen and  (max-width:1600px){
+    .container{
+        margin: 4rem;
+    }
     .card {
         width: 15rem;
         display: flex;
@@ -87,7 +90,7 @@ img{
 
 
 /* mas grandre que portatil */
-@media screen and  (min-width:1301px){
+@media screen and  (min-width:1601px){
     .card {
         margin-top: 4rem;
     }

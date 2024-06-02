@@ -1,18 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+
+
 .body {
   height: 100%;
   margin: 0;
   width: 100%;
-  font-family: "Open Sans", sans-serif;  
+  font-family: "Open Sans", sans-serif;
   background-color: #131a29;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+.header{
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  margin-top: 4rem;
+}
+
+
 .container {
   border-radius: 10px;
   display: flex;
-  margin: 5rem;
+  margin: 2rem;
   justify-content: center;
 }
 
@@ -36,37 +48,39 @@
   color: #000000;
 }
 
-
 /*medidas responsives de las tarjetas*/
 
 /* portatil */
 @media screen and (max-width: 1300px) {
+  .body {
+    height: auto;
+  }
+
   .card {
-    
     height: 25rem;
   }
   .nombreSeccion {
     font-size: 3.5rem;
     color: rgb(255, 255, 255);
     font-weight: 300;
-    
   }
- 
-img {
-  width: 100%;
-  height: 200px;
-  margin: 1px;
-  
-}
+  .header{
+    margin-top: 2rem;
+  }
+  img {
+    width: 100%;
+    height: 200px;
+    margin: 1px;
+  }
 }
 
 /* pantalla grande */
 @media screen and (min-width: 1300px) {
- .container{
-  gap:1rem;
- }
+  .container {
+    gap: 1rem;
+  }
   .card {
-   display: flex;
+    display: flex;
     width: 18rem;
     height: 26rem;
   }
@@ -79,11 +93,9 @@ img {
   img {
     width: 100%;
     height: 200px;
-    
+
     margin: 1px;
-    
   }
- 
 }
 
 .mat-card-title {
@@ -101,7 +113,7 @@ button {
   background-color: #131a29;
 }
 
-.close-btn{
+.close-btn {
   background-color: #ffffff;
   color: #131a29;
   padding: 0;
@@ -113,7 +125,6 @@ button {
   font-weight: 600;
   background-color: #131a29;
 }
-
 
 .col-md-2:last-child button:hover {
   color: #aceaed;

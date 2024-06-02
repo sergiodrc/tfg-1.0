@@ -40,4 +40,15 @@ export class UserComponent implements OnInit {
   editInfo(){
     this.showInfo=false
   }
+
+
+  selectedFile: any = null;
+
+
+  // para seleccionar imagen, tal vez deberia haber unas imagenes predefinidas en la bbdd y 
+  // el usuario puede elegir entre esas
+onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0] ?? null;
+
+}
 }
