@@ -4,7 +4,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
+
 import { HomeComponent } from './components/home/home.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -35,7 +35,7 @@ import { UserComponent } from './components/user/user.component';
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent,
+  
     HomeComponent,
     NavbarComponent,
     TimelineComponent,

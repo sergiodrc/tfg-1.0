@@ -1,42 +1,83 @@
 <div class="body">
-    <div class="contenido">
-      <div class="tittle">
-        <span class="tittle2">HammerLand</span>
+  <div
+    class="row w-100"
+    style="display: flex; flex-direction: row; width: 100%"
+  >
+    <div class="col-md-6">
+      <div class="row">
+        <span class="tittle">HAMMERLAND</span>
       </div>
-  
-      <div class="text">
-        <div class="subtext">
-          El lugar donde podrás <span style="color:#FAE8AF">encontrar</span><br>
-          otros jugadores y <span style="color:#FAE8AF">compartir</span><br>
+      <div class="row">
+        <p class="text" style="margin-top: 6rem">
+          El lugar donde podrás encontrar<br />
+          otros jugadores y compartir<br />
           tu contenido.
-        </div>
-          <div class="subtext">
-            Empieza ya a descubrir lo que te<br>
-            espera en <span style="color:#FAE8AF">HammerLand</span>
-          </div>
-        </div>
+        </p>
       </div>
-      <div class="formulario">
-        <div class="formContainer"><span class="titleForm">Iniciar sesión</span>
-          <form action="" method="POST" class="loginForm" id="formLog">
-            <div class="row formFields">
-              <div class="col-md-12">
-                <label for="username"></label>
-                <input type="text" id="username" name="username" placeholder="Username" required>
-              </div>
-            </div>
-            <div class="row formFields">
-              <div class="col-md-12">
-                <label for="password"></label>
-                <input type="password" id="password" name="password" placeholder="Password" required>
-              </div>
-            </div>
-            <button type="" value="Entrar" routerLink="/home">Entrar</button>
-            <div class="question">¿Aún no tienes cuenta?<br>
-             <a href="/register 
-             "><span style="color:#FAE8AF">Únete desde aquí</span></a> 
-            </div>
-          </form>
-        </div>
+
+      <div class="row">
+        <p class="text" style="margin-top: 2rem">
+          Empieza ya a descubrir lo que te<br />
+          espera en HAMMERLAND
+        </p>
       </div>
     </div>
+    <div class="col-md-6" style="background-color: #ebc752">
+      <div class="row form-title" >
+        <p class="text2">
+          <span >
+          {{isRegistred ? 'Inicio de sesión' : 'Creación de nuevo usuario'}}
+        </span></p>
+      </div>
+      <div class="container ">
+        <!-- formulario en caso de no tener cuenta -->
+        <form [formGroup]="formRegister" *ngIf="!isRegistred">
+          <div class="form-group">
+            <label for="nombre" style="font-weight: 700;">Nombre</label>
+            <input type="text" id="nombre" class="form-control" formControlName="nombre" >
+          </div>
+          <div class="form-group">
+            <label for="apellido" style="font-weight: 700;">Apellido</label>
+            <input type="text" id="apellido" class="form-control" formControlName="apellido" >
+          </div>
+          <div class="form-group">
+            <label for="nickname" style="font-weight: 700;">Nombre de usuario</label>
+            <input type="text" id="nickname" class="form-control" formControlName="nickname"  >
+          </div>
+          <div class="form-group">
+            <label for="password" style="font-weight: 700;">Password</label>
+            <input type="password" id="password" class="form-control" formControlName="password"  >
+          </div>
+          <div class="form-group">
+            <label for="correo" style="font-weight: 700;">Correo</label>
+            <input type="email" id="correo" class="form-control" formControlName="correo"  >
+          </div>
+          <button type="submit" routerLink="/home" class="btn btn-primary mt-3 btn-create-user">Crear usuario</button>
+
+          <p style="margin-top: 2rem; text-align: center;"> ¿Ya estás registado?<br>
+          Haz clic <span (click)="isRegistred=true" style="cursor: pointer; color:#131a29; font-weight: 700;">AQUÍ</span> para iniciar sesión</p>
+        </form>
+<!-- formulario para iniciar sesion -->
+      
+          <form [formGroup]="formLogin" *ngIf="isRegistred">
+            <div class="form-group">
+              <label for="nickname" style="font-weight: 700;">Nombre de usuario</label>
+              <input type="text" id="nickname" class="form-control" formControlName="nickname">
+            </div>
+            <div class="form-group">
+              <label for="password" style="font-weight: 700;">Password</label>
+              <input type="password" id="password" class="form-control" formControlName="password">
+            </div>
+            <button type="submit" routerLink="/home" class="btn btn-primary mt-3 btn-create-user">Iniciar sesión</button>
+        
+            <p style="margin-top: 2rem; text-align: center;"> ¿No tienes una cuenta?<br>
+              Haz clic <span (click)="isRegistred=false" style="cursor: pointer; color:#131a29; font-weight: 700;">AQUÍ</span> para registrarte</p>
+          </form>
+        </div>
+        
+
+      </div>
+      
+    </div>
+</div>
+
