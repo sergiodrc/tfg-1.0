@@ -53,7 +53,7 @@ function saveUser(req, res) {
                 { email_usuario: user.email_usuario.toLowerCase() },
                 { nickname_usuario: user.nickname_usuario.toLowerCase() }
             ]
-        }).exec((err, users) => {
+        }).then((users) => {
             if (err) return res.status(500).send({ message: "Error al buscar el usuario" });
 
             if (users && users.length >= 1) {
