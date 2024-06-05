@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="col-md-6" style="background-color: #ebc752">
-      <div class="row form-title" >
+      <div  [ngClass]="!isRegistred ? 'form-title' : 'form-title-log'">
         <p class="text2">
           <span >
           {{isRegistred ? 'Inicio de sesión' : 'Creación de nuevo usuario'}}
@@ -31,48 +31,48 @@
       </div>
       <div class="container ">
         <!-- formulario en caso de no tener cuenta -->
-        <form [formGroup]="formRegister" *ngIf="!isRegistred">
+        <form [formGroup]="formRegister" *ngIf="!isRegistred"  (ngSubmit)="registerUser()">
           <div class="form-group">
-            <label for="nombre" style="font-weight: 700;">Nombre</label>
+            <label for="nombre" style="font-weight: 700; padding:0.1rem 0.5rem">Nombre</label>
             <input type="text" id="nombre" class="form-control" formControlName="nombre" >
           </div>
           <div class="form-group">
-            <label for="apellido" style="font-weight: 700;">Apellido</label>
+            <label for="apellido" style="font-weight: 700; padding:0.1rem 0.5rem">Apellido</label>
             <input type="text" id="apellido" class="form-control" formControlName="apellido" >
           </div>
           <div class="form-group">
-            <label for="nickname" style="font-weight: 700;">Nombre de usuario</label>
+            <label for="nickname" style="font-weight: 700; padding:0.1rem 0.5rem">Nombre de usuario</label>
             <input type="text" id="nickname" class="form-control" formControlName="nickname"  >
           </div>
           <div class="form-group">
-            <label for="password" style="font-weight: 700;">Password</label>
+            <label for="password" style="font-weight: 700; padding:0.1rem 0.5rem">Password</label>
             <input type="password" id="password" class="form-control" formControlName="password"  >
           </div>
           <div class="form-group">
-            <label for="correo" style="font-weight: 700;">Correo</label>
+            <label for="correo" style="font-weight: 700; padding:0.1rem 0.5rem">Correo</label>
             <input type="email" id="correo" class="form-control" formControlName="correo"  >
           </div>
-          <button type="submit" routerLink="/home" class="btn btn-primary mt-3 btn-create-user">Crear usuario</button>
+          <button type="submit" [disabled]="!formRegister.valid" class="btn btn-primary mt-3 btn-create-user" >Crear usuario</button>
 
           <p style="margin-top: 2rem; text-align: center;"> ¿Ya estás registado?<br>
           Haz clic <span (click)="isRegistred=true" style="cursor: pointer; color:#131a29; font-weight: 700;">AQUÍ</span> para iniciar sesión</p>
         </form>
 <!-- formulario para iniciar sesion -->
       
-          <form [formGroup]="formLogin" *ngIf="isRegistred">
+          <!-- <form [formGroup]="formLogin" *ngIf="isRegistred">
             <div class="form-group">
-              <label for="nickname" style="font-weight: 700;">Nombre de usuario</label>
+              <label for="nickname" style="font-weight: 700; padding:0.1rem 0.5rem">Nombre de usuario</label>
               <input type="text" id="nickname" class="form-control" formControlName="nickname">
             </div>
             <div class="form-group">
-              <label for="password" style="font-weight: 700;">Password</label>
+              <label for="password" style="font-weight: 700; padding:0.1rem 0.5rem">Password</label>
               <input type="password" id="password" class="form-control" formControlName="password">
             </div>
             <button type="submit" routerLink="/home" class="btn btn-primary mt-3 btn-create-user">Iniciar sesión</button>
         
             <p style="margin-top: 2rem; text-align: center;"> ¿No tienes una cuenta?<br>
               Haz clic <span (click)="isRegistred=false" style="cursor: pointer; color:#131a29; font-weight: 700;">AQUÍ</span> para registrarte</p>
-          </form>
+          </form> -->
         </div>
         
 

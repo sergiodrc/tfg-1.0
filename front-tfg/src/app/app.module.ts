@@ -13,7 +13,7 @@ import {MatInputModule} from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TimelineComponent } from './components/timeline/timeline.component';
 import { ContainerComponent } from './shared/container/container.component';
-import { SidebarUserComponent } from './components/sidebar-user/sidebar-user.component';
+import { HttpClientModule } from '@angular/common/http'; // Importa HttpClientModule
 import { MessagesComponent } from './components/messages/messages.component';
 import { TournamentsComponent } from './components/tournaments/tournaments.component';
 import {MAT_RADIO_DEFAULT_OPTIONS, MatRadioModule} from '@angular/material/radio';
@@ -40,7 +40,6 @@ import { UserComponent } from './components/user/user.component';
     NavbarComponent,
     TimelineComponent,
     ContainerComponent,
-    SidebarUserComponent,
     MessagesComponent,
     TournamentsComponent,
     BreadcrumbComponent,
@@ -66,7 +65,7 @@ import { UserComponent } from './components/user/user.component';
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSnackBarModule
+    MatSnackBarModule,HttpClientModule
    
   ],
   providers: [
