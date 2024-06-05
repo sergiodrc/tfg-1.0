@@ -1,9 +1,26 @@
 const express = require('express')
 const mongoose = require('mongoose');
+const routes = require('./routes/routes')
 
 const app = express()
-var routes = require('./routes/routes')
 
+
+
+
+
+async function connect() {
+  try {
+    await mongoose.connect("mongodb://localhost:27017/hammerland")
+    console.log('connected')
+  } catch {
+    console.log('error')
+  }
+  
+  
+}
+connect()
+app.use(express.json());
+app.use(routes);
 
 app.listen(9002,function check(err)
 {
@@ -12,21 +29,3 @@ app.listen(9002,function check(err)
     else
     console.log("started")
 });
-
-
-
-mongoose.connect("mongodb://localhost:27017/hammerland",{useNewUrlParser: true,  useUnifiedTopology: true },
-function checkDb(error)
-{
-    if(error)
-    {
-        console.log("Error Connecting to DB");
-    }
-    else
-    {
-        console.log("successfully Connected to DB");
-    }
-});
-
-app.use(express.json());
-app.use(routes);

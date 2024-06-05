@@ -30,6 +30,7 @@ import { ErrorMessageDirective } from './directives/error-message.directive';
 import { MarketComponent } from './components/market/market.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { UserComponent } from './components/user/user.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { UserComponent } from './components/user/user.component';
     MatDialogModule,
     MatIconModule,
     ReactiveFormsModule,
+    HttpClientModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatSnackBarModule

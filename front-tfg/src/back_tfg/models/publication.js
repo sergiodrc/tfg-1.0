@@ -8,7 +8,7 @@ var PublicacionSchema= Schema ({
     texto_publicacion: String,
     archivo_publicacion: String,
     fecha_creacion_publicacion:String,
-    user:{  type: Schema.ObjectId, ref: 'User'} //cogera todos datos del usuario 
+    user:{  type: Schema.ObjectId, ref: 'users'} //cogera todos datos del usuario 
 
 });
 

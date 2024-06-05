@@ -6,10 +6,10 @@ var Schema = mongoose.Schema;
 
 var FollowSchema = Schema({
     user: {
-        type:Schema.ObjectId, ref:'User'
+        type:Schema.ObjectId, ref:'users'
     },
-    seguido: {
-        type:Schema.ObjectId, ref:'User'
+    seguidor: {
+        type:Schema.ObjectId, ref:'users'
     }
 })
 

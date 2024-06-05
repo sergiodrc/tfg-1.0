@@ -12,11 +12,11 @@ var MessageSchema = Schema({
     
     //emisor
     emitter: {
-        type:Schema.ObjectId, ref:'User'
+        type:Schema.ObjectId, ref:'users'
     },
     //receptor
     receiver: {
-        type:Schema.ObjectId, ref:'User'
+        type:Schema.ObjectId, ref:'users'
     },
 
 });
