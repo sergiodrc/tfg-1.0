@@ -31,6 +31,9 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {}
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> front-delRio
 }
 =======
 }
