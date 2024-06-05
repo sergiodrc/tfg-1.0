@@ -51,6 +51,7 @@
     &:hover{
         background-color: #131a29;
     }
+<<<<<<< HEAD
 }
 @media (max-width:1300px) {
     .tittle{
@@ -82,3 +83,37 @@ margin-top: 14rem;
         font-size: 3rem;
       }
 }
+=======
+}
+@media (max-width:1300px) {
+    .tittle{
+        margin-top: 8rem;
+    }
+    .form-title{
+        margin-top: 4rem;
+      }
+      .text2{
+       
+        font-size: 2rem;
+        font-weight: 600;
+      }
+      
+.container{
+    margin-top: 1rem;
+    width: 20rem;
+}
+}
+@media (min-width:1301px) {
+    .tittle{
+        margin-top: 14rem;
+        font-size: 6rem;
+    }
+    .form-title{
+margin-top: 14rem;
+    }
+    .text2{
+        font-size: 3rem;
+      }
+}
+
+>>>>>>> front-delRio
