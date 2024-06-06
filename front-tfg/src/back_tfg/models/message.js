@@ -6,7 +6,7 @@ var Schema =mongoose.Schema;
 //Modelo de la tabla mensajes
 var MessageSchema = Schema({
 
-    text_mensaje: String,
+    texto_mensaje: String,
     fecha_creacion_mensaje: String,
     viewed: String,
     

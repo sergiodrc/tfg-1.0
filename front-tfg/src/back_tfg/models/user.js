@@ -13,6 +13,6 @@ var UserSchema = Schema(
         password_usuario:String,
         tlf_usuario:Number,
         img_usuario:String  
-
+        
     });
     module.exports = mongoose.model('users',UserSchema);
