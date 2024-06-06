@@ -6,7 +6,7 @@ async function ensureAuth(req, res) {
   const { authorization } = req.headers;
 
   if (!authorization) {
-    return res.status(403).send({ message: 'Requiere token' });
+    return { status: false, message: 'Requiere token' };
   }
 
   // Remove double and single quotes from the token

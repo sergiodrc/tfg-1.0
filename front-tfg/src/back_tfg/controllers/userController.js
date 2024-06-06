@@ -3,6 +3,8 @@ let userService = require("../service/userService");
 let user = require('../models/user')
 let auth = require('../middlewares/authenticator')
 
+var path = require('path');
+
 async function createUser(req, res) {
   console.log(req.body);
   var status = await userService.createUserDB(req.body);
@@ -16,12 +18,13 @@ async function createUser(req, res) {
 async function loginUser(req, res) {
   var result = null;
   try {
+    console.log(req)
     result = await userService.loginUserDB(req.body);
     console.log(result)
-    if (result.status) {
+    if (result) {
       res.send({ status: true, message: "a" });
     } else {
-      res.send({ status: false, message: result.msg });
+      res.send({ status: false, message: "hola"});
     }
   } catch (error) {
     console.log(error);
@@ -96,6 +99,60 @@ async function getUser(req, res) {
   }
 }
 
+async function uploadImageUser(req, res) {
+  try {
+    if(req.files) {
+      var file_path = req.files.img_usuario.path;
+      var file_split = file_path.split('\\')
+  
+      var file_name  = file_split[2]
+      var ext_split = file_name.split('\.');
+      var file_ext  = ext_split[1];
+  
+      /* if(userId != req.user.sub) {
+          return removeFilesOfUploads(res, file_path, 'La imagen del perfil solo puede ser cargada por el usuario correspondiente');
+          
+  } */
+
+    // Retrieve user details from the database
+    const result = await userService.uploadImageUserBD(req);
+
+    // Check if the user was successfully retrieved
+    if (result.status) {
+      res.send({
+        status: true,
+        message: "Image retrieved successfully",
+        data: result.data,
+      });
+    } else {
+      res.send({ status: false, message: "hola" });
+    }
+  }
+  } catch (error) {
+    console.log(error);
+    res.send({
+      status: false,
+      message: "An error occurred while retrieving the image",
+    });
+  }
+  
+}
+
+async function getImageFile(req,res) {
+    let result = null
+    console.log(req)
+    result = await userService.getImageFileBD(req.body)
+    console.log(result)
+    if(result) {
+      res.send({result: true, message:"a"})
+    } else {
+      res.send({result: false, message:"b"})
+    }
+}
+
+
+
+
 /* function uploadImageUser(req,res){
 
 
@@ -141,4 +198,4 @@ function  getImageFile(req, res) {
   });
 }; */
 
-module.exports = { createUser, loginUser, deleteUser, updateUser, getUser };
+module.exports = { createUser, loginUser, deleteUser, updateUser, getUser, uploadImageUser,getImageFile };

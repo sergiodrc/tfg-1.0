@@ -7,13 +7,16 @@ const router = express.Router()
 var md_auth = require('../middlewares/authenticator');
 
 var multipart = require('connect-multiparty');
-var md_upload = multipart({uploadDir: './uploads/users'});
+var md_upload_users = multipart({uploadDir: './uploads/users'});
+
 
 router.route('/user/login').post(userController.loginUser)
 router.route('/user/register').post(userController.createUser)
 router.route('/user/deleteUser').delete(userController.deleteUser)
 router.route('/user/updateUser').patch(userController.updateUser)
 router.route('/userDetails').get(userController.getUser)
+router.route('/uploadImageUser').post(md_upload_users,userController.uploadImageUser)
+router.route('/get-image-user').get(userController.getImageFile)
 
 router.route('/message').post(messageController.saveMessage)
 router.route('/my-messages').get(messageController.getMessages)
