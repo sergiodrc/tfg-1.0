@@ -7,28 +7,28 @@ var path = require('path');
 
 async function createUser(req, res) {
   console.log(req.body);
-  var status = await userService.createUserDB(req.body);
-  if (status) {
-    res.send({ status: status.status, message: status.msg });
+  var result = await userService.createUserDB(req.body);
+  console.log('a')
+  console.log(result)
+  if (result.status) {
+    res.send({ status: true, message: result.msg });
   } else {
-    res.send({ status: status.status, message: status.msg });
+    res.send({ status: false, message: result.msg });
   }
 }
 1
 async function loginUser(req, res) {
   var result = null;
   try {
-    console.log(req)
     result = await userService.loginUserDB(req.body);
-    console.log(result)
-    if (result) {
-      res.send({ status: true, message: "a" });
+    if (result.status === true) {
+      res.send({ status: true, message: "user loged" });
     } else {
-      res.send({ status: false, message: "hola"});
+      res.send({ status: false, message: "user does not exist"});
     }
   } catch (error) {
     console.log(error);
-    res.send({ status: false, message: "c" });
+    res.send({ status: false, message: "bad login user" });
   }
 }
 

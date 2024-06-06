@@ -54,14 +54,16 @@ export class LoginComponent implements OnInit {
   
     try {
       // Realizar la solicitud POST a la API y obtener el primer valor emitido
-      const response = await firstValueFrom(this.http.post('http://localhost:9002/user/register', userData));
-      // Manejar la respuesta exitosa de la API
-      console.log('Respuesta exitosa:', response);
-
+      const response: any = await firstValueFrom(this.http.post('http://localhost:9002/user/register', userData));
+      if(response.status) {
+        console.log('Respuesta exitosa:', response);
       console.log("esto se envia", userData)
       this.isRegistred=true;
       // Redirigir a la página de inicio después del registro exitoso
       this.router.navigate(['/home']);
+      }
+      // Manejar la respuesta exitosa de la API
+      
     } catch (error) {
       // Manejar errores de la solicitud
       console.error('Error al registrar usuario:', error);
@@ -78,11 +80,11 @@ async loginUser() {
   };
 
   localStorage.setItem('correo', correo);
-
   try {
     const response: any = await firstValueFrom(this.http.post('http://localhost:9002/user/login', userData));
     // console.log('Respuesta del servidor:', response);
-    console.log('Respuesta :', response.status);
+    console.log('userData: ',userData)
+    console.log('Respuesta :', response);
 
     if (response.status) {
       console.log('Usuario logeado correctamente');

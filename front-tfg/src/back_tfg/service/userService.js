@@ -12,12 +12,16 @@ var path = require("path")
 
   //este metodo inserta ya
 async function createUserDB(userDetails) {
-
+    console.log(userDetails)
     try {
       // console.log("etalles usaasd", userDetails);
         // Check if the email is already in use
-        const existingUser = await userModel.findOne({ email_usuario: userDetails.email_usuario });
-        if (existingUser) {
+        const result = await userModel.findOne({
+          email_usuario: userDetails.correo
+        });
+        console.log('b')
+        console.log(result)
+        if (result) {
             return { status: false, msg: "Email already in use" };
         } else {
             // Create a new user model instance
