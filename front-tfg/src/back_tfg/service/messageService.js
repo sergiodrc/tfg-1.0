@@ -16,7 +16,8 @@ async function saveMessageBD(messageDetails) {
         messageModelData.emitter = messageDetails.emitter;
         messageModelData.receiver = messageDetails.receiver;
         messageModelData.texto_mensaje = messageDetails.texto_mensaje;
-        messageModelData.fecha_creacion_mensaje = moment().unix().toString();
+        var datetime = new Date();
+        messageModelData.fecha_creacion_mensaje = datetime.toISOString().slice(0,10);
         messageModelData.viewed = 'false';
 
         let result = await messageModelData.save();
