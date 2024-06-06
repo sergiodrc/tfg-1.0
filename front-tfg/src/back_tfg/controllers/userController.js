@@ -14,7 +14,7 @@ async function createUser(req, res) {
     res.send({ status: status.status, message: status.msg });
   }
 }
-
+1
 async function loginUser(req, res) {
   var result = null;
   try {
@@ -53,26 +53,36 @@ async function deleteUser(req, res) {
   }
 }
 
+
+
 async function updateUser(req, res) {
   let result = null;
-  let decodedToken = await auth.ensureAuth(req)
-  console.log(decodedToken)
+  let decodedToken = await auth.ensureAuth(req);
+  console.log(decodedToken);
+  
   if (decodedToken === null) {
     res.send({ status: false, message: "z" });
   } else {
     try {
-      result = await userService.updateUserBD(req.body,decodedToken);
+      // Obtener el correo electrónico del usuario a actualizar
+      const userEmail = req.params.email; // Suponiendo que el correo electrónico del usuario se pasa como un parámetro en la URL
+      
+      // Llamar al servicio para actualizar el usuario en la base de datos
+      result = await userService.updateUserBD(userEmail, req.body, decodedToken);
+      
       if (result.status) {
-        res.send({ status: true, message: "a" });
+        res.send({ status: true, message: "actualizacion exitosa" });
       } else {
-        res.send({ status: false, message: "b" });
+        res.send({ status: false, message: "actualizacion fallida" });
       }
     } catch (err) {
       console.log(err);
       res.send({ status: false, message: "error al actualizar el usuario" });
     }
-  } 
   }
+}
+
+
 
 
 async function getUser(req, res) {

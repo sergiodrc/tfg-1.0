@@ -21,6 +21,15 @@
     </div>
     <div class="col-md-8 nombreSeccion">Bandeja de mensajes</div>
   </div>
+
+  <div class="row w-100 mt-4" style="justify-content: flex-end;padding-left: 10rem;">
+    <button
+      mat-raised-button
+     class="sendMesage"
+      color="primary"
+      [textContent]="'Nuevo mensaje'"
+    ></button>
+  </div>
   <div class="row w-100 mt-4" style="justify-content: center">
     <div
       class="col-md-10 col-xs-12"
@@ -62,7 +71,6 @@
             (click)="openDeleteModal(deleteModal)"
             class="fa-solid fa-trash btnDelete"
             color="primary"
-            
             [textContent]="'Eliminar'"
           ></button>
           <button
@@ -71,7 +79,6 @@
             class="fa-solid fa-reply"
             (click)="openReplyModal(replyMod)"
           >
-           
             <span>Responder</span>
           </button>
         </div>
@@ -171,9 +178,10 @@ crear booleano y cambiar el valor en el .then  -->
             mat-flat-button
             color="primary"
             [textContent]="'Enviar mensaje'"
-            [disabled]=!messageForm.valid
-            
-            matTooltip="{{ !messageForm.valid ? 'Debe completar todos los campos' : '' }} "
+            [disabled]="!messageForm.valid"
+            matTooltip="{{
+              !messageForm.valid ? 'Debe completar todos los campos' : ''
+            }} "
             matTooltipPosition="below"
             (click)="openConfirmReplyMod(confirmReplyMod)"
           ></button>
@@ -264,7 +272,7 @@ crear booleano y cambiar el valor en el .then  -->
       src="../../assets/img/error-process.jpg"
       style="width: 9rem; height: 9rem"
     /> -->
-    <img src="../../assets/img/success.jpg" style="width: 9rem; height: 9rem; ">
+    <img src="../../assets/img/success.jpg" style="width: 9rem; height: 9rem" />
     <div class="row">
       <!-- <div
         class="col-md-12"
@@ -277,7 +285,7 @@ crear booleano y cambiar el valor en el .then  -->
       >
         Error al enviar el mensaje
       </div> -->
-      <div class="col-md-12" style="display: flex; align-items: center;">
+      <div class="col-md-12" style="display: flex; align-items: center">
         Mensaje enviado correctamente
       </div>
     </div>

@@ -61,14 +61,14 @@
       
           <form [formGroup]="formLogin" *ngIf="isRegistred">
             <div class="form-group">
-              <label for="nickname" style="font-weight: 700; padding:0.1rem 0.5rem">Nombre de usuario</label>
-              <input type="text" id="nickname" class="form-control" formControlName="nickname">
+              <label for="correo" style="font-weight: 700; padding:0.1rem 0.5rem">Nombre de usuario</label>
+              <input type="email" id="correo" class="form-control" formControlName="correo">
             </div>
             <div class="form-group">
               <label for="password" style="font-weight: 700; padding:0.1rem 0.5rem">Password</label>
               <input type="password" id="password" class="form-control" formControlName="password">
             </div>
-            <button type="submit" routerLink="/home" class="btn btn-primary mt-3 btn-create-user">Iniciar sesión</button>
+            <button type="submit" class="btn btn-primary mt-3 btn-create-user" (click)="loginUser()" [disabled]="!formLogin.valid">Iniciar sesión</button>
         
             <p style="margin-top: 2rem; text-align: center;"> ¿No tienes una cuenta?<br>
               Haz clic <span (click)="isRegistred=false" style="cursor: pointer; color:#131a29; font-weight: 700;">AQUÍ</span> para registrarte</p>

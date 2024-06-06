@@ -25,8 +25,8 @@ export class LoginComponent implements OnInit {
       correo: ['', [Validators.required, Validators.email]],
     });
     this.formLogin = this.fb.group({
-      nickname: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      correo: ['', Validators.required],
+      password: ['', [Validators.required]]
     });
 
 
@@ -34,7 +34,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {}
- 
   async registerUser(){
     var nombre = this.formRegister.get('nombre')?.value;
     var apellido = this.formRegister.get('apellido')?.value;
@@ -50,14 +49,17 @@ export class LoginComponent implements OnInit {
       correo: correo
     };
 
+    // Guardar el correo electrónico en el localStorage
+    localStorage.setItem('correo', correo);
   
     try {
       // Realizar la solicitud POST a la API y obtener el primer valor emitido
-      const response = await firstValueFrom(this.http.post('http://localhost:9002/api/user/register', userData));
+      const response = await firstValueFrom(this.http.post('http://localhost:9002/user/register', userData));
       // Manejar la respuesta exitosa de la API
       console.log('Respuesta exitosa:', response);
 
       console.log("esto se envia", userData)
+      this.isRegistred=true;
       // Redirigir a la página de inicio después del registro exitoso
       this.router.navigate(['/home']);
     } catch (error) {
@@ -66,4 +68,32 @@ export class LoginComponent implements OnInit {
       // Aquí puedes mostrar un mensaje de error al usuario u otra acción de manejo de errores
     }
 }
+async loginUser() {
+  const password = this.formLogin.get('password')?.value;
+  const correo = this.formLogin.get('correo')?.value;
+
+  const userData = {
+    correo: correo,
+    password: password
+  };
+
+  localStorage.setItem('correo', correo);
+
+  try {
+    const response: any = await firstValueFrom(this.http.post('http://localhost:9002/user/login', userData));
+    // console.log('Respuesta del servidor:', response);
+    console.log('Respuesta :', response.status);
+
+    if (response.status) {
+      console.log('Usuario logeado correctamente');
+      this.isRegistred = true;
+      this.router.navigate(['/home']);
+    } else {
+      console.error('Error al logear usuario:', response.msg);
+    }
+  } catch (error) {
+    console.error('Error al logear usuario:', error);
+  }
 }
+}
+

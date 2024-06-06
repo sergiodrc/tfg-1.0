@@ -1,21 +1,20 @@
 const express = require('express')
 const mongoose = require('mongoose');
 const routes = require('./routes/routes')
+const cors = require('cors');
 
-const app = express()
+const app = express();
 
-
-
-
+// Configura CORS para permitir solicitudes desde tu cliente
+app.use(cors());
 
 async function connect() {
   try {
     await mongoose.connect("mongodb://localhost:27017/hammerland")
-    console.log('connected')
+    console.log('Conectado a la base de datos')
   } catch {
-    console.log('error')
+    console.log('Error al conentar a la base de datos')
   }
-  
   
 }
 connect()
@@ -25,7 +24,7 @@ app.use(routes);
 app.listen(9002,function check(err)
 {
     if(err)
-    console.log("error")
+    console.log("error con express")
     else
-    console.log("started")
+    console.log("Express esta en funcionamiento ")
 });

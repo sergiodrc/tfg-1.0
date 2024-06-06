@@ -44,6 +44,10 @@ mat-icon {
   margin-right: 1rem;
 }
 
+sendMesage{
+  box-shadow: none;
+}
+
 .mat-raised-button {
   padding: 0.2rem 1rem;
 

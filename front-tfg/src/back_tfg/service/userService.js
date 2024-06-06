@@ -9,8 +9,12 @@ var jwt = require('./jwt');
 
 var path = require("path")
 
+
+  //este metodo inserta ya
 async function createUserDB(userDetails) {
+
     try {
+      // console.log("etalles usaasd", userDetails);
         // Check if the email is already in use
         const existingUser = await userModel.findOne({ email_usuario: userDetails.email_usuario });
         if (existingUser) {
@@ -18,15 +22,15 @@ async function createUserDB(userDetails) {
         } else {
             // Create a new user model instance
         const userModelData = new userModel({
-            nombre_usuario: userDetails.nombre_usuario,
-            apellido_usuario: userDetails.apellido_usuario,
-            email_usuario: userDetails.email_usuario,
-            direccion_usuario: userDetails.direccion_usuario,
-            nickname_usuario: userDetails.nickname_usuario,
-            edad_usuario: userDetails.edad_usuario,
-            password_usuario: encryptor.encrypt(userDetails.password_usuario), // Encrypt the password
+            nombre_usuario: userDetails.nombre,
+            apellido_usuario: userDetails.apellido,
+            email_usuario: userDetails.correo,
+            direccion_usuario: 'zaragoza',
+            nickname_usuario: userDetails.nickname,
+           edad_usuario:'18',
+             password_usuario:encryptor.encrypt(userDetails.password),
+             // Encrypt the password
         });
-
         // Save the new user to the database
         const result = await userModelData.save();
         return { status: true, msg: "User registered successfully", result: result };
@@ -39,58 +43,90 @@ async function createUserDB(userDetails) {
     }
 
 }
+// para esto no deberia comparar usuario y contraseña???
 
+//desde front medio ok hay que cambiar el then
 async function loginUserDB(userDetails) {
   try {
-    console.log(userDetails)
+    console.log("User details received: ", userDetails);
     const result = await userModel.findOne({
-      email_usuario: userDetails.email_usuario,
+      email_usuario: userDetails.correo
     });
-    console.log(result)
-    if (result !== undefined && result !== null) {
-      const decrypted = encryptor.decrypt(result.password_usuario);
-      if (decrypted === userDetails.password_usuario) {
-         const token = jwt.createToken(result); 
-        return { status: true, msg: "User Validated Successfully",token:token};
+
+    console.log("Database query result: ", result);
+
+    if (result) {
+      const decryptedPassword = encryptor.decrypt(result.password_usuario);
+      if (decryptedPassword === userDetails.password) {
+        const token = jwt.createToken( result , 'root'); // Asegúrate de usar una clave secreta segura
+        return { status: true, msg: "Usuario logeado correctamente", token: token };
       } else {
-        throw { status: false, msg: "User Validation Failed" };
+        return { status: false, msg: "Contraseña incorrecta" };
       }
     } else {
-      throw { status: false, msg: "User Error Details" };
+      return { status: false, msg: "Usuario no encontrado" };
     }
   } catch (error) {
-    console.log(error);
-    /* throw { status: false, msg: "Invalid Data" }; */
+    console.error("Error during login: ", error);
+    return { status: false, msg: "Error en el servidor" };
   }
 }
 
-async function updateUserBD(userDetails, tokenPayload) {
+
+// async function loginUserDB(userDetails) {
+//   try {
+//     console.log(userDetails)
+//     const result = await userModel.findOne({
+//       email_usuario: userDetails.correo,
+//       password_usuario: userDetails.password
+//     });
+//     console.log("result-> ",result)
+//     console.log("a");
+//     if (result !== undefined && result !== null) {
+//       const decrypted = result.password;
+//       if (decrypted === userDetails.password) {
+//          const token = jwt.createToken(result); 
+//         return { status: true, msg: "Usuario logeado correctamente",token:token};
+//       } else {
+//         throw { status: false, msg: "Login fallido" };
+//       }
+//     } else {
+//       throw { status: false, msg: "User Error Details" };
+//     }
+//   } catch (error) {
+//     console.log(error);
+//     /* throw { status: false, msg: "Invalid Data" }; */
+//   }
+// }
+
+async function updateUserBD(userEmail, userDetails, tokenPayload) {
   try {
     // Check if the user's email from the token matches the email being updated
-    console.log(userDetails)
-    console.log(tokenPayload)
-    if (userDetails.email_usuario !== tokenPayload.email) {
-      return { status: false, msg: "User email does not match token data" };
-    } else {
-    let result = await userModel.updateOne(
-      { email_usuario: userDetails.email_usuario },
-      {
-        nombre_usuario: userDetails.nombre_usuario,
-        apellido_usuario: userDetails.apellido_usuario,
-        nickname_usuario: userDetails.nickname_usuario,
-        email_usuario: userDetails.email_usuario,
-      }
-    );
-
-    return { status: true, msg: "User updated successfully" };
-    }
-
+    console.log(userDetails);
+    console.log(tokenPayload);
     
+    if (userEmail !== tokenPayload.email) {
+      return { status: false, msg: "El correo electrónico del usuario no coincide con los datos del token" };
+    } else {
+      let result = await userModel.updateOne(
+        { email_usuario: userEmail }, // Buscar el usuario por su correo electrónico
+        {
+          nombre_usuario: userDetails.nombre_usuario,
+          apellido_usuario: userDetails.apellido_usuario,
+          nickname_usuario: userDetails.nickname_usuario,
+          email_usuario: userDetails.email_usuario,
+        }
+      );
+
+      return { status: true, msg: "Usuario actualizado exitosamente" };
+    }
   } catch (err) {
     console.log(err);
-    throw { status: false, msg: "User update failed" };
+    throw { status: false, msg: "Error al actualizar el usuario" };
   }
 }
+
+
 
 async function getUserBD(userDetails) {
     try {
