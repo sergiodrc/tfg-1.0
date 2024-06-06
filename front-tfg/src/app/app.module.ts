@@ -31,6 +31,7 @@ import { MarketComponent } from './components/market/market.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { UserComponent } from './components/user/user.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -63,9 +64,10 @@ import { UserComponent } from './components/user/user.component';
     MatDialogModule,
     MatIconModule,
     ReactiveFormsModule,
+    HttpClientModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSnackBarModule,HttpClientModule
+    MatSnackBarModule,
    
   ],
   providers: [
