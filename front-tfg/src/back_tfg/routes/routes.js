@@ -2,6 +2,8 @@ var express = require('express')
 
 var userController = require('../controllers/userController')
 var messageController = require("../controllers/messageController")
+var matchController = require("../controllers/matchController")
+var publicationController = require("../controllers/publicationController")
 const router = express.Router()
 
 var md_auth = require('../middlewares/authenticator');
@@ -23,5 +25,15 @@ router.route('/my-messages').get(messageController.getMessages)
 router.route('/emmitedMessages').get(messageController.getEmmitMessages)
 router.route('/unviewed-messages').get(messageController.getUnviewedMessages)
 router.route('/set-viewed-messages').get(messageController.updateMessagesToViewed)
+
+router.route('/matches/createMatch').post(matchController.createMatch)
+router.route('/matches/deleteMatch').delete(matchController.deleteMatch)
+router.route('/matches/joinMatch').patch(matchController.joinMatch)
+router.route('/matches/leaveMatch').patch(matchController.leaveMatch)
+router.route('/matches/allMatches').get(matchController.getAllMatches)
+router.route('/matches/updateMatch').patch(matchController.updateMatch)
+router.route('/matches/myMatches').get(matchController.getMyMatches)
+
+router.route('/publications/createPublication').post(publicationController.createPublication)
 
 module.exports = router;

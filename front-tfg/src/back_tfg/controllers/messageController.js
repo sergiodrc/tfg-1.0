@@ -19,12 +19,12 @@ async function saveMessage(req, res) {
 }
 
 async function getMessages(req, res) {
-    const { receiver } = req.body;
+    var { receiver } = req.body;
     if (!receiver) {
         return res.send({ status: false, message: 'Receiver ID is required' });
     }
     try {
-        const result = await messageService.getReceivedMessagesBD(receiver);
+        var result = await messageService.getReceivedMessagesBD(receiver);
         if (result.status) {
             return res.send({ status: true, messages: result.messages });
         } else {
@@ -37,12 +37,12 @@ async function getMessages(req, res) {
 }
 
 async function getEmmitMessages(req, res) {
-    const { emitter } = req.body;
+    var { emitter } = req.body;
     if (!emitter) {
         return res.send({ status: false, message: 'emmiter ID is required' });
     }
     try {
-        const result = await messageService.getEmmitMessagesBD(emitter);
+        var result = await messageService.getEmmitMessagesBD(emitter);
         if (result.status) {
             return res.send({ status: true, messages: result.messages });
         } else {
@@ -55,12 +55,12 @@ async function getEmmitMessages(req, res) {
 }
 
 async function getUnviewedMessages(req,res) {
-    const { receiver } = req.body;
+    var { receiver } = req.body;
     if (!receiver) {
         return res.send({ status: false, message: 'Receiver ID is required' });
     }
     try {
-        const result = await messageService.getUnviewedMessagesBD(receiver);
+        var result = await messageService.getUnviewedMessagesBD(receiver);
         if (result.status) {
             return res.send({ status: true, unviewed: result.count });
         } else {
@@ -73,12 +73,12 @@ async function getUnviewedMessages(req,res) {
 }
 
 async function updateMessagesToViewed(req, res) {
-    const { receiver } = req.body;
+    var { receiver } = req.body;
     if (!receiver) {
         return res.send({ status: false, message: 'Receiver ID is required' });
     }
     try {
-        const result = await messageService.markMessagesAsViewedBD(receiver);
+        var result = await messageService.markMessagesAsViewedBD(receiver);
         if (result.status) {
             return res.status(200).send({ status: true, updatedCount: result.updatedCount });
         } else {

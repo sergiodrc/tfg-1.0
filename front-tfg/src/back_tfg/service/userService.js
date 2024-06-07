@@ -16,27 +16,32 @@ async function createUserDB(userDetails) {
     try {
       // console.log("etalles usaasd", userDetails);
         // Check if the email is already in use
-        const result = await userModel.findOne({
+        var resultUser = await userModel.findOne({
           email_usuario: userDetails.correo
         });
-        console.log('b')
-        console.log(result)
-        if (result) {
+        var resultNickName = await userModel.findOne({
+          nickname_usuario:userDetails.nickname
+        })
+        console.log(resultUser)
+        if (resultUser) {
             return { status: false, msg: "Email already in use" };
-        } else {
+        } else if (resultNickName){
+            return { status: false, msg: "Nickname already in use" };
+        }else {
             // Create a new user model instance
-        const userModelData = new userModel({
-            nombre_usuario: userDetails.nombre,
-            apellido_usuario: userDetails.apellido,
-            email_usuario: userDetails.correo,
-            direccion_usuario: 'zaragoza',
-            nickname_usuario: userDetails.nickname,
-           edad_usuario:'18',
-             password_usuario:encryptor.encrypt(userDetails.password),
+            var userModelData = new userModel({
+              nombre_usuario: userDetails.nombre,
+              apellido_usuario: userDetails.apellido,
+              email_usuario: userDetails.correo,
+              direccion_usuario: 'zaragoza',
+              nickname_usuario: userDetails.nickname,
+              edad_usuario:'18',
+              password_usuario:encryptor.encrypt(userDetails.password),
+              img_usuario: "r3KEsoR8M3RTGKpEXktdp5ZD.jpg"
              // Encrypt the password
         });
         // Save the new user to the database
-        const result = await userModelData.save();
+        var result = await userModelData.save();
         return { status: true, msg: "User registered successfully", result: result };
         }
 
@@ -53,16 +58,17 @@ async function createUserDB(userDetails) {
 async function loginUserDB(userDetails) {
   try {
     console.log("User details received: ", userDetails);
-    const result = await userModel.findOne({
+    var result = null;
+    result = await userModel.findOne({
       email_usuario: userDetails.correo
     });
 
     console.log("Database query result: ", result);
 
     if (result) {
-      const decryptedPassword = encryptor.decrypt(result.password_usuario);
+      var decryptedPassword = encryptor.decrypt(result.password_usuario);
       if (decryptedPassword === userDetails.password) {
-        const token = jwt.createToken( result , 'root'); // Asegúrate de usar una clave secreta segura
+        var token = jwt.createToken( result , 'root'); // Asegúrate de usar una clave secreta segura
         return { status: true, msg: "Usuario logeado correctamente", token: token };
       } else {
         return { status: false, msg: "Contraseña incorrecta" };
@@ -171,15 +177,15 @@ async function deleteUserBD(userDetails, tokenPayload) {
 
 async function uploadImageUserBD(userDetails) {
   try {
-      const file_path = userDetails.files.img_usuario.path;
-      const file_name = path.basename(file_path);
-      const file_ext = path.extname(file_name).slice(1);
+    var file_path = userDetails.files.img_usuario.path;
+    var file_name = path.basename(file_path);
+    var file_ext = path.extname(file_name).slice(1);
 
       if (!['png', 'jpg', 'jpeg', 'gif'].includes(file_ext.toLowerCase())) {
           await removeFilesOfUploads(file_path);
           return {status: false, message: 'Extensión no válida' };
       }
-      const userUpdated = await userModel.updateOne(
+      var userUpdated = await userModel.updateOne(
           userDetails.email_usuario,
           { img_usuario: file_name },
           { new: true }
@@ -206,12 +212,13 @@ async function removeFilesOfUploads(file_path) {
 
 async function getImageFileBD(userDetails) {
   try {
-    const imageFileName = userDetails.img_usuario;
-    const imagePath = path.join(__dirname, '..', '..', 'uploads', 'users', imageFileName);
+    var imageFileName = userDetails.img_usuario;
+    var imagePath = path.join('./', 'uploads', 'users', imageFileName);
+    console.log('este es el imagePath ->    ',imagePath)
 
-    const exists = await fs.access(imagePath)
+    var exists = await fs.access(imagePath)
         .then(() => true)
-        .catch(() => false);
+        .catch((err) => console.log('este es el error ->    ',err));
 
     if (exists) {
         return { status: true, filePath: imagePath };

@@ -4,18 +4,12 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 //Modelo de la tabla usaurios
-var UserSchema = Schema({
+var MatchSchema = Schema({
   fecha_partida: String,
   puntuacion_maxima_partida: Number,
   puntuacion_minima_partida: Number,
-  creador_partida: {
-    type: Schema.ObjectId,
-    ref: "users",
-  },
-  contrincante_partida: {
-    type: Schema.ObjectId,
-    ref: "users",
-  },
+  creador_partida: String,
+  contrincante_partida: String,
 });
 
 module.exports = mongoose.model("matches", MatchSchema);

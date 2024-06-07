@@ -65,7 +65,7 @@ async function getEmmitMessagesBD(messageDetails) {
 async function getUnviewedMessagesBD(messageDetails) {
 
     try {
-        const unviewedMessagesCount = await messageModel.countDocuments({
+        var unviewedMessagesCount = await messageModel.countDocuments({
             receiver: new mongoose.Types.ObjectId(messageDetails),
             viewed: 'false'
         });
@@ -78,7 +78,7 @@ async function getUnviewedMessagesBD(messageDetails) {
 
 async function markMessagesAsViewedBD(messageDetails) {
     try {
-        const result = await messageModel.updateMany(
+        var result = await messageModel.updateMany(
             { receiver: new mongoose.Types.ObjectId(messageDetails), viewed: 'false' },
             { $set: { viewed: 'true' } }
         );

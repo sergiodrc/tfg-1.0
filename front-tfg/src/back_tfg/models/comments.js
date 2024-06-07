@@ -9,9 +9,8 @@ var commnetsSchema = Schema({
         type:Schema.ObjectId, ref:'publications'
     },
     //receptor
-    user: {
-        type:Schema.ObjectId, ref:'users'
-    },
+    user: String,
+    fecha_comentario: String
 })
 
-module.exports=mongoose.model('comments',CommentSchema)
+module.exports=mongoose.model('comments',commnetsSchema)

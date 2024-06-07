@@ -42,9 +42,9 @@ async function deleteUser(req, res) {
     try {
       result = await userService.deleteUserBD(req.body,decodedToken);
       if (result.status) {
-        res.send({ status: true, message: "a" });
+        res.send({ status: true, message: "Usuario Borrado" });
       } else {
-        res.send({ status: false, message: "b" });
+        res.send({ status: false, message: "Problemas al borrar el usuario" });
       }
     } catch (err) {
       console.log(err);
@@ -61,11 +61,11 @@ async function updateUser(req, res) {
   console.log(decodedToken);
   
   if (decodedToken === null) {
-    res.send({ status: false, message: "z" });
+    res.send({ status: false, message: "missing jwt token" });
   } else {
     try {
       // Obtener el correo electrónico del usuario a actualizar
-      const userEmail = req.params.email; // Suponiendo que el correo electrónico del usuario se pasa como un parámetro en la URL
+      var userEmail = req.params.email; // Suponiendo que el correo electrónico del usuario se pasa como un parámetro en la URL
       
       // Llamar al servicio para actualizar el usuario en la base de datos
       result = await userService.updateUserBD(userEmail, req.body, decodedToken);
@@ -88,7 +88,7 @@ async function updateUser(req, res) {
 async function getUser(req, res) {
   try {
     // Retrieve user details from the database
-    const result = await userService.getUserBD(req.body);
+    var result = await userService.getUserBD(req.body);
 
     // Check if the user was successfully retrieved
     if (result.status) {
@@ -125,7 +125,7 @@ async function uploadImageUser(req, res) {
   } */
 
     // Retrieve user details from the database
-    const result = await userService.uploadImageUserBD(req);
+    var result = await userService.uploadImageUserBD(req);
 
     // Check if the user was successfully retrieved
     if (result.status) {
@@ -150,7 +150,6 @@ async function uploadImageUser(req, res) {
 
 async function getImageFile(req,res) {
     let result = null
-    console.log(req)
     result = await userService.getImageFileBD(req.body)
     console.log(result)
     if(result) {
@@ -160,52 +159,5 @@ async function getImageFile(req,res) {
     }
 }
 
-
-
-
-/* function uploadImageUser(req,res){
-
-
-if(req.files) {
-  var file_path = req.files.image.path;
-  var file_split = file_path.split('\\')
-
-  var file_name  = file_split[2]
-  var ext_split = file_name.split('\.');
-  var file_ext  = ext_split[1];
-  if(file_ext == 'png' || file_ext == 'jpg' || file_ext == 'jpeg' || file_ext == 'gif') {
-      User.findByIdAndUpdate(userId, {imagen_usuario: file_name}, {new:true}, (err, userUpdated) =>{
-          if(err) return res.status(500).send({message:"Error al actualizar la imagen"});
-
-          if (!userUpdated) return res.status(404).send({message:"No se ha podido encontrar el usuario"});
-  
-          return  res.status(200).send({user: userUpdated});
-      }); 
-  } else {
-      return removeFilesOfUploads(res, file_path, 'Extension no valida');
-  }
-} else {
-  res.status(200).send({message: "No ha enviado ninguna imagen"});
-}
-};
-
-function removeFilesOfUploads(res, file_path, message) {
-  fs.unlink(file_path, (err) => {
-      if(err) return res.status(200).send({message: message})
-   });
-};
-
-function  getImageFile(req, res) {
-  var image_file = req.params.imageFile;
-  var path_file = './uploads/images/' + req.params.image_file;
-
-  fs.exists(image_file, (exist) => {
-       if(exist) {
-          res.sendFile(image_file);
-      } else {
-          return ({status: false, message: "La imagen no existe"});
-      }
-  });
-}; */
 
 module.exports = { createUser, loginUser, deleteUser, updateUser, getUser, uploadImageUser,getImageFile };
