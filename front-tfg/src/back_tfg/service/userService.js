@@ -127,8 +127,12 @@ async function updateUserBD(userEmail, userDetails, tokenPayload) {
           email_usuario: userDetails.email_usuario,
         }
       );
-
-      return { status: true, msg: "Usuario actualizado exitosamente" };
+      if (result) {
+        return { status: true, msg: "Usuario actualizado exitosamente" };
+      } else {
+        return {status: false, msg: "No se pudo actualizar el usuario"}
+      }
+      
     }
   } catch (err) {
     console.log(err);
