@@ -6,7 +6,7 @@ var matchController = require("../controllers/matchController")
 var publicationController = require("../controllers/publicationController")
 const router = express.Router()
 
-var md_auth = require('../middlewares/authenticator');
+// var md_auth = require('../middlewares/authenticator');
 
 var multipart = require('connect-multiparty');
 var md_upload_users = multipart({uploadDir: './uploads/users'});

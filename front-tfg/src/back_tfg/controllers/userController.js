@@ -32,24 +32,24 @@ async function loginUser(req, res) {
   }
 }
 
+
+
 async function deleteUser(req, res) {
-  var result = null;
-  let decodedToken = await auth.ensureAuth(req)
-  console.log(decodedToken)
-  if (decodedToken === null) {
-    res.send({ status: false, message: "z" });
-  } else {
-    try {
-      result = await userService.deleteUserBD(req.body,decodedToken);
-      if (result.status) {
-        res.send({ status: true, message: "Usuario Borrado" });
-      } else {
-        res.send({ status: false, message: "Problemas al borrar el usuario" });
-      }
-    } catch (err) {
-      console.log(err);
-      res.send({ status: false, message: "error al borrar el usuario" });
+  console.log('deleteUser endpoint reached');  // Mensaje de depuración
+  console.log('Request body:', req.body);  // Verificar el cuerpo de la solicitud
+
+  try {
+    const result = await userService.deleteUserBD(req.body);
+    console.log('Result from deleteUserBD:', result);  // Mensaje de depuración
+
+    if (result.status) {
+      res.send({ status: true, message: "Usuario Borrado" });
+    } else {
+      res.send({ status: false, message: "Problemas al borrar el usuario" });
     }
+  } catch (err) {
+    console.log('Error:', err);  // Mensaje de depuración
+    res.send({ status: false, message: "Error al borrar el usuario" });
   }
 }
 

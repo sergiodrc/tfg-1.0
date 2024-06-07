@@ -37,14 +37,13 @@ mat-icon {
 }
 
 
-.fa-reply::before {
-  margin-right: 1rem;
-}
-.fa-trash::before {
+.fa-reply::before,
+.fa-trash::before,
+.fa-envelope::before {
   margin-right: 1rem;
 }
 
-sendMesage{
+.sendMesage{
   box-shadow: none;
 }
 

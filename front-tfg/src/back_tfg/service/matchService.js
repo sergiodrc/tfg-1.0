@@ -9,22 +9,26 @@ async function createMatchBD(matchDetails) {
         matchModelData.fecha_partida = matchDetails.fecha_partida;
         matchModelData.puntuacion_maxima_partida = matchDetails.puntuacion_maxima_partida;
         matchModelData.puntuacion_minima_partida = matchDetails.puntuacion_minima_partida;
-        matchModelData.creador_partida = matchDetails.nickname_usuario;
-        matchModelData.contrincante_partida = ""; //Esta seteado como campo vacio xq al principio no tiene q haber contrincante hasta que otro la acepte
+        matchModelData.creador_partida = matchDetails.creador_partida;
+        matchModelData.contrincante_partida = ""; // Esta seteado como campo vacio porque al principio no tiene que haber contrincante hasta que otro la acepte
 
-        let result = await matchModelData.save()
-        console.log(result)
+        console.log("Datos del partido antes de guardar:", matchModelData);
+        // matchModelData.creador_partida = "admin@gmail.com";
+        let result = await matchModelData.save();
+
+        console.log("Resultado de la inserción en la base de datos:", result);
 
         if (result) {
-            return { status: true, message: "partida creada" };
+            return { status: true, message: "Partida creada" };
         } else {
-            return { status: false, message: "error al crear la partida" };
+            return { status: false, message: "Error al crear la partida" };
         }
     } catch(err) {
         console.error(err);
         return { status: false, message: 'Error al guardar la partida en la base de datos' };
     }
 }
+
 
 async function deleteMatchBD(matchDetails) {
     try {
@@ -110,7 +114,7 @@ async function updateMatchBD(matchDetails) {
 async function getMyMatchesBD(matchDetails) {
     try {
         let result = await matchModel.find({
-            creador_partida: matchDetails.nickname_usuario
+            creador_partida: matchDetails.email_usuario
         })
         console.log(result)
         if(result) {

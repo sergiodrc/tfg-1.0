@@ -31,7 +31,7 @@
       </div>
       <div class="container ">
         <!-- formulario en caso de no tener cuenta -->
-        <form [formGroup]="formRegister" *ngIf="!isRegistred"  (ngSubmit)="registerUser()">
+        <form [formGroup]="formRegister" *ngIf="!isRegistred" (ngSubmit)="formRegister.valid && registerUser()">
           <div class="form-group">
             <label for="nombre" style="font-weight: 700; padding:0.1rem 0.5rem">Nombre</label>
             <input type="text" id="nombre" class="form-control" formControlName="nombre" >
@@ -52,14 +52,17 @@
             <label for="correo" style="font-weight: 700; padding:0.1rem 0.5rem">Correo</label>
             <input type="email" id="correo" class="form-control" formControlName="correo"  >
           </div>
-          <button type="submit" [disabled]="!formRegister.valid" class="btn btn-primary mt-3 btn-create-user" >Crear usuario</button>
+          <button type="submit"  class="btn btn-primary mt-3 btn-create-user"  
+          matTooltip="Debe completar todos los campos"
+          matTooltipPosition="below"
+       >Crear usuario</button> 
 
-          <p style="margin-top: 2rem; text-align: center;"> ¿Ya estás registado?<br>
+          <p  class="question"> ¿Ya estás registado?<br>
           Haz clic <span (click)="isRegistred=true" style="cursor: pointer; color:#131a29; font-weight: 700;">AQUÍ</span> para iniciar sesión</p>
         </form>
 <!-- formulario para iniciar sesion -->
       
-          <form [formGroup]="formLogin" *ngIf="isRegistred">
+          <form [formGroup]="formLogin" *ngIf="isRegistred"  (ngSubmit)="formLogin.valid && loginUser()">
             <div class="form-group">
               <label for="correo" style="font-weight: 700; padding:0.1rem 0.5rem">Nombre de usuario</label>
               <input type="email" id="correo" class="form-control" formControlName="correo">
@@ -68,7 +71,10 @@
               <label for="password" style="font-weight: 700; padding:0.1rem 0.5rem">Password</label>
               <input type="password" id="password" class="form-control" formControlName="password">
             </div>
-            <button type="submit" class="btn btn-primary mt-3 btn-create-user" (click)="loginUser()" [disabled]="!formLogin.valid">Iniciar sesión</button>
+            <button type="submit" class="btn btn-primary mt-3 btn-create-user"
+            matTooltip="Debe completar todos los campos"
+            matTooltipPosition="below"
+            (click)="loginUser()" [disabled]="!formLogin.valid">Iniciar sesión</button>
         
             <p style="margin-top: 2rem; text-align: center;"> ¿No tienes una cuenta?<br>
               Haz clic <span (click)="isRegistred=false" style="cursor: pointer; color:#131a29; font-weight: 700;">AQUÍ</span> para registrarte</p>

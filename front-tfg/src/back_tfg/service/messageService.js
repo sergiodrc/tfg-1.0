@@ -34,7 +34,7 @@ async function saveMessageBD(messageDetails) {
 
 async function getReceivedMessagesBD(messageDetails) {
     try {
-        let result = await messageModel.find({ receiver: new mongoose.Types.ObjectId(messageDetails) }).populate('emitter', 'nickname_usuario');
+        let result = await messageModel.find({ receiver: messageDetails.receiver }).populate('emitter', 'nickname_usuario');
         console.log(result);
         if (result) {
             return { status: true, messages: result };

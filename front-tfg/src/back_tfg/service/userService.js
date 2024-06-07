@@ -54,7 +54,6 @@ async function createUserDB(userDetails) {
 }
 // para esto no deberia comparar usuario y contraseña???
 
-//desde front medio ok hay que cambiar el then
 async function loginUserDB(userDetails) {
   try {
     console.log("User details received: ", userDetails);
@@ -155,25 +154,22 @@ async function getUserBD(userDetails) {
       throw { status: false, msg: "User Error Details", error: err };
     }
   }
-
-async function deleteUserBD(userDetails, tokenPayload) {
-  try {
-    if (userDetails.email_usuario !== tokenPayload.email) {
-      return { status: false, msg: "User email does not match token data" };
-    } else {
-      let result = await userModel.deleteOne({
-        email_usuario: userDetails.email_usuario
-      })
-      if(result) {
-        return { status: true, msg: "User delete successfully" };
-      } else {
-        return { status: false, msg: "Problems with user delete" };
-      }
+  async function deleteUserBD(data) {
+    console.log('deleteUserBD called with data:', data);  // Mensaje de depuración
+  
+    // Aquí debes implementar la lógica para eliminar el usuario de la base de datos
+    // Por ejemplo, si estás usando MongoDB con Mongoose:
+    try {
+      const result = await User.deleteOne({ correo: data.correo });  // Asegúrate de que el modelo User está correctamente importado
+      console.log('Result from DB operation:', result);  // Mensaje de depuración
+  
+      return { status: result.deletedCount > 0 };
+    } catch (error) {
+      console.error('Error in deleteUserBD:', error);  // Mensaje de depuración
+      return { status: false, message: error.message };
     }
-  } catch(err) {
-    return { status: false, msg: "Problems with user delete" };
   }
-}
+  
 
 async function uploadImageUserBD(userDetails) {
   try {
