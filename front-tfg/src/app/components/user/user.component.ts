@@ -59,6 +59,7 @@ export class UserComponent implements OnInit {
       const response: any = await firstValueFrom(this.http.request('delete', 'http://localhost:9002/user/deleteUser', { 
         body: userData
       }));
+      console.log("hola hola  ", userData)
       console.log('Respuesta del servidor:', response);
   
       if (response.status) {

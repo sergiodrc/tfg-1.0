@@ -41,7 +41,7 @@ async function deleteUser(req, res) {
   try {
     const result = await userService.deleteUserBD(req.body);
     console.log('Result from deleteUserBD:', result);  // Mensaje de depuración
-
+    console.log(result)
     if (result.status) {
       res.send({ status: true, message: "Usuario Borrado" });
     } else {

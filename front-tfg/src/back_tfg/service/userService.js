@@ -162,19 +162,23 @@ async function getUserBD(userDetails) {
 
 async function deleteUserBD(userDetails, tokenPayload) {
   try {
-    if (userDetails.email_usuario !== tokenPayload.email) {
+    console.log(userDetails)
+    console.log('adioss ',tokenPayload)
+    /* if (userDetails.email_usuario !== tokenPayload.correo) {
       return { status: false, msg: "User email does not match token data" };
-    } else {
+    } else { */
       let result = await userModel.deleteOne({
-        email_usuario: userDetails.email_usuario
+        email_usuario: userDetails.correo
       })
+      console.log('->   ',result)
       if(result) {
         return { status: true, msg: "User delete successfully" };
       } else {
-        return { status: false, msg: "Problems with user delete" };
+        return { status: false, msg: "Problems deleting user" };
       }
-    }
+    /*  }*/
   } catch(err) {
+    console.log(err)
     return { status: false, msg: "Problems with user delete" };
   }
 }

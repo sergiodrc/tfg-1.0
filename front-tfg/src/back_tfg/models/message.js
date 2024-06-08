@@ -16,7 +16,7 @@ var MessageSchema = Schema({
     },
     //receptor
     receiver: {
-        type: String, ref: 'users'    },
+        type: String, ref: 'users' },
 
 });
 
