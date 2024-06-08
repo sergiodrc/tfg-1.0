@@ -3,7 +3,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog'; 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { MatPaginator } from '@angular/material/paginator'; // Importa MatPaginator
 
 export interface Tournaments {
   date: string;
@@ -12,23 +13,17 @@ export interface Tournaments {
   creator: string;
 }
 
-interface MatchDetails {
-  fecha_partida: string;
-  puntuacion_maxima_partida: number;
-  puntuacion_minima_partida: number;
-  creador_partida: string;
-}
-
 @Component({
   selector: 'app-tournaments',
   templateUrl: './tournaments.component.html',
-  styleUrls: ['./tournaments.component.css'],
+  styleUrls: ['./tournaments.component.css']
 })
 export class TournamentsComponent implements OnInit {
   addGameForm: FormGroup;
   displayedColumns = ['date', 'maxScore', 'minScore', 'creator', 'actions'];
-  dataSource = new MatTableDataSource<Tournaments>(gameData);
+  dataSource = new MatTableDataSource<Tournaments>([]);
   @ViewChild(MatSort) sort: MatSort | undefined;
+  @ViewChild(MatPaginator) paginator: MatPaginator | undefined; // Inyecta MatPaginator
   @ViewChild('addGameModal') addGameModal = {} as TemplateRef<string>;
   detailData: any;
   dialogRef: any;
@@ -46,17 +41,22 @@ export class TournamentsComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.showMatches();
+  }
 
   ngAfterViewInit(): void {
     if (this.sort) {
       this.dataSource.sort = this.sort;
     }
+    if (this.paginator) { // Inicializa el paginador después de la vista
+      this.dataSource.paginator = this.paginator;
+    }
   }
 
   onSubmit() {
     if (this.addGameForm.valid) {
-      const matchDetails: MatchDetails = {
+      const matchDetails = {
         fecha_partida: this.addGameForm.value.date,
         puntuacion_maxima_partida: this.addGameForm.value.puntMax,
         puntuacion_minima_partida: this.addGameForm.value.puntMin,
@@ -77,6 +77,19 @@ export class TournamentsComponent implements OnInit {
     }
   }
 
+  showMatches() {
+    this.http.get<any>('http://localhost:9002/matches/allMatches')
+      .subscribe(
+        (response) => {
+          console.log('Partidas obtenidas:', response);
+          this.dataSource.data = response.matches;
+        },
+        (error) => {
+          console.error('Error al obtener las partidas:', error);
+        }
+      );
+  }
+
   openAddGameModal(element: any) {
     this.detailData = element;
 
@@ -90,25 +103,3 @@ export class TournamentsComponent implements OnInit {
     this.dialogRef.close();
   }
 }
-
-// objeto de pruebas para la tabla
-const gameData = [
-  {
-    date: '22/05/2024',
-    maxScore: 9005,
-    minScore: 6500,
-    creator: 'juanpe',
-  },
-  {
-    date: '15/07/2024',
-    maxScore: 2000,
-    minScore: 1500,
-    creator: 'minxu',
-  },
-  {
-    date: '02/06/2024',
-    maxScore: 12000,
-    minScore: 8000,
-    creator: 'pacopope',
-  },
-];

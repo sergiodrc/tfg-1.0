@@ -34,13 +34,14 @@ async function deleteMatchBD(matchDetails) {
     try {
         let result = await matchModel.deleteOne({
             _id: matchDetails._id
-        })
-        if(result) {
-            return { status: true, msg: "Match delete successfully" };
-          } else {
-            return { status: false, msg: "Problems with Match delete" };
-          }
+        });
+        if (result.deletedCount > 0) {
+            return { status: true, msg: "Match deleted successfully" };
+        } else {
+            return { status: false, msg: "Match not found" };
+        }
     } catch (err) {
+        console.error(err);
         return { status: false, msg: "Problems with Match delete" };
     }
 }
@@ -70,7 +71,21 @@ async function leaveMatchBD(matchDetails) {
         if (result) {
             return { status: true, message: "Se ha salido a la partida" };
         } else {
-            return { status: false, message: "No Se ha salido a la partida" };
+            return { status: false, message: "No Se ha salido a la partida" };async function deleteMatchBD(matchDetails) {
+    try {
+        let result = await matchModel.deleteOne({
+            _id: matchDetails._id
+        });
+        if (result.deletedCount > 0) {
+            return { status: true, msg: "Match deleted successfully" };
+        } else {
+            return { status: false, msg: "Match not found" };
+        }
+    } catch (err) {
+        console.error(err);
+        return { status: false, msg: "Problems with Match delete" };
+    }
+}
         }
     } catch(err) {
         return { status: false, message: "error al salirse a la partida" };
@@ -79,17 +94,18 @@ async function leaveMatchBD(matchDetails) {
 
 async function getAllMatchesBD() {
     try {
-        let result = await matchModel.find({})
-        console.log(result)
+        const result = await matchModel.find({});
         if (result) {
-            return { status: true, message: "Todas las partidas" };
+            return { status: true, message: "Todas las partidas", matches: result };
         } else {
             return { status: false, message: "Error al sacar las partidas" };
         }
     } catch (error) {
-        return {status: false, message: "No se han podido sacar las partidas"}
+        console.error(error);
+        return {status: false, message: "No se han podido sacar las partidas"};
     }
 }
+
 
 async function updateMatchBD(matchDetails) {
     try {

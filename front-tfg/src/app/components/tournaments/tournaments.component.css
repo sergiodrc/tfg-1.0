@@ -2,6 +2,7 @@
 
 
 .body {
+  
   height: 100%;
   margin: 0;
   width: 100%;
@@ -97,6 +98,7 @@ mat-radio-group {
 
 /* Portátil */
 @media screen and (max-width: 1300px) {
+  .body{ height: fit-content;}
   .contenedor {
     width: 80%;
     margin-top: 2rem;
@@ -116,8 +118,12 @@ mat-radio-group {
   }
 }
 
+
 /* Pantalla grande */
 @media screen and (min-width: 1301px) {
+  .body{
+    min-width: fit-content;
+  }
   .contenedor {
     width: 70%;
    

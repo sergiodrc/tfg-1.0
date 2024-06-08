@@ -14,20 +14,26 @@ async function createMatch(req, res) {
         return res.send({ status: false, message: 'fallo en el controller' });
     }
 }
-
 async function deleteMatch(req, res) {
     try {
-        var result = null;
-        result = await matchService.deleteMatchBD(req.body)
-        if (result.status === true) {
+        const { id } = req.params; // Obtener el id de los parámetros de la URL
+        if (!id) {
+            return res.send({ status: false, message: "Match ID is required" });
+        }
+
+        const result = await matchService.deleteMatchBD({ _id: id });
+        if (result.status) {
             res.send({ status: true, message: "Partida Borrada" });
-          } else {
-            res.send({ status: false, message: "Problemas al borrar la partida" });
-          }
+        } else {
+            res.send({ status: false, message: result.msg });
+        }
     } catch (error) {
-        res.send({ status: false, message: "error al borrar el usuario" });
+        console.error(error);
+        res.send({ status: false, message: "Error al borrar la partida" });
     }
 }
+
+
 
 async function joinMatch(req, res) {
     try {
@@ -73,17 +79,18 @@ async function leaveMatch(req, res) {
 
 async function getAllMatches(req, res) {
     try {
-        var result = null;
-        result = await matchService.getAllMatchesBD()
+        const result = await matchService.getAllMatchesBD();
         if (result.status === true) {
-            res.send({ status: true, message: "Sacando partidas..." });
+            res.send({ status: true, message: result.message, matches: result.matches });
         } else {
-            res.send({ status: true, message: "Algo ha fallado!" });
+            res.send({ status: false, message: result.message });
         }
     } catch(err) {
-            res.send({ status: true, message: "Error al sacar todas las partidas!" });
+        console.error(err);
+        res.send({ status: false, message: "Error al sacar todas las partidas!" });
     }
 }
+
 
 async function updateMatch(req, res) {
     try {

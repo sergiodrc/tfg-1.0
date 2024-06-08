@@ -30,13 +30,12 @@ import { ErrorMessageDirective } from './directives/error-message.directive';
 import { MarketComponent } from './components/market/market.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { UserComponent } from './components/user/user.component';
-
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-  
     HomeComponent,
     NavbarComponent,
     TimelineComponent,
@@ -68,7 +67,7 @@ import { UserComponent } from './components/user/user.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSnackBarModule,
-   
+    MatPaginatorModule // Importa MatPaginatorModule aquí
   ],
   providers: [
     {

@@ -1,145 +1,151 @@
 <app-navbar></app-navbar>
 <div class="body">
+  <div
+  class="row header"
+  
+>
+  <div class="col-md-1" style="align-content: center">
     <div
-    class="row header"
-    
-  >
-    <div class="col-md-1" style="align-content: center">
-      <div
-        class="fa-solid fa-house btn-home"
-        routerLink="/home"
-        mat-raised-button
-        matTooltip="Volver a la pantalla principal"
-        matTooltipPosition="above"
-      ></div>
-    </div>
-    <div class="col-md-8 nombreSeccion">Partidas</div>
+      class="fa-solid fa-house btn-home"
+      routerLink="/home"
+      mat-raised-button
+      matTooltip="Volver a la pantalla principal"
+      matTooltipPosition="above"
+    ></div>
+  </div>
+  <div class="col-md-8 nombreSeccion">Partidas</div>
 </div>
-  <div class="contenedor">
+<div class="contenedor">
+  <div
+    class="row mt-2"
+    style="width: 100%; justify-content: space-around; "
+  >
     <div
-      class="row mt-2"
-      style="width: 100%; justify-content: space-around; "
+      class="row "
+      style="flex-direction: row; padding: 0 2rem; align-items: center"
     >
-      <div
-        class="row "
-        style="flex-direction: row; padding: 0 2rem; align-items: center"
-      >
-        <div class="col-md-9">
-          <mat-radio-group>
-            <mat-radio-button value="1" checked
-              >Todas las partidas</mat-radio-button
-            >
-            <mat-radio-button value="2">Tus partidas</mat-radio-button>
-          </mat-radio-group>
-        </div>
-        <div
-          class="col-md-3"
-          style="
-            display: flex;
-            justify-content: end;
-            align-items: center;
-            padding: 0;
-          "
-        >
-          <button
-            mat-raised-button
-            (click)="openAddGameModal(addGameModal)"
-            class="fa-solid fa-plus"
-            color="primary"
+      <div class="col-md-9">
+        <mat-radio-group>
+          <mat-radio-button value="1" checked
+            >Todas las partidas</mat-radio-button
           >
-            Crear partida
-          </button>
-        </div>
+          <mat-radio-button value="2">Tus partidas</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div
+        class="col-md-3"
+        style="
+          display: flex;
+          justify-content: end;
+          align-items: center;
+          padding: 0;
+        "
+      >
+        <button
+          mat-raised-button
+          (click)="openAddGameModal(addGameModal)"
+          class="fa-solid fa-plus"
+          color="primary"
+        >
+          Crear partida
+        </button>
       </div>
     </div>
+  </div>
 
-    <!-- la tabla tiene matSort para ordenar los resultados -->
-    <div class="container">
-      <div class="row mt-3" style="width: 100%; justify-content: center;">
-        <div class="col-md-12 ">
-          <table mat-table [dataSource]="dataSource" matSort>
-            <ng-container matColumnDef="date">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                Fecha partida
-              </th>
-              <td mat-cell *matCellDef="let game">{{ game.date }}</td>
-            </ng-container>
-            <ng-container matColumnDef="maxScore">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                Puntuación Máxima
-              </th>
-              <td mat-cell *matCellDef="let game">{{ game.maxScore }}</td>
-            </ng-container>
-            <ng-container matColumnDef="minScore">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                Puntuación Mínima
-              </th>
-              <td mat-cell *matCellDef="let game">{{ game.minScore }}</td>
-            </ng-container>
-            <ng-container matColumnDef="creator">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Creador</th>
-              <td mat-cell *matCellDef="let game">{{ game.creator }}</td>
-            </ng-container>
-            <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef></th>
-              <td mat-cell *matCellDef="let game">
-                <svg
-                  width="25px"
-                  height="20px"
-                  mat-raised-button
-                  matTooltip="Unirse a la partida"
-                  matTooltipPosition="above"
-                  style="cursor: pointer"
-                  viewBox="0 0 22 16"
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                  (click)="openAddGameModal(game)"
+  <!-- la tabla tiene matSort para ordenar los resultados -->
+  <div class="container">
+    <div class="row mt-3" style="width: 100%; justify-content: center;">
+      <div class="col-md-12 ">
+        <table mat-table [dataSource]="dataSource" matSort>
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Fecha partida
+            </th>
+            <td mat-cell *matCellDef="let match">{{ match.fecha_partida | date:'dd/MM/yyyy' }}</td>
+          </ng-container>
+          <ng-container matColumnDef="maxScore">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Puntuación Máxima
+            </th>
+            <td mat-cell *matCellDef="let match">{{ match.puntuacion_maxima_partida }}</td>
+          </ng-container>
+          <ng-container matColumnDef="minScore">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Puntuación Mínima
+            </th>
+            <td mat-cell *matCellDef="let match">{{ match.puntuacion_minima_partida }}</td>
+          </ng-container>
+          <ng-container matColumnDef="creator">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Creador</th>
+            <td mat-cell *matCellDef="let match">{{ match.creador_partida }}</td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let game">
+              <svg
+                width="25px"
+                height="20px"
+                mat-raised-button
+                matTooltip="Unirse a la partida"
+                matTooltipPosition="above"
+                style="cursor: pointer"
+                viewBox="0 0 22 16"
+                version="1.1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                (click)="openAddGameModal(game)"
+              >
+                <g
+                  id="Icons"
+                  stroke="none"
+                  stroke-width="1"
+                  fill="none"
+                  fill-rule="evenodd"
                 >
                   <g
-                    id="Icons"
-                    stroke="none"
-                    stroke-width="1"
-                    fill="none"
-                    fill-rule="evenodd"
+                    id="Rounded"
+                    transform="translate(-679.000000, -4102.000000)"
                   >
                     <g
-                      id="Rounded"
-                      transform="translate(-679.000000, -4102.000000)"
+                      id="Social"
+                      transform="translate(100.000000, 4044.000000)"
                     >
                       <g
-                        id="Social"
-                        transform="translate(100.000000, 4044.000000)"
+                        id="-Round-/-Social-/-person_add"
+                        transform="translate(578.000000, 54.000000)"
                       >
-                        <g
-                          id="-Round-/-Social-/-person_add"
-                          transform="translate(578.000000, 54.000000)"
-                        >
-                          <g>
-                            <polygon
-                              id="Path"
-                              points="0 0 24 0 24 24 0 24"
-                            ></polygon>
-                            <path
-                              d="M15,12 C17.21,12 19,10.21 19,8 C19,5.79 17.21,4 15,4 C12.79,4 11,5.79 11,8 C11,10.21 12.79,12 15,12 Z M6,10 L6,8 C6,7.45 5.55,7 5,7 C4.45,7 4,7.45 4,8 L4,10 L2,10 C1.45,10 1,10.45 1,11 C1,11.55 1.45,12 2,12 L4,12 L4,14 C4,14.55 4.45,15 5,15 C5.55,15 6,14.55 6,14 L6,12 L8,12 C8.55,12 9,11.55 9,11 C9,10.45 8.55,10 8,10 L6,10 Z M15,14 C12.33,14 7,15.34 7,18 L7,19 C7,19.55 7.45,20 8,20 L22,20 C22.55,20 23,19.55 23,19 L23,18 C23,15.34 17.67,14 15,14 Z"
-                              id="🔹-Icon-Color"
-                              fill="#1D1D1D"
-                            ></path>
-                          </g>
+                        <g>
+                          <polygon
+                            id="Path"
+                            points="0 0 24 0 24 24 0 24"
+                          ></polygon>
+                          <path
+                            d="M15,12 C17.21,12 19,10.21 19,8 C19,5.79 17.21,4 15,4 C12.79,4 11,5.79 11,8 C11,10.21 12.79,12 15,12 Z M6,10 L6,8 C6,7.45 5.55,7 5,7 C4.45,7 4,7.45 4,8 L4,10 L2,10 C1.45,10 1,10.45 1,11 C1,11.55 1.45,12 2,12 L4,12 L4,14 C4,14.55 4.45,15 5,15 C5.55,15 6,14.55 6,14 L6,12 L8,12 C8.55,12 9,11.55 9,11 C9,10.45 8.55,10 8,10 L6,10 Z M15,14 C12.33,14 7,15.34 7,18 L7,19 C7,19.55 7.45,20 8,20 L22,20 C22.55,20 23,19.55 23,19 L23,18 C23,15.34 17.67,14 15,14 Z"
+                            id="🔹-Icon-Color"
+                            fill="#1D1D1D"
+                          ></path>
                         </g>
                       </g>
                     </g>
                   </g>
-                </svg>
-              </td>
-            </ng-container>
-    
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let myRowData; columns: displayedColumns"></tr>
-          </table>
-        </div>
+                </g>
+              </svg>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let myRowData; columns: displayedColumns"></tr>
+        </table>
+        <mat-paginator 
+          [length]="100"
+          [pageSize]="5"
+          [pageSizeOptions]="[5, 10]"
+          aria-label="Select page">
+        </mat-paginator>
       </div>
+    </div>
   </div>
+  
 </div>
 
 <!-- modal añadir partida -->
