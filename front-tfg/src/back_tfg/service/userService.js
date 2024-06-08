@@ -12,9 +12,7 @@ var path = require("path")
 
   //este metodo inserta ya
 async function createUserDB(userDetails) {
-    console.log(userDetails)
     try {
-      // console.log("etalles usaasd", userDetails);
         // Check if the email is already in use
         var resultUser = await userModel.findOne({
           email_usuario: userDetails.correo
@@ -57,13 +55,11 @@ async function createUserDB(userDetails) {
 //desde front medio ok hay que cambiar el then
 async function loginUserDB(userDetails) {
   try {
-    console.log("User details received: ", userDetails);
     var result = null;
     result = await userModel.findOne({
       email_usuario: userDetails.correo
     });
 
-    console.log("Database query result: ", result);
 
     if (result) {
       var decryptedPassword = encryptor.decrypt(result.password_usuario);
@@ -77,7 +73,6 @@ async function loginUserDB(userDetails) {
       return { status: false, msg: "Usuario no encontrado" };
     }
   } catch (error) {
-    console.error("Error during login: ", error);
     return { status: false, msg: "Error en el servidor" };
   }
 }
