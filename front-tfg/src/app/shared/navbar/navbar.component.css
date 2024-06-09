@@ -1,12 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+
+
 mat-toolbar{
     font-size: 40px;
     width: auto;
     background-color: #ebc752;
+    /* font-family: "Open Sans", sans-serif; */
+    padding: 0 3rem;
 }
 mat-toolbar a{
     text-decoration: none;
     color: #131A29;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 45px;
 }
 

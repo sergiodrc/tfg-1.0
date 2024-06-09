@@ -98,14 +98,18 @@ mat-radio-group {
 
 /* Portátil */
 @media screen and (max-width: 1300px) {
-  .body{ height: fit-content;}
+  .body{ height: fit-content;
+  padding-bottom: 1rem;
+  }
   .contenedor {
     width: 80%;
     margin-top: 2rem;
     padding: 1rem;
    
   }
-
+.header{
+  margin-top: 2rem;
+}
   .nombreSeccion {
     font-size: 3.5rem;
     color: rgb(255, 255, 255);

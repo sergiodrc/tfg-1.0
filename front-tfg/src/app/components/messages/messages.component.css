@@ -10,6 +10,15 @@
   flex-direction: column;
   align-items: center;
 }
+
+
+.header{
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  margin-top: 4rem;
+}
 .btn-home {
   cursor: pointer;
   padding: 1rem;
@@ -46,7 +55,11 @@ mat-icon {
 .sendMesage{
   box-shadow: none;
 }
-
+.addMsg{
+  background-color: #c8daff94!important;
+  color: #ffffff!important;
+  box-shadow: none!important;
+}
 .mat-raised-button {
   padding: 0.2rem 1rem;
 
@@ -67,16 +80,26 @@ mat-form-field {
   border-radius: 0.5rem;
 }
 .btnDelete {
-  background-color: rgb(236, 36, 36);
+  background-color: rgb(199, 59, 59);
 
   color: #ffffff;
   &:hover {
     background-color: rgb(190, 10, 10);
   }
 }
-
+mat-radio-group {
+  display: flex;
+  flex-direction: row;
+  gap: 5rem;
+  color: #ffffff;
+  font-size: 1.1rem;
+}
 /* Portátil */
-@media screen and (max-width: 1300px) {
+@media screen and (max-width: 1600px) {
+  .body{
+    height: fit-content;
+    padding-bottom: 1rem;
+  }
   .nombreSeccion {
     font-size: 3.5rem;
     color: rgb(255, 255, 255);
@@ -86,9 +109,12 @@ mat-form-field {
   .mat-raised-button {
     font-size: 12px;
   }
+  .header{
+    margin-top: 2rem;
+  }
 }
 /* Pantalla grande */
-@media screen and (min-width: 1300px) {
+@media screen and (min-width: 1601px) {
   .contenedor {
     width: 70%;
     border-radius: 0.75rem;

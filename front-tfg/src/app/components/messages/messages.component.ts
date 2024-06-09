@@ -7,6 +7,7 @@ export interface Message {
   emitter: string;
   body: string;
   receiver: string;
+  texto_mensaje?: string; 
 }
 @Component({
   selector: 'app-messages',
@@ -27,7 +28,7 @@ export class MessagesComponent implements OnInit {
   newMsgForm: FormGroup;
   element:any  
   messages: Message[] = []
-
+  selectedOption: string = '1';
   @ViewChild('deleteModal') deleteModal = {} as TemplateRef<string>; 
   @ViewChild('createModal') createModal = {} as TemplateRef<string>; 
   @ViewChild('confirmSendMod') confirmSendMod = {} as TemplateRef<string>; 
@@ -56,27 +57,9 @@ export class MessagesComponent implements OnInit {
    
   ngOnInit(): void {
     //cargar los mensajes al entrar en la seccion mensajes
-    this.loadMessages();
+    this.getMyMessages();
   }
 
-//mostrar mensajes
-  loadMessages() {
-   //aqui la llamada que devuelva los mensajes
-   //sustituir  ese objeto por lo que devuelva la api
-    this.messages = [
-      {
-        emitter: "Usuario emisor 1",
-        body: "Hola, ¿cómo estás?",
-        receiver: "Usuario receptor 2"
-      },
-      {
-        emitter: "Usuario emisor 1",
-        body: "Mensaje de prueba",
-        receiver: "Usuario receptor 2"
-      },
-    
-    ];
-  }
 
   // envio de mensajes
   sendMessage() {
@@ -107,8 +90,61 @@ export class MessagesComponent implements OnInit {
       }
     );
   }
+//mostrar mensajes user logeado
+getMyMessages() {
+  const email = localStorage.getItem('correo');
+  if (!email) {
+    console.error('Email not found in localStorage');
+    return;
+  }
 
+  const url = `http://localhost:9002/my-messages/${email}`;
 
+  this.http.get<any>(url).subscribe(
+    response => {
+      if (response.status) {
+        this.messages = response.messages.map((msg: any) => ({
+          emitter: msg.emitter,
+          body: msg.texto_mensaje,
+          receiver: msg.receiver
+        }));
+      } else {
+        console.error(response.message);
+      }
+    },
+    error => {
+      console.error('Error retrieving messages:', error);
+    }
+  );
+}
+
+//devolver mensajes ENVIADOS
+getMySentMessages() {
+  const email = localStorage.getItem('correo');
+  if (!email) {
+    console.error('Email not found in localStorage');
+    return;
+  }
+
+  const url = `http://localhost:9002/my-sent-messages?email=${email}`;
+
+  this.http.get<any>(url).subscribe(
+    response => {
+      if (response.status) {
+        this.messages = response.messages.map((msg: any) => ({
+          emitter: msg.emitter, // Change to emitter
+          body: msg.texto_mensaje,
+          receiver: msg.receiver
+        }));
+      } else {
+        console.error(response.message);
+      }
+    },
+    error => {
+      console.error('Error retrieving messages:', error);
+    }
+  );
+}
 
 
   // abrir y cerrar modales
@@ -162,8 +198,17 @@ export class MessagesComponent implements OnInit {
       disableClose:true
     });
   }
-
- 
+/*manejar checkbox
+1-->mensajes recibidos
+2-->mensajes enviados
+*/
+  onOptionChange(): void {
+    if (this.selectedOption === '1') {
+      this.getMyMessages();
+    } else if (this.selectedOption === '2') {
+      this.getMySentMessages();
+    }
+  }
   
 
 }

@@ -127,6 +127,7 @@ export class TournamentsComponent implements OnInit {
     });
   }
 
+  //devolver mensajes RECIBIDOS
   getMyMatches(): void {
     const correo = localStorage.getItem('correo');
   

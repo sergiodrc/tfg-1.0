@@ -1,14 +1,8 @@
 <app-navbar></app-navbar>
 <div class="body">
   <div
-    class="row"
-    style="
-      flex-direction: row;
-      display: flex;
-      align-items: center;
-      gap: 3rem;
-      margin-top: 4rem;
-    "
+    class="row header"
+
   >
     <div class="col-md-1" style="align-content: center">
       <div
@@ -22,49 +16,36 @@
     <div class="col-md-8 nombreSeccion">Bandeja de mensajes</div>
   </div>
 
-  <div class="row w-100 mt-4" style="justify-content: flex-end;padding-right: 10rem;">
+  <div class="row w-100 mt-4" style="justify-content: space-around;">
+    <div class="col-md-7" style="width: fit-content;;background-color: #c8daff94;border-radius: 0.3rem;align-content: center; padding: 0.7rem 2rem; display: flex;justify-content: start;">
+      <mat-radio-group
+        [(ngModel)]="selectedOption"
+        (change)="onOptionChange()"
+      >
+        <mat-radio-button value="1" checked
+          >Recibidos</mat-radio-button
+        >
+        <mat-radio-button value="2">Enviados</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="col-md-5" style="    display: flex;
+    justify-content: flex-end;padding-right: 0!important;">
     <button
       mat-raised-button
       (click)="openCreateModal(element)"
-     class="fa-solid fa-envelope " 
-      color="primary"
+     class="fa-solid fa-envelope addMsg" 
+     
+      
       [textContent]="'Nuevo mensaje'"
     ></button>
   </div>
-  <div   *ngFor="let message of messages" class="row w-100 mt-4" style="justify-content: center">
-    <div
-      class="col-md-10 col-xs-12"
-      style="
-           background-color: hsla(0, 0%, 86%, 0.993);
-    border-radius: 0.5rem;
-    display: flex;
-    justify-content: center;
-    padding: 0.5rem;
-      "
-    >
-      <div
-        class="row w-100"
-        style="
-          padding: 0.5rem;
-          background-color: hsla(0, 0%, 98%, 0.993);
-          justify-content: center;
-          flex-direction: column;
-          border-radius: 0.5rem;
-        "
-      >
-        <div class="col-md-2 " style="font-weight: 600">{{message.emitter}}</div>
-        <div class="col-md-10 mt-2" style="padding: 0 2rem">
-         {{message.body}}
-        </div>
-        <div
-          class="col-md-12"
-          style="
-            display: flex;
-            justify-content: flex-end;
-            
-            gap: 1.5rem;
-          "
-        >
+  </div>
+  <div *ngFor="let message of messages" class="row w-100 mt-2" style="justify-content: center; ">
+    <div class="col-md-10 col-xs-12" style="background-color: hsla(0, 0%, 86%, 0.993); border-radius: 0.5rem; display: flex; justify-content: center; padding: 0.5rem;">
+      <div class="row w-100" style="padding: 0.5rem; background-color: hsla(0, 0%, 98%, 0.993); justify-content: center; flex-direction: column; border-radius: 0.5rem;">
+        <div class="col-md-2" style="font-weight: 600">{{ message.emitter }}</div>
+        <div class="col-md-10 mt-2" style="padding: 0 2rem">{{ message.body }}</div> <!-- Changed texto_mensaje to body -->
+        <div class="col-md-12" style="display: flex; justify-content: flex-end; gap: 1.5rem;">
           <button
             mat-raised-button
             (click)="openDeleteModal(deleteModal)"
@@ -84,7 +65,6 @@
       </div>
     </div>
   </div>
-</div>
 <ng-template #deleteModal>
   <div mat-dialog-title>
     <!--  -->

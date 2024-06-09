@@ -4,7 +4,6 @@ var jwt = require('./jwt');
 
 const mongoose = require('mongoose');
 
-
 var moment = require('moment');
 
 async function saveMessageBD(messageDetails) {
@@ -32,10 +31,23 @@ async function saveMessageBD(messageDetails) {
     }
 };
 
-async function getReceivedMessagesBD(messageDetails) {
+async function getReceivedMessagesBD(receiverEmail) {
     try {
-        let result = await messageModel.find({ receiver: messageDetails.receiver }).populate('emitter', 'nickname_usuario');
-        console.log(result);
+        const messages = await messageModel.find({ receiver: receiverEmail }).exec();
+        if (messages.length > 0) {
+            return { status: true, messages: messages };
+        } else {
+            return { status: false, message: 'No messages found' };
+        }
+    } catch (err) {
+        console.error(err);
+        return { status: false, message: 'Error retrieving messages from the database' };
+    }
+}
+
+async function getEmmitMessagesBD(emitterEmail) {
+    try {
+        let result = await messageModel.find({ emitter: emitterEmail }).populate('emitter');
         if (result) {
             return { status: true, messages: result };
         } else {
@@ -47,23 +59,8 @@ async function getReceivedMessagesBD(messageDetails) {
     }
 }
 
-async function getEmmitMessagesBD(messageDetails) {
-    try {
-        let result = await messageModel.find({ emitter: new mongoose.Types.ObjectId(messageDetails) }).populate('emitter', 'nickname_usuario');
-        console.log(result);
-        if (result) {
-            return { status: true, messages: result };
-        } else {
-            return { status: false, message: "Error al sacar los mensajes" };
-        }
-    } catch (err) {
-        console.error(err);
-        return { status: false, message: 'Error retrieving messages from the database' };
-    }
-};
 
 async function getUnviewedMessagesBD(messageDetails) {
-
     try {
         var unviewedMessagesCount = await messageModel.countDocuments({
             receiver: new mongoose.Types.ObjectId(messageDetails),
@@ -89,8 +86,10 @@ async function markMessagesAsViewedBD(messageDetails) {
     }
 }
 
-
-
-
-
-module.exports = {saveMessageBD, getReceivedMessagesBD,getEmmitMessagesBD, getUnviewedMessagesBD,markMessagesAsViewedBD}
+module.exports = {
+    saveMessageBD,
+    getReceivedMessagesBD,
+    getEmmitMessagesBD,
+    getUnviewedMessagesBD,
+    markMessagesAsViewedBD
+};
