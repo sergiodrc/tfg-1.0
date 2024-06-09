@@ -1,7 +1,7 @@
 var moment = require('moment');
 
 var matchService = require("../service/matchService")
-
+//funciona  back y front
 async function createMatch(req, res) {
     var result = null;
     console.log('Body -> ',req.body)
@@ -14,22 +14,23 @@ async function createMatch(req, res) {
         return res.send({ status: false, message: 'fallo en el controller' });
     }
 }
+//funciona  back y front
 async function deleteMatch(req, res) {
     try {
-        const { id } = req.params; // Obtener el id de los parámetros de la URL
-        if (!id) {
-            return res.send({ status: false, message: "Match ID is required" });
+        const { id, correo } = req.body; // Obtener el id y el correo del cuerpo de la petición
+        if (!id || !correo) {
+            return res.status(400).send({ status: false, message: "Match ID y correo son requeridos" });
         }
 
-        const result = await matchService.deleteMatchBD({ _id: id });
+        const result = await matchService.deleteMatchBD({ _id: id, correo: correo });
         if (result.status) {
-            res.send({ status: true, message: "Partida Borrada" });
+            res.status(200).send({ status: true, message: "Partida Borrada" });
         } else {
-            res.send({ status: false, message: result.msg });
+            res.status(404).send({ status: false, message: result.msg });
         }
     } catch (error) {
         console.error(error);
-        res.send({ status: false, message: "Error al borrar la partida" });
+        res.status(500).send({ status: false, message: "Error al borrar la partida" });
     }
 }
 
@@ -49,19 +50,6 @@ async function joinMatch(req, res) {
     }
 }
 
-async function joinMatch(req, res) {
-    try {
-        var result = null;
-        result = await matchService.joinMatchBD(req.body)
-        if (result.status === true) {
-            res.send({ status: true, message: "Se ha unido a la partida!" });
-        } else {
-            res.send({ status: true, message: "No Se ha unido a la partida!" });
-        }
-    } catch(err) {
-        res.send({ status: true, message: "Error al unirse a la partida!" });
-    }
-}
 
 async function leaveMatch(req, res) {
     try {
@@ -76,7 +64,7 @@ async function leaveMatch(req, res) {
         res.send({ status: true, message: "Error al abandonar a la partida!" });
     }
 }
-
+//funciona  back y front
 async function getAllMatches(req, res) {
     try {
         const result = await matchService.getAllMatchesBD();
@@ -105,19 +93,24 @@ async function updateMatch(req, res) {
         res.send({ status: true, message: "Algo ha fallado!" });
     }
 }
-
 async function getMyMatches(req, res) {
     try {
-    var result = null;
-    result = await matchService.getMyMatchesBD(req.body)
-    if (result.status === true) {
-        res.send({ status: true, message: "Sacando tus partidas..." });
-    } else {
-        res.send({ status: true, message: "Algo ha fallado!" });
-    }
-    } catch(err) {
-        res.send({ status: true, message: "Error al sacar todas tus partidas!" });
-}
-}
+        const correo = req.query.correo; // Obtener el correo del query en lugar del cuerpo de la solicitud
 
+        if (!correo) {
+            return res.status(400).send({ status: false, message: "Correo no encontrado en la solicitud" });
+        }
+
+        const result = await matchService.getMyMatchesBD(correo); // Pasar el correo a la función del servicio
+
+        if (result.status === true) {
+            res.send({ status: true, message: "Partidas obtenidas correctamente", matches: result.matches });
+        } else {
+            res.send({ status: false, message: "Error al obtener tus partidas" });
+        }
+    } catch(err) {
+        console.error(err);
+        res.send({ status: false, message: "Error al obtener tus partidas" });
+    }
+}
 module.exports = {createMatch, deleteMatch, joinMatch, leaveMatch, getAllMatches, updateMatch, getMyMatches}

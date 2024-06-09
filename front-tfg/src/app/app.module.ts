@@ -31,6 +31,8 @@ import { MarketComponent } from './components/market/market.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { UserComponent } from './components/user/user.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { FormsModule } from '@angular/forms'; 
 
 @NgModule({
   declarations: [
@@ -67,7 +69,9 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSnackBarModule,
-    MatPaginatorModule // Importa MatPaginatorModule aquí
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    FormsModule
   ],
   providers: [
     {

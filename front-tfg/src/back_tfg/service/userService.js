@@ -52,18 +52,17 @@ async function createUserDB(userDetails) {
     }
 
 }
-// para esto no deberia comparar usuario y contraseña???
 
 //desde front medio ok hay que cambiar el then
 async function loginUserDB(userDetails) {
   try {
-    console.log("User details received: ", userDetails);
+    console.log("Usuario intentando logearse: ", userDetails);
     var result = null;
     result = await userModel.findOne({
       email_usuario: userDetails.correo
     });
 
-    console.log("Database query result: ", result);
+    console.log("Objeto entero de usuario logeado: ", result);
 
     if (result) {
       var decryptedPassword = encryptor.decrypt(result.password_usuario);

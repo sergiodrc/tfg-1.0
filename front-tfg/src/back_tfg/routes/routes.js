@@ -28,7 +28,7 @@ router.route('/unviewed-messages').get(messageController.getUnviewedMessages)
 router.route('/set-viewed-messages').get(messageController.updateMessagesToViewed)
 
 router.route('/matches/createMatch').post(matchController.createMatch)
-router.route('/matches/deleteMatch/:id').delete(matchController.deleteMatch);
+router.delete('/matches/deleteMatch', matchController.deleteMatch);
 router.route('/matches/joinMatch').patch(matchController.joinMatch)
 router.route('/matches/leaveMatch').patch(matchController.leaveMatch)
 router.route('/matches/allMatches').get(matchController.getAllMatches)
