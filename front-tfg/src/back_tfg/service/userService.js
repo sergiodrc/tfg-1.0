@@ -53,7 +53,7 @@ async function createUserDB(userDetails) {
 
 }
 
-//desde front medio ok hay que cambiar el then
+//funciona back y front
 async function loginUserDB(userDetails) {
   try {
     console.log("Usuario intentando logearse: ", userDetails);
@@ -82,60 +82,28 @@ async function loginUserDB(userDetails) {
 }
 
 
-// async function loginUserDB(userDetails) {
-//   try {
-//     console.log(userDetails)
-//     const result = await userModel.findOne({
-//       email_usuario: userDetails.correo,
-//       password_usuario: userDetails.password
-//     });
-//     console.log("result-> ",result)
-//     console.log("a");
-//     if (result !== undefined && result !== null) {
-//       const decrypted = result.password;
-//       if (decrypted === userDetails.password) {
-//          const token = jwt.createToken(result); 
-//         return { status: true, msg: "Usuario logeado correctamente",token:token};
-//       } else {
-//         throw { status: false, msg: "Login fallido" };
-//       }
-//     } else {
-//       throw { status: false, msg: "User Error Details" };
-//     }
-//   } catch (error) {
-//     console.log(error);
-//     /* throw { status: false, msg: "Invalid Data" }; */
-//   }
-// }
-
-async function updateUserBD(userEmail, userDetails, tokenPayload) {
+async function updateUserBD(userEmail, userDetails) {
   try {
-    // Check if the user's email from the token matches the email being updated
-    console.log(userDetails);
-    console.log(tokenPayload);
-    
-    if (userEmail !== tokenPayload.email) {
-      return { status: false, msg: "El correo electrónico del usuario no coincide con los datos del token" };
-    } else {
-      let result = await userModel.updateOne(
-        { email_usuario: userEmail }, // Buscar el usuario por su correo electrónico
-        {
-          nombre_usuario: userDetails.nombre_usuario,
-          apellido_usuario: userDetails.apellido_usuario,
-          nickname_usuario: userDetails.nickname_usuario,
-          email_usuario: userDetails.email_usuario,
-        }
-      );
-      if (result) {
-        return { status: true, msg: "Usuario actualizado exitosamente" };
-      } else {
-        return {status: false, msg: "No se pudo actualizar el usuario"}
-      }
-      
+    // Verificar qué usuario tiene el correo electrónico especificado
+    let user = await userModel.findOne({ email_usuario: userEmail });
+
+    if (!user) {
+        return { status: false, msg: "No se encontró ningún usuario con el correo electrónico especificado" };
     }
+
+    // Actualizar los campos editables para el usuario encontrado
+    user.nombre_usuario = userDetails.nombre_usuario || user.nombre_usuario;
+    user.apellido_usuario = userDetails.apellido_usuario || user.apellido_usuario;
+    user.nickname_usuario = userDetails.nickname_usuario || user.nickname_usuario;
+    user.tlf_usuario = userDetails.tlf_usuario || user.tlf_usuario;
+
+    // Guardar los cambios en la base de datos
+    await user.save();
+
+    return { status: true, msg: "Usuario actualizado exitosamente" };
   } catch (err) {
     console.log(err);
-    throw { status: false, msg: "Error al actualizar el usuario" };
+    return { status: false, msg: "Error al actualizar el usuario" };
   }
 }
 

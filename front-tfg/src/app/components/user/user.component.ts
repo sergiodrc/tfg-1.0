@@ -60,8 +60,7 @@ export class UserComponent implements OnInit {
       const response: any = await firstValueFrom(this.http.request('delete', 'http://localhost:9002/user/deleteUser', { 
         body: userData
       }));
-      console.log("hola hola  ", userData)
-      console.log('Respuesta del servidor:', response);
+     
   
       if (response.status) {
         console.log('Usuario eliminado correctamente');
@@ -76,6 +75,43 @@ export class UserComponent implements OnInit {
   }
   
 
+  updateUserData(): void {
+    const userEmail = localStorage.getItem('correo');
+    if (!userEmail) {
+      console.error('No se encontró el correo electrónico del usuario en el localStorage');
+      return;
+    }
+  
+    this.editForm.patchValue({ email: userEmail });
+  
+    if (this.editForm.valid) {
+      const formData = {
+        nombre_usuario: this.editForm.get('name')?.value,
+        apellido_usuario: this.editForm.get('surname')?.value,
+        nickname_usuario: this.editForm.get('nickname')?.value,
+        email_usuario: userEmail, // Cambio: Usando el correo electrónico del localStorage
+        tlf_usuario: this.editForm.get('phone')?.value
+      };
+  
+      console.log('Datos a enviar:', formData);
+  
+      this.http.patch(`http://localhost:9002/user/updateUser/${userEmail}`, formData) // Cambio: Agregando el correo como parámetro en la URL
+        .subscribe((response: any) => {
+          console.log('Respuesta del servidor:', response);
+  
+          if (response.status) {
+            console.log('¡Datos actualizados correctamente!');
+          } else {
+            console.error('¡Error al actualizar los datos!');
+          }
+        }, error => {
+          console.error('Error en la solicitud:', error);
+        });
+    } else {
+      console.error('Formulario no válido');
+    }
+  }
+  
 
   selectedFile: any = null;
 
@@ -83,6 +119,6 @@ export class UserComponent implements OnInit {
   // el usuario puede elegir entre esas
 onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0] ?? null;
-
 }
+
 }

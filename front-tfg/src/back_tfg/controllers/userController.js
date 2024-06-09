@@ -5,6 +5,8 @@ let auth = require('../middlewares/authenticator')
 
 var path = require('path');
 
+
+//funciona
 async function createUser(req, res) {
   console.log(req.body);
   var result = await userService.createUserDB(req.body);
@@ -16,7 +18,7 @@ async function createUser(req, res) {
     res.send({ status: false, message: result.msg });
   }
 }
-1
+//funciona
 async function loginUser(req, res) {
   var result = null;
   try {
@@ -33,7 +35,7 @@ async function loginUser(req, res) {
 }
 
 
-
+//funciona
 async function deleteUser(req, res) {
   console.log('deleteUser endpoint reached');  // Mensaje de depuración
   console.log('Request body:', req.body);  // Verificar el cuerpo de la solicitud
@@ -53,59 +55,37 @@ async function deleteUser(req, res) {
   }
 }
 
-
-
+//funciona
 async function updateUser(req, res) {
-  let result = null;
-  let decodedToken = await auth.ensureAuth(req);
-  console.log(decodedToken);
-  
-  if (decodedToken === null) {
-    res.send({ status: false, message: "missing jwt token" });
-  } else {
-    try {
-      // Obtener el correo electrónico del usuario a actualizar
-      var userEmail = req.params.email; // Suponiendo que el correo electrónico del usuario se pasa como un parámetro en la URL
-      
-      // Llamar al servicio para actualizar el usuario en la base de datos
-      result = await userService.updateUserBD(userEmail, req.body, decodedToken);
-      
-      if (result.status) {
-        res.send({ status: true, message: "actualizacion exitosa" });
-      } else {
-        res.send({ status: false, message: "actualizacion fallida" });
-      }
-    } catch (err) {
+  try {
+    // Obtener el correo electrónico del usuario a actualizar de los parámetros de la URL
+    var userEmail = req.params.email;
+
+    // Llamar al servicio para actualizar el usuario en la base de datos
+    let result = await userService.updateUserBD(userEmail, req.body);
+
+    if (result.status) {
+        res.send({ status: true, message: "actualización exitosa" });
+    } else {
+        res.send({ status: false, message: "actualización fallida" });
+    }
+  } catch (err) {
       console.log(err);
       res.send({ status: false, message: "error al actualizar el usuario" });
-    }
   }
 }
 
 
 
 
-async function getUser(req, res) {
+async function getUser(userEmail) {
   try {
-    // Retrieve user details from the database
-    var result = await userService.getUserBD(req.body);
-
-    // Check if the user was successfully retrieved
-    if (result.status) {
-      res.send({
-        status: true,
-        message: "User retrieved successfully",
-        data: result.data,
-      });
-    } else {
-      res.send({ status: false, message: result.msg });
-    }
-  } catch (error) {
-    console.log(error);
-    res.send({
-      status: false,
-      message: "An error occurred while retrieving the user",
-    });
+    // Buscar y devolver los datos del usuario por su correo electrónico
+    let user = await userModel.findOne({ email_usuario: userEmail });
+    return user;
+  } catch (err) {
+    console.log(err);
+    return null;
   }
 }
 

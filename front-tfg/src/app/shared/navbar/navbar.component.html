@@ -5,9 +5,19 @@
   <div
     style="display: flex; flex-direction: row; align-content: center; gap: 2rem"
   >
-    <div class="fa-solid fa-cart-shopping" style="align-self: center;color: #131A29;"></div>
+
+    <div class="fa-solid fa-right-from-bracket" 
+     style="rotate: 180deg;align-self: center;color: #131A29;cursor: pointer;" 
+     (click)="closeSesion()"
+     matTooltip="Cerrar sesión"
+     matTooltipPosition="below"></div>
+    <div class="fa-solid fa-cart-shopping" 
+    style="align-self: center;color: #131A29;"></div>
     <div> 
-      <button class="imgUser" routerLink="/user"></button>
+      <button class="imgUser"
+       routerLink="/user" 
+       matTooltip="Ver perfil de usuario"
+      matTooltipPosition="below"></button>
     </div>
   </div>
 </mat-toolbar>

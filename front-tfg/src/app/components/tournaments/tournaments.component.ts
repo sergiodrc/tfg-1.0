@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { MatPaginator } from '@angular/material/paginator';
-
+import { Router } from '@angular/router';
 export interface Tournaments {
   _id: string; // Agrega el campo _id
   fecha_partida: string;
@@ -39,7 +39,8 @@ export class TournamentsComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private fb: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) 
   {
     this.addGameForm = this.fb.group({
@@ -152,6 +153,7 @@ export class TournamentsComponent implements OnInit {
         }
       );
   }
+
 
   openAddGameModal(element: any) {
     this.detailData = element;
