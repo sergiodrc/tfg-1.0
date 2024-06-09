@@ -20,6 +20,7 @@ async function createUserDB(userDetails) {
         var resultNickName = await userModel.findOne({
           nickname_usuario:userDetails.nickname
         })
+        console.log('.>   ',resultNickName)
         console.log(resultUser)
         if (resultUser) {
             return { status: false, msg: "Email already in use" };
