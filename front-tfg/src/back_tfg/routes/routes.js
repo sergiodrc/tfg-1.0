@@ -13,11 +13,11 @@ var md_upload_users = multipart({uploadDir: './uploads/users'});
 var md_upload_publications = multipart({uploadDir: './uploads/publications'})
 
 
-router.route('/user/login').post(userController.loginUser)
-router.route('/user/register').post(userController.createUser)
-router.route('/user/deleteUser').delete(userController.deleteUser)
-router.route('/user/updateUser/:email').patch(userController.updateUser)
-router.route('/userDetails').get(userController.getUser)
+router.route('/user/login').post(userController.loginUser)//funcionando
+router.route('/user/register').post(userController.createUser)//funcionando
+router.route('/user/deleteUser').delete(userController.deleteUser)//funcionando
+router.route('/user/updateUser/:email').patch(userController.updateUser)//funcionando
+router.route('/userDetails/:email').get(userController.getUser);
 router.route('/uploadImageUser').post(md_upload_users,userController.uploadImageUser)
 router.route('/get-image-user').get(userController.getImageFile)
 

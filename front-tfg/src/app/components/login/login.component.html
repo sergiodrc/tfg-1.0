@@ -41,7 +41,7 @@
             <input type="text" id="apellido" class="form-control" formControlName="apellido" >
           </div>
           <div class="form-group">
-            <label for="nickname" style="font-weight: 700; padding:0.1rem 0.5rem">Nombre de usuario</label>
+            <label for="nickname" style="font-weight: 700; padding:0.1rem 0.5rem">Nickname</label>
             <input type="text" id="nickname" class="form-control" formControlName="nickname"  >
           </div>
           <div class="form-group">
@@ -55,6 +55,7 @@
           <button type="submit"  class="btn btn-primary mt-3 btn-create-user"  
           matTooltip="Debe completar todos los campos"
           matTooltipPosition="below"
+          (click)="registerUser()"
        >Crear usuario</button> 
 
           <p  class="question"> ¿Ya estás registado?<br>

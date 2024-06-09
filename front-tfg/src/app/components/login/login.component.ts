@@ -47,11 +47,11 @@ export class LoginComponent implements OnInit {
       password: password,
       correo: correo,
     };
-    const userDataWithoutPassword = { ...userData };
-    delete userDataWithoutPassword.password;
+
 
     // Guardar el objeto sin la contraseña en el localStorage
-    localStorage.setItem('userData', JSON.stringify(userDataWithoutPassword));
+    localStorage.setItem('correo', userData.correo);
+    localStorage.setItem('nickname', userData.nickname);
     try {
       // Realizar la solicitud POST a la API y obtener el primer valor emitido
       const response: any = await firstValueFrom(
