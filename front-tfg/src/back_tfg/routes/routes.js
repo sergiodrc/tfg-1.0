@@ -17,7 +17,7 @@ router.route('/user/login').post(userController.loginUser)//funcionando
 router.route('/user/register').post(userController.createUser)//funcionando
 router.route('/user/deleteUser').delete(userController.deleteUser)//funcionando
 router.route('/user/updateUser/:email').patch(userController.updateUser)//funcionando
-router.route('/userDetails/:email').get(userController.getUser);
+router.route('/userDetails/:correo').get(userController.getUser);
 router.route('/uploadImageUser/:email').post(md_upload_users,userController.uploadImageUser)
 router.route('/get-image-user').get(userController.getImageFile)
 

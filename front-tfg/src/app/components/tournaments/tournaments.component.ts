@@ -127,7 +127,7 @@ export class TournamentsComponent implements OnInit {
     });
   }
 
-  //devolver mensajes RECIBIDOS
+  //devolver mis partidas
   getMyMatches(): void {
     const correo = localStorage.getItem('correo');
   
@@ -158,7 +158,8 @@ export class TournamentsComponent implements OnInit {
 
   openAddGameModal(element: any) {
     this.detailData = element;
-
+    console.log(this.detailData)
+    
     this.dialogRef = this.dialog.open(this.addGameModal, {
       width: '31rem',
       height: '22rem',
