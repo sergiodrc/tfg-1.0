@@ -38,6 +38,7 @@ async function getMessages(req, res) {
 
 async function getMySentMessages(req, res) {
     var { email } = req.params;
+    console.log('-> ',email)
     if (!email) {
         return res.send({ status: false, message: 'Correo del emisor es requerido' });
     }

@@ -126,7 +126,7 @@ getMySentMessages() {
     return;
   }
 
-  const url = `http://localhost:9002/my-sent-messages?email=${email}`;
+  const url = `http://localhost:9002/sentMessages/email=${email}`;
 
   this.http.get<any>(url).subscribe(
     response => {
@@ -137,10 +137,11 @@ getMySentMessages() {
           receiver: msg.receiver
         }));
       } else {
-        console.error(response.message);
+        console.error('No messages'/* response.message */);
       }
     },
     error => {
+      console.log('Error -> ', error)
       console.error('Error retrieving messages:', error);
     }
   );
