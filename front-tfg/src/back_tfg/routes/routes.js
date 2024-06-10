@@ -17,17 +17,11 @@ router.route('/user/login').post(userController.loginUser)//funcionando
 router.route('/user/register').post(userController.createUser)//funcionando
 router.route('/user/deleteUser').delete(userController.deleteUser)//funcionando
 router.route('/user/updateUser/:email').patch(userController.updateUser)//funcionando
-<<<<<<< HEAD
 router.route('/userDetails/:correo').get(userController.getUser);//funcionando
-router.route('/uploadImageUser/:email').post(md_upload_users,userController.uploadImageUser)//funcionando
-router.route('/get-image-user').get(userController.getImageFile)//funcionando
-=======
-router.route('/userDetails/:correo').get(userController.getUser);
 router.route('/userDetails/:email').get(userController.getUser);//funcionando
 router.route('/userDetails/:email').get(userController.getUser);//funcionando
 router.route('/uploadImageUser/:email').post(md_upload_users,userController.uploadImageUser)
 router.route('/get-image-user').get(userController.getImageFile)
->>>>>>> a77e8f8923319b9382958c3dde8affdb2f2cb912
 
 router.route('/message').post(messageController.saveMessage)//funcionando
 router.route('/my-messages/:receiver').get(messageController.getMessages);//funcionando

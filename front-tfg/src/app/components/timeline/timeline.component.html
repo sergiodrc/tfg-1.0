@@ -1,9 +1,6 @@
 <app-navbar></app-navbar>
 <div class="body">
-  <div
-    class="row header"
-    
-  >
+  <div class="row header">
     <div class="col-md-1" style="align-content: center">
       <div
         class="fa-solid fa-house btn-home"
@@ -18,13 +15,10 @@
   <div class="row">
     <button
       mat-raised-button
-    
-     class="fa-solid fa-envelope addMsg" 
-     (click)="openAddPubModal()"
-      
+      class="fa-solid fa-envelope addMsg"
+      (click)="openAddPubModal()"
       [textContent]="'Nueva partida'"
     ></button>
-
   </div>
   <div class="row container">
     <div class="col-md-4 col-xl-3">
@@ -164,11 +158,11 @@
             >
               Comentarios
             </div>
-            <div style="background-color: #e3dbc3; border-radius: 10px;">
+            <div style="background-color: #e3dbc3; border-radius: 10px">
               <div class="row">
                 <div
                   class="col-md-12"
-                  style="padding: 0.5rem 0.5rem !important;"
+                  style="padding: 0.5rem 0.5rem !important"
                 >
                   Nombre usuario
                 </div>
@@ -213,48 +207,48 @@
       </button>
     </div>
   </div>
-  <div formGroupName="createPubForm">
-  <div mat-dialog-content>
-<div class="row ">
-  <div class="col-md-12">
-    <label for="texto_publicacion">Descripcion: </label>
-    <input formControlName="texto_publicacion">
-  </div>
-  <div class="col-md-12 mt-4" style="display: flex; flex-direction: column;">
-    <label for="texto_publicacion">Elige la imagen para tu publicación </label>
-  <input
-  formControlName="texto_publicacion"
-    formControlName="archivo_publicacion"
-    #fileInput
-    type="file"
-  />
-  </div>
-</div>
-  </div>
-  <div mat-dialog-action>
-    <div class="row w-100" style="justify-content: center">
-      <div class="col-md-6 d-flex justify-content-center w-auto">
-        <button
-          mat-stroked-button
-          color="primary"
-          mat-dialog-close
-          [textContent]="'Cancelar'"
-        ></button>
+  <div [formGroup]="createPubForm">
+    <div mat-dialog-content>
+      <div class="row">
+        <div class="col-md-12">
+          <label for="texto_publicacion">Descripcion: </label>
+          <input formControlName="texto_publicacion" />
+        </div>
+        <div
+          class="col-md-12 mt-4"
+          style="display: flex; flex-direction: column"
+        >
+          <label for="texto_publicacion"
+            >Elige la imagen para tu publicación
+          </label>
+          <input formControlName="archivo_publicacion" #fileInput type="file" />
+        </div>
       </div>
-      <div class="col-md-6 d-flex justify-content-center w-auto">
-        <button
-          mat-flat-button
-          color="primary"
-          [textContent]="'Enviar mensaje'"
-          [disabled]="!createPubForm.valid"
-          matTooltip="{{
-            !createPubForm.valid ? 'Debe completar todos los campos' : ''
-          }} "
-          matTooltipPosition="below"
-          
-        ></button>
+    </div>
+    <div mat-dialog-action>
+      <div class="row w-100" style="justify-content: center">
+        <div class="col-md-6 d-flex justify-content-center w-auto">
+          <button
+            mat-stroked-button
+            color="primary"
+            mat-dialog-close
+            [textContent]="'Cancelar'"
+          ></button>
+        </div>
+        <div class="col-md-6 d-flex justify-content-center w-auto">
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="createPub()"
+            [textContent]="'Crear publicación'"
+            [disabled]="!createPubForm.valid"
+            matTooltip="{{
+              !createPubForm.valid ? 'Debe completar todos los campos' : ''
+            }} "
+            matTooltipPosition="below"
+          ></button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </ng-template>

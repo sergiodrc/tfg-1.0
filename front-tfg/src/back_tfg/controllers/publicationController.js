@@ -2,6 +2,7 @@ const message = require('../models/message')
 let publicationService = require('../service/publicationService')
 
 async function createPublication(req,res) {
+    console.log("eeeeee" , req);
     var result = await publicationService.createPublicationBD(req)
     console.log('Result -> ', result)
     if(result.status === true) {
