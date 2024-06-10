@@ -11,12 +11,9 @@ var MessageSchema = Schema({
     viewed: String,
     
     //emisor
-    emitter: {
-       type: String, ref: 'users'
-    },
+    emitter: String,
     //receptor
-    receiver: {
-        type: String, ref: 'users' },
+    receiver: String,
 
 });
 
