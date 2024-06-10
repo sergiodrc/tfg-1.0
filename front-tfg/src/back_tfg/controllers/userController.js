@@ -64,7 +64,7 @@ async function updateUser(req, res) {
 
 const getUser = async (req, res) => {
     try {
-        const email = req.params.email;
+        const email = req.params.correo;
         console.log(`Received email: ${email}`);
         if (typeof email !== 'string') {
             return res.status(400).json({ message: 'Invalid email format' });

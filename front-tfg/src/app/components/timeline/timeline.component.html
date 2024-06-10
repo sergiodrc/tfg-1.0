@@ -15,6 +15,17 @@
     </div>
     <div class="col-md-8 nombreSeccion">Publicaciones</div>
   </div>
+  <div class="row">
+    <button
+      mat-raised-button
+    
+     class="fa-solid fa-envelope addMsg" 
+     (click)="openAddPubModal()"
+      
+      [textContent]="'Nueva partida'"
+    ></button>
+
+  </div>
   <div class="row container">
     <div class="col-md-4 col-xl-3">
       <mat-card class="card">
@@ -105,14 +116,14 @@
     </div>
   </div>
 </div>
-<ng-template #addCommentMod>
+<ng-template #addGameModal>
   <div mat-dialog-title>
     Detalles publicación
     <button
       mat-icon-button
       class="close-btn"
       style="float: right"
-      (click)="closeCommentModal()"
+      mat-dialog-close
     >
       <mat-icon>close</mat-icon>
     </button>
@@ -186,4 +197,64 @@
       </div>
     </div>
   </div>
+</ng-template>
+
+<ng-template #addPub>
+  <div mat-dialog-title>
+    <div mat-dialog-title>
+      Crear nueva publicación
+      <button
+        mat-icon-button
+        class="close-btn"
+        style="float: right"
+        mat-dialog-close
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div formGroupName="createPubForm">
+  <div mat-dialog-content>
+<div class="row ">
+  <div class="col-md-12">
+    <label for="texto_publicacion">Descripcion: </label>
+    <input formControlName="texto_publicacion">
+  </div>
+  <div class="col-md-12 mt-4" style="display: flex; flex-direction: column;">
+    <label for="texto_publicacion">Elige la imagen para tu publicación </label>
+  <input
+  formControlName="texto_publicacion"
+    formControlName="archivo_publicacion"
+    #fileInput
+    type="file"
+  />
+  </div>
+</div>
+  </div>
+  <div mat-dialog-action>
+    <div class="row w-100" style="justify-content: center">
+      <div class="col-md-6 d-flex justify-content-center w-auto">
+        <button
+          mat-stroked-button
+          color="primary"
+          mat-dialog-close
+          [textContent]="'Cancelar'"
+        ></button>
+      </div>
+      <div class="col-md-6 d-flex justify-content-center w-auto">
+        <button
+          mat-flat-button
+          color="primary"
+          [textContent]="'Enviar mensaje'"
+          [disabled]="!createPubForm.valid"
+          matTooltip="{{
+            !createPubForm.valid ? 'Debe completar todos los campos' : ''
+          }} "
+          matTooltipPosition="below"
+          
+        ></button>
+      </div>
+    </div>
+  </div>
+</div>
 </ng-template>

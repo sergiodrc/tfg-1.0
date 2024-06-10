@@ -79,20 +79,24 @@ async function getAllMatches(req, res) {
     }
 }
 
-
 async function updateMatch(req, res) {
     try {
+        console.log(req.body)
         var result = null;
-        result = await matchService.updateMatchBD(req.body)
+        result = await matchService.updateMatchBD(req)
+        console.log(result)
         if (result.status === true) {
             res.send({ status: true, message: "Partida actualizada" });
         } else {
-            res.send({ status: true, message: "No se pudo actualizar la partida" });
+            res.send({ status: false, message: "No se pudo actualizar la partida" });
         }
     } catch (error) {
-        res.send({ status: true, message: "Algo ha fallado!" });
+        console.log(error)
+        res.send({ status: false, message: "Algo ha fallado!" });
     }
 }
+
+
 async function getMyMatches(req, res) {
     try {
         const correo = req.query.correo; // Obtener el correo del query en lugar del cuerpo de la solicitud

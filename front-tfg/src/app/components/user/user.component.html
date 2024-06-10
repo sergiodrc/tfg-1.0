@@ -33,10 +33,7 @@
           "
         >
           <div>
-            <img
-              [src]="userData?.img_usuario"
-              alt="Imagen de usuario"
-            />
+            <img [src]="userData?.img_usuario" alt="Imagen de usuario" />
           </div>
           <div class="mt-2">
             <button
@@ -62,8 +59,17 @@
                 <label class="user-detail-label">Nombre:</label>
               </div>
               <div class="col-md-9">
-                <span class="mat-input w-100" style="border-radius: 0.5rem;    height: 2rem;
-; padding:0.3rem; background-color: white;display: inline-block;">{{ userData?.nombre_usuario }}</span>
+                <span
+                  class="mat-input w-100"
+                  style="
+                    border-radius: 0.5rem;
+                    height: 2rem;
+                    padding: 0.3rem;
+                    background-color: white;
+                    display: inline-block;
+                  "
+                  >{{ userData?.nombre_usuario }}</span
+                >
               </div>
             </div>
             <div class="row mt-2">
@@ -71,8 +77,17 @@
                 <label class="user-detail-label">Apellidos:</label>
               </div>
               <div class="col-md-9">
-                <span class="mat-input w-100" style="border-radius: 0.5rem;    height: 2rem;
-; padding:0.3rem; background-color: white;display: inline-block;">{{ userData?.apellido_usuario }}</span>
+                <span
+                  class="mat-input w-100"
+                  style="
+                    border-radius: 0.5rem;
+                    height: 2rem;
+                    padding: 0.3rem;
+                    background-color: white;
+                    display: inline-block;
+                  "
+                  >{{ userData?.apellido_usuario }}</span
+                >
               </div>
             </div>
             <div class="row mt-2">
@@ -80,8 +95,17 @@
                 <label class="user-detail-label">Nickname:</label>
               </div>
               <div class="col-md-9">
-                <span class="mat-input w-100" style="border-radius: 0.5rem;    height: 2rem;
-; padding:0.3rem; background-color: white;display: inline-block;">{{ userData?.nickname_usuario }}</span>
+                <span
+                  class="mat-input w-100"
+                  style="
+                    border-radius: 0.5rem;
+                    height: 2rem;
+                    padding: 0.3rem;
+                    background-color: white;
+                    display: inline-block;
+                  "
+                  >{{ userData?.nickname_usuario }}</span
+                >
               </div>
             </div>
             <div class="row mt-2">
@@ -89,8 +113,17 @@
                 <label class="user-detail-label">Correo:</label>
               </div>
               <div class="col-md-9">
-                <span class="mat-input w-100" style="border-radius: 0.5rem;    height: 2rem;
-; padding:0.3rem; background-color: white;display: inline-block;">{{ userData?.email_usuario }}</span>
+                <span
+                  class="mat-input w-100"
+                  style="
+                    border-radius: 0.5rem;
+                    height: 2rem;
+                    padding: 0.3rem;
+                    background-color: white;
+                    display: inline-block;
+                  "
+                  >{{ userData?.email_usuario }}</span
+                >
               </div>
             </div>
             <!-- <div class="row mt-2">
@@ -102,20 +135,31 @@
               </div>
             </div> -->
           </div>
-          
+
           <div class="row mt-5">
             <div class="col-md-12" style="padding-left: 0 !important">
-              <button mat-raised-button class="btn-edit-info" (click)="editInfo()" type="submit" [textContent]="'Editar datos'"></button>
+              <button
+                mat-raised-button
+                class="btn-edit-info"
+                (click)="editInfo()"
+                type="submit"
+                [textContent]="'Editar datos'"
+              ></button>
             </div>
           </div>
           <div class="row mt-3">
             <div class="col-md-12" style="padding-left: 0 !important">
-              <button mat-raised-button class="btn-delete" (click)="openConfirmDelete()" type="submit" [textContent]="'Eliminar cuenta'"></button>
+              <button
+                mat-raised-button
+                class="btn-delete"
+                (click)="openConfirmDelete()"
+                type="submit"
+                [textContent]="'Eliminar cuenta'"
+              ></button>
             </div>
           </div>
         </div>
-        
-        
+
         <div class="col-md-7 col-xs-12 mt-4" *ngIf="!showInfo">
           <div [formGroup]="editForm">
             <div class="row mt-2">
@@ -123,7 +167,16 @@
                 <label>Nombre:</label>
               </div>
               <div class="col-md-9">
-                <input type="text" formControlName="name" class="mat-input w-100" style="border-radius: 0.5rem;border: 1px solid #976ea3; padding:0.3rem" />
+                <input
+                  type="text"
+                  formControlName="name"
+                  class="mat-input w-100"
+                  style="
+                    border-radius: 0.5rem;
+                    border: 1px solid #976ea3;
+                    padding: 0.3rem;
+                  "
+                />
               </div>
             </div>
             <div class="row mt-2">
@@ -131,7 +184,16 @@
                 <label>Apellidos:</label>
               </div>
               <div class="col-md-9">
-                <input type="text" formControlName="surname" class="mat-input w-100" style="border-radius: 0.5rem;border: 1px solid #976ea3; padding:0.3rem" />
+                <input
+                  type="text"
+                  formControlName="surname"
+                  class="mat-input w-100"
+                  style="
+                    border-radius: 0.5rem;
+                    border: 1px solid #976ea3;
+                    padding: 0.3rem;
+                  "
+                />
               </div>
             </div>
             <div class="row mt-2">
@@ -139,17 +201,36 @@
                 <label>Nickname:</label>
               </div>
               <div class="col-md-9">
-                <input type="text" formControlName="nickname" class="mat-input w-100" style="border-radius: 0.5rem;border: 1px solid #976ea3; padding:0.3rem" />
+                <input
+                  type="text"
+                  formControlName="nickname"
+                  class="mat-input w-100"
+                  style="
+                    border-radius: 0.5rem;
+                    border: 1px solid #976ea3;
+                    padding: 0.3rem;
+                  "
+                />
               </div>
             </div>
             <div class="row mt-2">
-              <div class="col-md-3 align-content-center" >
+              <div class="col-md-3 align-content-center">
                 <label>Correo:</label>
               </div>
               <div class="col-md-9">
-                <span class="mat-input w-100" style="border-radius: 0.5rem;    height: 2rem;
-;border: 1px solid #976ea3; padding:0.3rem; background-color: white;display: inline-block;">{{userData?.email_usuario}}</span>
-            </div>
+                <span
+                  class="mat-input w-100"
+                  style="
+                    border-radius: 0.5rem;
+                    height: 2rem;
+                    border: 1px solid #976ea3;
+                    padding: 0.3rem;
+                    background-color: white;
+                    display: inline-block;
+                  "
+                  >{{ userData?.email_usuario }}</span
+                >
+              </div>
             </div>
             <!-- <div class="row mt-2">
               <div class="col-md-3">
@@ -160,48 +241,63 @@
               </div>
             </div> -->
             <div class="row mt-5">
-           
               <div class="col-md-12" style="padding-left: 0 !important">
-                <button mat-raised-button class="btn-update-info" (click)="updateUserData()" type="submit" [textContent]="'Actualizar datos'" (click)="showInfo = true"></button>
+                <button
+                  mat-raised-button
+                  class="btn-update-info"
+                  (click)="updateUserData()"
+                  type="submit"
+                  [textContent]="'Actualizar datos'"
+                  (click)="showInfo = true"
+                ></button>
               </div>
-    
+
               <div class="col-md-12 mt-3" style="padding-left: 0 !important">
-                <button mat-raised-button class="btn-cancel" (click)="editInfo()" type="submit" [textContent]="'Cancelar'" (click)="showInfo = true"></button>
-              
+                <button
+                  mat-raised-button
+                  class="btn-cancel"
+                  (click)="editInfo()"
+                  type="submit"
+                  [textContent]="'Cancelar'"
+                  (click)="showInfo = true"
+                ></button>
+              </div>
             </div>
           </div>
-          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-
-<ng-template #deleteUserMod>
-<div mat-dialog-title> 
-  Se necesita confirmación para continuar
+  <ng-template #deleteUserMod>
+    <div mat-dialog-title>
+      Se necesita confirmación para continuar
       <button mat-icon-button style="float: right">
         <mat-icon mat-dialog-close>close</mat-icon>
       </button>
-</div>
-<div mat-dialog-content>
-  <div class="row">
-    <div class="col-md-12">
-      ¿Desea eliminar la cuenta definitivamente?
     </div>
-  </div>
+    <div mat-dialog-content>
+      <div class="row">
+        <div class="col-md-12">¿Desea eliminar la cuenta definitivamente?</div>
+      </div>
+    </div>
+    <div mat-dialog-actions></div>
+    <div class="row w-100 mt-5" style="gap: 1rem; justify-content: center">
+      <div class="col-md-3">
+        <button mat-stroked-button color="primary" mat-dialog-close>
+          Cancelar
+        </button>
+      </div>
+      <div class="col-md-3">
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          (click)="deleteUser()"
+        >
+          ELIMINAR
+        </button>
+      </div>
+    </div>
+  </ng-template>
 </div>
-<div mat-dialog-actions></div>
-<div class="row w-100 mt-5" style="gap: 1rem; justify-content: center">
-  <div class="col-md-3">
-    <button mat-stroked-button color="primary" mat-dialog-close>
-      Cancelar
-    </button>
-  </div>
-  <div class="col-md-3">
-    <button mat-flat-button color="primary" type="submit" (click)="deleteUser()">
-      ELIMINAR
-    </button>
-  </div>
-</div>
-</ng-template>

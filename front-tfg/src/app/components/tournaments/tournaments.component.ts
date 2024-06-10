@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog'; 
@@ -6,11 +6,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
-import { DateAdapter, MAT_DATE_FORMATS, MatDateFormats } from '@angular/material/core';
-import { NativeDateAdapter } from '@angular/material/core';
 
 export interface Tournaments {
-  _id: string;
+  _id: string; // Agrega el campo _id
   fecha_partida: string;
   puntuacion_maxima_partida: number;
   puntuacion_minima_partida: number;
@@ -23,73 +21,44 @@ interface DeleteMatchResponse {
   message: string;
 }
 
-export class CustomDateAdapter extends NativeDateAdapter {
-  override parse(value: any): Date | null {
-    if ((typeof value === 'string') && (value.indexOf(' ') > -1)) {
-      const str = value.split(' ');
-      const day = Number(str[0]);
-      const month = Number(str[1]) - 1; // Month is zero-based
-      const year = Number(str[2]);
-      return new Date(year, month, day);
-    }
-    return null;
-  }
-
-  override format(date: Date, displayFormat: Object): string {
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Month is zero-based
-    const year = date.getFullYear();
-    return `${day} ${month} ${year}`;
-  }
-}
-
-export const CUSTOM_DATE_FORMATS: MatDateFormats = {
-  parse: {
-    dateInput: 'DD MM YYYY',
-  },
-  display: {
-    dateInput: 'DD MM YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'DD MM YYYY',
-    monthYearA11yLabel: 'MMMM YYYY',
-  }
-};
-
 @Component({
   selector: 'app-tournaments',
   templateUrl: './tournaments.component.html',
-  styleUrls: ['./tournaments.component.css'],
-  providers: [
-    { provide: DateAdapter, useClass: CustomDateAdapter },
-    { provide: MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMATS }
-  ]
+  styleUrls: ['./tournaments.component.css']
 })
-export class TournamentsComponent implements OnInit, AfterViewInit {
+export class TournamentsComponent implements OnInit {
   addGameForm: FormGroup;
+  modifyMatchForm: FormGroup;
   displayedColumns = ['date', 'maxScore', 'minScore', 'creator', 'actions'];
   dataSource = new MatTableDataSource<Tournaments>([]);
   @ViewChild(MatSort) sort: MatSort | undefined;
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
   @ViewChild('addGameModal') addGameModal = {} as TemplateRef<string>;
+  @ViewChild('modifyMatchMod') modifyMatchMod = {} as TemplateRef<string>;
+  @ViewChild('deleteMatchMod') deleteMatchMod = {} as TemplateRef<string>;
   detailData: any;
   dialogRef: any;
   selectedOption: string = '1';
-  correo: string | null = null;
-
+  correo: string | null = null; // Correo del usuario almacenado en localStorage
+  dialogDel: any;
   showDeleteIcons = false;
 
   constructor(
     public dialog: MatDialog,
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router,
-    private dateAdapter: DateAdapter<any>
+    private router: Router
   ) {
-    this.dateAdapter.setLocale('en-GB'); // O cualquier otra configuración regional que prefieras
     this.addGameForm = this.fb.group({
       date: ['', Validators.required],
       puntMax:['', Validators.required],
       puntMin:['', Validators.required],
+    });
+ 
+    this.modifyMatchForm = this.fb.group({
+      puntMax: ['', Validators.required],
+      puntMin: ['', Validators.required],
+      date: ['', Validators.required]
     });
   }
 
@@ -107,6 +76,7 @@ export class TournamentsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  // Crear partida
   onSubmit() {
     if (this.addGameForm.valid) {
       const matchDetails = {
@@ -120,18 +90,19 @@ export class TournamentsComponent implements OnInit, AfterViewInit {
         .subscribe(
           (response) => {
             console.log('Partida creada:', response);
-            this.closeModal();
-            this.showMatches();
+            this.showMatches(); // Actualiza la tabla después de crear una partida
           },
           (error) => {
             console.error('Error al crear la partida:', error);
+            // Abre modal de error
           }
         );
     }
   }
 
+  // Mostrar partidas
   showMatches() {
-    this.selectedOption = '1';
+    this.selectedOption = '1'; // Setea valor 1 al checkbox
     this.http.get<any>('http://localhost:9002/matches/allMatches')
       .subscribe(
         (response) => {
@@ -144,6 +115,7 @@ export class TournamentsComponent implements OnInit, AfterViewInit {
       );
   }
 
+  // Eliminar partida por ID
   deleteMatch(matchId: string): void {
     if (!this.correo) {
       console.error('Correo no encontrado en localStorage');
@@ -160,6 +132,7 @@ export class TournamentsComponent implements OnInit, AfterViewInit {
     }).subscribe(response => {
       if (response.status) {
         console.log('Partida eliminada correctamente');
+        // Actualiza la tabla eliminando el registro correspondiente
         this.dataSource.data = this.dataSource.data.filter(match => match._id !== matchId);
       } else {
         console.error('Error al eliminar la partida:', response.message);
@@ -169,6 +142,7 @@ export class TournamentsComponent implements OnInit, AfterViewInit {
     });
   }
 
+  // Devolver mis partidas por correo 
   getMyMatches(): void {
     const correo = localStorage.getItem('correo');
   
@@ -198,21 +172,67 @@ export class TournamentsComponent implements OnInit, AfterViewInit {
 
   openAddGameModal(element: any) {
     this.detailData = element;
+    console.log(this.detailData)
+    
     this.dialogRef = this.dialog.open(this.addGameModal, {
       width: '31rem',
       height: '22rem',
     });
   }
 
-  onOptionChange(): void {
-    if (this.selectedOption === '1') {
-      this.showMatches();
-    } else if (this.selectedOption === '2') {
-      this.getMyMatches();
+  openModifyMatchModal(element: any) {
+    this.detailData = element;
+    console.log(this.detailData);
+    
+    this.dialogRef = this.dialog.open(this.modifyMatchMod, {
+      width: '31rem',
+      height: '22rem',
+    });
+  }
+  
+  modifyMatch(matchId: string) {
+    if (this.modifyMatchForm.valid && matchId) {
+      // Aquí puedes manejar la lógica de envío del formulario
+      console.log("Formulario enviado:", this.modifyMatchForm.value);
+      const formData = this.modifyMatchForm.value;
+      console.log("el formdata", formData);
+      
+      const url = `http://localhost:9002/matches/updateMatch/${matchId}`;
+      this.http.patch(url, formData)
+        .subscribe(
+          (response) => {
+            console.log('Partida modificada exitosamente:', response);
+            // Aquí puedes agregar la lógica adicional después de modificar la partida
+          },
+          (error) => {
+            console.error('Error al modificar la partida:', error);
+            // Aquí puedes manejar el error de manera apropiada
+          }
+        );
+      this.dialogRef.close();
     }
   }
-
-  closeModal() {
-    this.dialogRef.close();
+  
+match:any
+  openConfirmDelete(idMatch: any) {
+this.match = idMatch;
+    this.dialogDel = this.dialog.open(this.deleteMatchMod, {
+      width: '27rem',
+      height: '20rem',
+    });
   }
-}
+
+
+
+  onOptionChange(): void {
+    if (this.selectedOption === '1') {
+      this.showMatches(); // Si se selecciona 'Todas las partidas', obtener partidas generales
+    } else if (this.selectedOption === '2') {
+    this.getMyMatches(); // Si se selecciona 'Tus partidas', obtener tus partidas
+    }
+    }
+    
+    closeModal(){
+    this.dialogRef.close();
+    }
+    }

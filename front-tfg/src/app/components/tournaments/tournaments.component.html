@@ -24,7 +24,7 @@
             (change)="onOptionChange()"
           >
             <mat-radio-button value="1" checked
-              >Todas las partidas</mat-radio-button
+              >Partidas disponibles</mat-radio-button
             >
             <mat-radio-button value="2">Tus partidas</mat-radio-button>
           </mat-radio-group>
@@ -59,186 +59,248 @@
     </div>
 
     <!-- la tabla tiene matSort para ordenar los resultados -->
-   <div class="container">
-  <div class="row mt-3" style="width: 100%; justify-content: center">
-    <div class="col-md-12">
-      <table mat-table [dataSource]="dataSource" matSort>
-        <ng-container matColumnDef="date">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            Fecha partida
-          </th>
-          <td mat-cell *matCellDef="let match">
-            {{ match.fecha_partida | date : "dd/MM/yyyy" }}
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="maxScore">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            Puntuación Máxima
-          </th>
-          <td mat-cell *matCellDef="let match">
-            {{ match.puntuacion_maxima_partida }}
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="minScore">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            Puntuación Mínima
-          </th>
-          <td mat-cell *matCellDef="let match">
-            {{ match.puntuacion_minima_partida }}
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="creator">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Creador</th>
-          <td mat-cell *matCellDef="let match">
-            {{ match.creador_partida }}
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let match">
-            <svg
-            *ngIf="selectedOption === '1'"
-              width="25px"
-              height="20px"
-              mat-raised-button
-              matTooltip="Unirse a la partida"
-              matTooltipPosition="above"
-              style="cursor: pointer"
-              viewBox="0 0 22 16"
-              version="1.1"
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              (click)="openAddGameModal(match)"
-            >
-              <g
-                id="Icons"
-                stroke="none"
-                stroke-width="1"
-                fill="none"
-                fill-rule="evenodd"
-              >
-                <g
-                  id="Rounded"
-                  transform="translate(-679.000000, -4102.000000)"
-                >
-                  <g
-                    id="Social"
-                    transform="translate(100.000000, 4044.000000)"
-                  >
-                    <g
-                      id="-Round-/-Social-/-person_add"
-                      transform="translate(578.000000, 54.000000)"
-                    >
-                      <g>
-                        <polygon
-                          id="Path"
-                          points="0 0 24 0 24 24 0 24"
-                        ></polygon>
-                        <path
-                          d="M15,12 C17.21,12 19,10.21 19,8 C19,5.79 17.21,4 15,4 C12.79,4 11,5.79 11,8 C11,10.21 12.79,12 15,12 Z M6,10 L6,8 C6,7.45 5.55,7 5,7 C4.45,7 4,7.45 4,8 L4,10 L2,10 C1.45,10 1,10.45 1,11 C1,11.55 1.45,12 2,12 L4,12 L4,14 C4,14.55 4.45,15 5,15 C5.55,15 6,14.55 6,14 L6,12 L8,12 C8.55,12 9,11.55 9,11 C9,10.45 8.55,10 8,10 L6,10 Z M15,14 C12.33,14 7,15.34 7,18 L7,19 C7,19.55 7.45,20 8,20 L22,20 C22.55,20 23,19.55 23,19 L23,18 C23,15.34 17.67,14 15,14 Z"
-                          id="🔹-Icon-Color"
-                          fill="#1D1D1D"
-                        ></path>
-                      </g>
-                    </g>
-                  </g>
-                </g>
-              </g>
-            </svg>
+    <div class="container">
+      <div class="row mt-3" style="width: 100%; justify-content: center">
+        <div class="col-md-12">
+          <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Fecha partida
+              </th>
+              <td mat-cell *matCellDef="let match">
+                {{ match.fecha_partida | date : "dd/MM/yyyy" }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="maxScore">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Puntuación Máxima
+              </th>
+              <td mat-cell *matCellDef="let match">
+                {{ match.puntuacion_maxima_partida }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="minScore">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Puntuación Mínima
+              </th>
+              <td mat-cell *matCellDef="let match">
+                {{ match.puntuacion_minima_partida }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="creator">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Creador</th>
+              <td mat-cell *matCellDef="let match">
+                {{ match.creador_partida }}
+              </td>
+              <!--  -->
+            </ng-container>
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let match">
+                <button
+                  mat-icon-button
+                  style="font-size: 1.1rem; color: #383f64"
+                  class="fa-solid fa-user-plus"
+                  matTooltip="Unirse a la partida"
+                  matTooltipPosition="above"
+                  *ngIf="
+                    selectedOption === '1' && match.creador_partida !== correo
+                  "
+                  (click)="openAddGameModal(match)"
+                ></button>
+                <button
+                  mat-icon-button
+                  style="font-size: 1.1rem; color: #383f64"
+                  class="fa-solid fa-pen-to-square"
+                  matTooltip="Modificar partida"
+                  (click)="openModifyMatchModal(match)"
+                  matTooltipPosition="above"
+                  *ngIf="selectedOption === '2'"
+                ></button>
 
-            <button
-              mat-icon-button
-              color="warn"
-              matTooltip="Eliminar partida"
-              matTooltipPosition="above"
-              *ngIf="selectedOption === '2'"
-              (click)="deleteMatch(match._id)"
+                <button
+                  mat-icon-button
+                  color="warn"
+                  matTooltip="Eliminar partida"
+                  matTooltipPosition="above"
+                  *ngIf="selectedOption === '2'"
+                  (click)="deleteMatch(match._id)"
+                
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr
+              mat-row
+              *matRowDef="let myRowData; columns: displayedColumns"
+            ></tr>
+            <!-- No hay partidas -->
+            <ng-container
+              *ngIf="!dataSource.data || dataSource.data.length === 0"
             >
-              <mat-icon>delete</mat-icon>
-            </button>
-          </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let myRowData; columns: displayedColumns"></tr>
-        <!-- No hay partidas -->
-        <ng-container *ngIf="!dataSource.data || dataSource.data.length === 0">
-          <tr>
-            <td colspan="5" class="text-center">No hay partidas</td>
-          </tr>
-        </ng-container>
-      </table>
-      <mat-paginator
-        [length]="100"
-        [pageSize]="5"
-        [pageSizeOptions]="[5, 10]"
-        aria-label="Select page"
-      ></mat-paginator>
+              <tr>
+                <td colspan="5" class="text-center">No hay partidas</td>
+              </tr>
+            </ng-container>
+          </table>
+          <mat-paginator
+            [length]="100"
+            [pageSize]="5"
+            [pageSizeOptions]="[5, 10]"
+            aria-label="Select page"
+          ></mat-paginator>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-
-    
+<!-- modal añadir partida -->
+<ng-template #addGameModal>
+  <div mat-dialog-title>
+    <!--  -->
+    Crear nueva partida
+    <button mat-icon-button style="float: right">
+      <mat-icon (click)="closeModal()">close</mat-icon>
+    </button>
   </div>
-
-  <!-- modal añadir partida -->
-  <ng-template #addGameModal>
-    <div mat-dialog-title>
-      <!--  -->
-      Crear nueva partida
-      <button mat-icon-button style="float: right">
-        <mat-icon (click)="closeModal()">close</mat-icon>
+  <form [formGroup]="addGameForm">
+    <div mat-dialog-content>
+      <div class="row">
+        <div class="col-md-10"></div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <mat-form-field class="example-form-field" appearance="fill">
+            <mat-label>Puntuación máxima</mat-label>
+            <input matInput type="number" formControlName="puntMax" />
+          </mat-form-field>
+        </div>
+        <div class="col-md-6" style="padding-right: 0!important;">
+          <mat-form-field class="example-form-field" appearance="fill">
+            <mat-label>Puntuación mínima</mat-label>
+            <input matInput type="number" formControlName="puntMin" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row" style="justify-content: center">
+        <div class="col-md-12" style="display: flex; justify-content: center">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Elige la fecha de la partida</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="date" />
+            <mat-hint>DD/MM/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div mat-dialog-actions>
+      <div class="row w-100 mt-5" style="gap: 1rem; justify-content: center">
+        <div class="col-md-3">
+          <button mat-stroked-button color="primary" (click)="closeModal()">
+            Cancelar
+          </button>
+        </div>
+        <div class="col-md-3">
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="onSubmit()"
+            type="submit"
+          >
+            Aceptar
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+<ng-template #modifyMatchMod>
+  <div mat-dialog-title>
+    Modificar partida
+    <button mat-icon-button style="float: right" (click)="closeModal()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <form [formGroup]="modifyMatchForm" (ngSubmit)="onSubmit()">
+    <div mat-dialog-content>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <mat-form-field class="example-form-field" appearance="fill">
+            <mat-label>Puntuación máxima</mat-label>
+            <input matInput type="number" formControlName="puntMax" />
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="example-form-field" appearance="fill">
+            <mat-label>Puntuación mínima</mat-label>
+            <input matInput type="number" formControlName="puntMin" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row" style="justify-content: center">
+        <div class="col-md-12" style="display: flex; justify-content: center">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Elige la fecha de la partida</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="date" />
+            <mat-hint>DD/MM/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div mat-dialog-actions>
+      <div class="row w-100 mt-5" style="gap: 1rem; justify-content: center">
+        <div class="col-md-3">
+          <button mat-stroked-button 
+          color="primary" 
+          type="button" 
+          (click)="closeModal()"
+          style="color:red"
+          >
+            Cancelar
+          </button>
+        </div>
+        <div class="col-md-3">
+          <button mat-flat-button color="primary" style="background-color: #640b80;" type="button" (click)="modifyMatch(detailData._id)">
+            Modificar
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+<ng-template #deleteMatchMod>
+  <div mat-dialog-title> 
+    Se necesita confirmación para continuar
+        <button mat-icon-button style="float: right">
+          <mat-icon mat-dialog-close>close</mat-icon>
+        </button>
+  </div>
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col-md-12">
+        ¿Desea eliminar la cuenta definitivamente?
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions></div>
+  <div class="row w-100 mt-5" style="gap: 1rem; justify-content: center">
+    <div class="col-md-3">
+      <button mat-stroked-button color="primary" mat-dialog-close>
+        Cancelar
       </button>
     </div>
-    <form [formGroup]="addGameForm" >
-      <div mat-dialog-content>
-        <div class="row">
-          <div class="col-md-10"></div>
-        </div>
-        <div class="row justify-content-center">
-          <div class="col-md-6">
-            <mat-form-field class="example-form-field" appearance="fill">
-              <mat-label>Puntuación máxima</mat-label>
-              <input matInput type="number" formControlName="puntMax" />
-            </mat-form-field>
-          </div>
-          <div class="col-md-6">
-            <mat-form-field class="example-form-field" appearance="fill">
-              <mat-label>Puntuación mínima</mat-label>
-              <input matInput type="number" formControlName="puntMin" />
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="row" style="justify-content: center">
-          <div class="col-md-12" style="display: flex; justify-content: center">
-            <mat-form-field appearance="fill" class="w-100">
-              <mat-label>Elige la fecha de la partida</mat-label>
-              <input matInput [matDatepicker]="picker" formControlName="date" />
-              <mat-hint>DD/MM/YYYY</mat-hint>
-              <mat-datepicker-toggle
-                matSuffix
-                [for]="picker"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-          </div>
-        </div>
-      </div>
-      <div mat-dialog-actions>
-        <div class="row w-100 mt-5" style="gap: 1rem; justify-content: center">
-          <div class="col-md-3">
-            <button mat-stroked-button color="primary" (click)="closeModal()">
-              Cancelar
-            </button>
-          </div>
-          <div class="col-md-3">
-            <button mat-flat-button color="primary" 
-            (click)="onSubmit()"
-            type="submit">
-              Aceptar
-            </button>
-          </div>
-        </div>
-      </div>
-    </form>
+    <div class="col-md-3">
+      <button mat-flat-button color="primary" type="submit" >
+        Eliminar
+      </button>
+    </div>
+  </div>
   </ng-template>
-</div>

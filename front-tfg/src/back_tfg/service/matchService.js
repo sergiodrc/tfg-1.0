@@ -95,17 +95,19 @@ async function getAllMatchesBD() {
     }
 }
 
-// Funciona en el back y en el front
 async function updateMatchBD(matchDetails) {
     try {
+console.log("esto eto", matchDetails.params);
+console.log("eeeee eto", matchDetails.body);
         let result = await matchModel.updateOne(
-            { _id: matchDetails._id },
+            { _id: matchDetails.params._id },
             {
-                fecha_partida: matchDetails.fecha_partida,
-                puntuacion_maxima_partida: matchDetails.puntuacion_maxima_partida,
-                puntuacion_minima_partida: matchDetails.puntuacion_minima_partida
+                fecha_partida: matchDetails.body.fecha_partida,
+                puntuacion_maxima_partida: matchDetails.body. puntMax,
+                puntuacion_minima_partida: matchDetails.body.puntMin
             }
         )
+        console.log(result)
         if (result) {
             return { status: true, msg: "Partida actualizada con éxito" };
         } else {
@@ -115,6 +117,10 @@ async function updateMatchBD(matchDetails) {
         return { status: false, msg: "Error al actualizar la partida" };
     }
 }
+
+
+
+
 
 // Funciona en el back y en el front
 const getMyMatchesBD = async (correo) => {
