@@ -129,6 +129,10 @@ getUserDetail() {
         this.http.get<any>(`http://localhost:9002/userDetails/${correo}`).subscribe(data => {
             this.userData = data;
             this.showInfo = true;
+            
+            this.userData.img_usuario = `http://localhost:9002/uploads/${this.userData.img_usuario}`;
+            console.log('Ruta de la imagen:', this.userData?.img_usuario);
+            console.log(this.userData.img_usuario)
         }, error => {
             console.log(error);
             // Manejar errores aquí
@@ -138,13 +142,37 @@ getUserDetail() {
         // Manejar el caso en el que no se encuentra el correo electrónico en el localStorage
     }
 }
-  selectedFile: any = null;
+  //selectedFile: any = null;
   // para seleccionar imagen, tal vez deberia haber unas imagenes predefinidas en la bbdd y 
   // el usuario puede elegir entre esas
-onFileSelected(event: any): void {
+/* onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0] ?? null;
-}
+} */
 
+onFileSelected(event: any) {
+  const correo = localStorage.getItem('correo');
+  if (correo) {
+  const file: File = event.target.files[0];
+  const formData: FormData = new FormData();
+  formData.append('img_usuario', file, file.name);
+  formData.append('email_usuario', correo);
+  console.log('--> Correo:', correo);
+  console.log('Archivo:', file);
+  console.log('------->',formData)
+  this.http.post<any>(`http://localhost:9002/uploadImageUser/${correo}`, formData).subscribe(data => {
+    this.userData = data;
+    this.showInfo = true;
+    // Manejar la respuesta del servidor si es necesario
+      console.log('Respuesta del servidor:');
+      // Actualizar la imagen en la vista si es necesario
+      this.getUserDetail();
+  },
+    error => {
+      console.error('Error al actualizar la imagen de perfil:', error);
+    }
+  );
+  }
+}
 
 
 //modal confirmar eliminacion usuario

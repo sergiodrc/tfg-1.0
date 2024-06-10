@@ -83,7 +83,11 @@ const getUser = async (req, res) => {
 async function uploadImageUser(req, res) {
     try {
         if (req.files) {
+            console.log(req.body)
+            console.log('-> ',req.files)
             var file_path = req.files.img_usuario.path;
+            console.log(file_path)
+            console.log(file_path)
             var file_split = file_path.split('\\');
             var file_name = file_split[2];
             var ext_split = file_name.split('\.');
@@ -113,7 +117,7 @@ async function getImageFile(req, res) {
     if (result.status) {
         res.send({ result: true, message: "a", filePath: result.filePath });
     } else {
-        res.send({ result: false, message: "b" });
+        res.send({ result: false, message: "b", filePath: result.filePath });
     }
 }
 
