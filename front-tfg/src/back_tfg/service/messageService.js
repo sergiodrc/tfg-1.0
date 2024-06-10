@@ -46,6 +46,7 @@ async function getReceivedMessagesBD(receiverEmail) {
 }
 
 async function getEmmitMessagesBD(emitterEmail) {
+    console.log(emitterEmail)
     try {
         let result = await messageModel.find({ emitter: emitterEmail }).populate('emitter');
         if (result) {

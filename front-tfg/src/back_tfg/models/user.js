@@ -14,4 +14,8 @@ var UserSchema = new Schema({
     img_usuario: String  
 });
 
+<<<<<<< HEAD
 module.exports = mongoose.model('users', UserSchema);
+=======
+module.exports = mongoose.model('users', UserSchema);
+>>>>>>> d6fcb3c2ff1dad213d4da7c1603f10371a844b0b

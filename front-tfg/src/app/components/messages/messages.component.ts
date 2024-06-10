@@ -17,6 +17,10 @@ export interface Message {
 
 
 export class MessagesComponent implements OnInit {
+ 
+  visibleMessages: any[] = [];
+  currentIndex = 0;
+  itemsPerPage = 5;
   detailData: any;
   dialogDelete: any;
   dialogReply:any;
@@ -92,6 +96,7 @@ export class MessagesComponent implements OnInit {
   }
 //mostrar mensajes user logeado
 getMyMessages() {
+  this.selectedOption = '1'; //setea valor 1 al checkbox
   const email = localStorage.getItem('correo');
   if (!email) {
     console.error('Email not found in localStorage');
@@ -108,15 +113,24 @@ getMyMessages() {
           body: msg.texto_mensaje,
           receiver: msg.receiver
         }));
+        this.loadMore();
       } else {
         console.error(response.message);
       }
     },
     error => {
+      console.log(error)
       console.error('Error retrieving messages:', error);
     }
   );
 }
+
+loadMore(): void {
+  const nextIndex = this.currentIndex + this.itemsPerPage;
+  this.visibleMessages.push(...this.messages.slice(this.currentIndex, nextIndex));
+  this.currentIndex = nextIndex;
+}
+
 
 //devolver mensajes ENVIADOS
 getMySentMessages() {
@@ -137,11 +151,13 @@ getMySentMessages() {
           body: msg.texto_mensaje,
           receiver: msg.receiver
         }));
+        console.log(this.messages)
       } else {
-        console.error(response.message);
+        console.error('No messages'/* response.message */);
       }
     },
     error => {
+      console.log('Error -> ', error)
       console.error('Error retrieving messages:', error);
     }
   );

@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, AfterViewInit } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog'; 
@@ -6,24 +6,65 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
+import { DateAdapter, MAT_DATE_FORMATS, MatDateFormats } from '@angular/material/core';
+import { NativeDateAdapter } from '@angular/material/core';
+
 export interface Tournaments {
-  _id: string; // Agrega el campo _id
+  _id: string;
   fecha_partida: string;
   puntuacion_maxima_partida: number;
   puntuacion_minima_partida: number;
   creador_partida: string;
   contrincante_partida: string;
 }
+
 interface DeleteMatchResponse {
   status: boolean;
   message: string;
 }
+
+export class CustomDateAdapter extends NativeDateAdapter {
+  override parse(value: any): Date | null {
+    if ((typeof value === 'string') && (value.indexOf(' ') > -1)) {
+      const str = value.split(' ');
+      const day = Number(str[0]);
+      const month = Number(str[1]) - 1; // Month is zero-based
+      const year = Number(str[2]);
+      return new Date(year, month, day);
+    }
+    return null;
+  }
+
+  override format(date: Date, displayFormat: Object): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Month is zero-based
+    const year = date.getFullYear();
+    return `${day} ${month} ${year}`;
+  }
+}
+
+export const CUSTOM_DATE_FORMATS: MatDateFormats = {
+  parse: {
+    dateInput: 'DD MM YYYY',
+  },
+  display: {
+    dateInput: 'DD MM YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'DD MM YYYY',
+    monthYearA11yLabel: 'MMMM YYYY',
+  }
+};
+
 @Component({
   selector: 'app-tournaments',
   templateUrl: './tournaments.component.html',
-  styleUrls: ['./tournaments.component.css']
+  styleUrls: ['./tournaments.component.css'],
+  providers: [
+    { provide: DateAdapter, useClass: CustomDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMATS }
+  ]
 })
-export class TournamentsComponent implements OnInit {
+export class TournamentsComponent implements OnInit, AfterViewInit {
   addGameForm: FormGroup;
   displayedColumns = ['date', 'maxScore', 'minScore', 'creator', 'actions'];
   dataSource = new MatTableDataSource<Tournaments>([]);
@@ -33,16 +74,18 @@ export class TournamentsComponent implements OnInit {
   detailData: any;
   dialogRef: any;
   selectedOption: string = '1';
-  correo: string | null = null; // Correo del usuario almacenado en localStorage
+  correo: string | null = null;
 
   showDeleteIcons = false;
+
   constructor(
     public dialog: MatDialog,
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router
-  ) 
-  {
+    private router: Router,
+    private dateAdapter: DateAdapter<any>
+  ) {
+    this.dateAdapter.setLocale('en-GB'); // O cualquier otra configuración regional que prefieras
     this.addGameForm = this.fb.group({
       date: ['', Validators.required],
       puntMax:['', Validators.required],
@@ -77,18 +120,18 @@ export class TournamentsComponent implements OnInit {
         .subscribe(
           (response) => {
             console.log('Partida creada:', response);
-            this.showMatches(); // Actualiza la tabla después de crear una partida
+            this.closeModal();
+            this.showMatches();
           },
           (error) => {
             console.error('Error al crear la partida:', error);
-            // Abre modal de error
           }
         );
     }
   }
 
   showMatches() {
-    this.selectedOption = '1'; //setea valor 1 al checkbox
+    this.selectedOption = '1';
     this.http.get<any>('http://localhost:9002/matches/allMatches')
       .subscribe(
         (response) => {
@@ -117,7 +160,6 @@ export class TournamentsComponent implements OnInit {
     }).subscribe(response => {
       if (response.status) {
         console.log('Partida eliminada correctamente');
-        // Actualiza la tabla eliminando el registro correspondiente
         this.dataSource.data = this.dataSource.data.filter(match => match._id !== matchId);
       } else {
         console.error('Error al eliminar la partida:', response.message);
@@ -126,6 +168,7 @@ export class TournamentsComponent implements OnInit {
       console.error('Error al comunicarse con el servidor:', error);
     });
   }
+
 
   //devolver mis partidas
   getMyMatches(): void {
@@ -155,27 +198,23 @@ export class TournamentsComponent implements OnInit {
       );
   }
 
-
   openAddGameModal(element: any) {
     this.detailData = element;
-    console.log(this.detailData)
-    
     this.dialogRef = this.dialog.open(this.addGameModal, {
       width: '31rem',
       height: '22rem',
     });
   }
 
-
   onOptionChange(): void {
     if (this.selectedOption === '1') {
-      this.showMatches(); // Si se selecciona 'Todas las partidas', obtener partidas generales
+      this.showMatches();
     } else if (this.selectedOption === '2') {
-      this.getMyMatches(); // Si se selecciona 'Tus partidas', obtener tus partidas
+      this.getMyMatches();
     }
   }
 
-  closeModal(){
+  closeModal() {
     this.dialogRef.close();
   }
 }
