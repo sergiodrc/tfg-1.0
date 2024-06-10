@@ -104,17 +104,21 @@ async function uploadImageUserBD(userDetails) {
         const file_path = userDetails.files.img_usuario.path;
         const file_name = path.basename(file_path);
         const file_ext = path.extname(file_name).slice(1);
-
+        console.log('a -> ',file_path)
+        console.log('b -> ',file_name)
+        console.log('c -> ',file_ext)
         if (!['png', 'jpg', 'jpeg', 'gif'].includes(file_ext.toLowerCase())) {
           await removeFilesOfUploads(file_path);
           return { status: false, message: 'Extensión no válida' };
       }
-
+      console.log(userDetails.body.email_usuario)
       var userUpdated = await User.updateOne(
-          { email_usuario: userDetails.email_usuario },
+          { email_usuario: userDetails.body.email_usuario },
           { img_usuario: file_name },
           { new: true }
+        
       );
+      console.log(userUpdated)
 
       if (!userUpdated) {
           return { status: false, message: "No se ha podido encontrar el usuario" };
@@ -138,7 +142,7 @@ async function removeFilesOfUploads(file_path) {
 async function getImageFileBD(userDetails) {
   try {
       const imageFileName = userDetails.img_usuario;
-      const imagePath = path.join('./', 'uploads', 'users', imageFileName);
+      const imagePath = path.join('../','../','assets','img','users', imageFileName);
 
       const exists = await fs.access(imagePath)
           .then(() => true)
@@ -147,7 +151,7 @@ async function getImageFileBD(userDetails) {
       if (exists) {
           return { status: true, filePath: imagePath };
       } else {
-          return { status: false, message: "La imagen no existe" };
+          return { status: false, message: "La imagen no existe", filePath: imagePath };
       }
   } catch (err) {
       console.error(err);

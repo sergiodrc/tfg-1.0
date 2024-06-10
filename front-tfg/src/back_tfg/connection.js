@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose');
 const routes = require('./routes/routes')
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 
@@ -18,6 +19,8 @@ async function connect() {
   
 }
 connect()
+app.use('/uploads', express.static(path.join(__dirname, 'uploads/users/')));
+//app.use('/uploads', express.static(path.join(__dirname, 'uploads/publications/')));
 app.use(express.json());
 app.use(routes);
 
