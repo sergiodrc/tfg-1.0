@@ -17,11 +17,9 @@ router.route('/user/login').post(userController.loginUser)//funcionando
 router.route('/user/register').post(userController.createUser)//funcionando
 router.route('/user/deleteUser').delete(userController.deleteUser)//funcionando
 router.route('/user/updateUser/:email').patch(userController.updateUser)//funcionando
-<<<<<<< HEAD
 router.route('/userDetails/:correo').get(userController.getUser);
-=======
 router.route('/userDetails/:email').get(userController.getUser);//funcionando
->>>>>>> d6fcb3c2ff1dad213d4da7c1603f10371a844b0b
+router.route('/userDetails/:email').get(userController.getUser);//funcionando
 router.route('/uploadImageUser/:email').post(md_upload_users,userController.uploadImageUser)
 router.route('/get-image-user').get(userController.getImageFile)
 

@@ -169,8 +169,6 @@ export class TournamentsComponent implements OnInit, AfterViewInit {
     });
   }
 
-
-  //devolver mis partidas
   getMyMatches(): void {
     const correo = localStorage.getItem('correo');
   
