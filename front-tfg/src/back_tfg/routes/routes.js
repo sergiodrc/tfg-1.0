@@ -17,23 +17,23 @@ router.route('/user/login').post(userController.loginUser)//funcionando
 router.route('/user/register').post(userController.createUser)//funcionando
 router.route('/user/deleteUser').delete(userController.deleteUser)//funcionando
 router.route('/user/updateUser/:email').patch(userController.updateUser)//funcionando
-router.route('/userDetails/:email').get(userController.getUser);
+router.route('/userDetails/:email').get(userController.getUser);//funcionando
 router.route('/uploadImageUser/:email').post(md_upload_users,userController.uploadImageUser)
 router.route('/get-image-user').get(userController.getImageFile)
 
 router.route('/message').post(messageController.saveMessage)//funcionando
 router.route('/my-messages/:receiver').get(messageController.getMessages);//funcionando
-router.route('/sentMessages/:email').get(messageController.getMySentMessages);
+router.route('/sentMessages/:email').get(messageController.getMySentMessages);//funcionando
 router.route('/unviewed-messages').get(messageController.getUnviewedMessages)
 router.route('/set-viewed-messages').get(messageController.updateMessagesToViewed)
 
-router.route('/matches/createMatch').post(matchController.createMatch)
-router.delete('/matches/deleteMatch', matchController.deleteMatch);
+router.route('/matches/createMatch').post(matchController.createMatch)//funcionando
+router.delete('/matches/deleteMatch', matchController.deleteMatch);//funcionando
 router.route('/matches/joinMatch').patch(matchController.joinMatch)
 router.route('/matches/leaveMatch').patch(matchController.leaveMatch)
-router.route('/matches/allMatches').get(matchController.getAllMatches)
+router.route('/matches/allMatches').get(matchController.getAllMatches)//funcionando
 router.route('/matches/updateMatch').patch(matchController.updateMatch)
-router.route('/matches/myMatches').get(matchController.getMyMatches)
+router.route('/matches/myMatches').get(matchController.getMyMatches)//funcionando
 
 router.route('/publications/createPublication').post(md_upload_publications,publicationController.createPublication)
 router.route('/publications/deletePublication').delete(publicationController.deletePublication)
