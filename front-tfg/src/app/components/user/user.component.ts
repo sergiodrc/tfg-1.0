@@ -29,7 +29,7 @@ export class UserComponent implements OnInit {
     this.userForm = this.fb.group({
       name:[''],
       surname:[''],
-      nickname:[''],
+      nickname:[],
       email:[''],
       phone:[''],
     })
@@ -38,7 +38,7 @@ export class UserComponent implements OnInit {
       surname:[''],
       nickname:[''],
       email:[''],
-      phone:[''],
+   
     })
 
 
@@ -51,8 +51,15 @@ export class UserComponent implements OnInit {
   }
 
 
-  editInfo(){
-    this.showInfo=false
+
+  editInfo() {
+    this.showInfo = false;
+    this.editForm.patchValue({
+        name: [this.userData.name],
+        surname: [this.userData.surname], 
+        nickname: [this.userData.nickname], 
+        email: [this.userData.email], 
+    });
   }
 
   async deleteUser() {
@@ -125,30 +132,26 @@ export class UserComponent implements OnInit {
   
 //mostrar los datos del usuario logeado
 getUserDetail() {
-    const correo = localStorage.getItem('correo');
-    if (correo) {
-        this.http.get<any>(`http://localhost:9002/userDetails/${correo}`).subscribe(data => {
-            this.userData = data;
-            this.showInfo = true;
-            
-            this.userData.img_usuario = `http://localhost:9002/uploads/${this.userData.img_usuario}`;
-            console.log('Ruta de la imagen:', this.userData?.img_usuario);
-            console.log(this.userData.img_usuario)
-        }, error => {
-            console.log(error);
-            // Manejar errores aquí
-        });
-    } else {
-        console.error("No se encontró el correo  en el localStorage");
-        // Manejar el caso en el que no se encuentra el correo electrónico en el localStorage
-    }
+  const correo = localStorage.getItem('correo');
+  if (correo) {
+      this.http.get<any>(`http://localhost:9002/userDetails/${correo}`).subscribe(data => {
+          this.userData = data;
+          this.showInfo = true;
+          
+          this.userData.img_usuario = `http://localhost:9002/uploads/${this.userData.img_usuario}`;
+          console.log('Ruta de la imagen:', this.userData?.img_usuario);
+          console.log(this.userData.img_usuario);
+
+      }, error => {
+          console.log(error);
+      });
+  } else {
+      console.error("No se encontró el correo  en el localStorage");
+  }
 }
-  //selectedFile: any = null;
-  // para seleccionar imagen, tal vez deberia haber unas imagenes predefinidas en la bbdd y 
-  // el usuario puede elegir entre esas
-/* onFileSelected(event: any): void {
-    this.selectedFile = event.target.files[0] ?? null;
-} */
+
+
+
 
 onFileSelected(event: any) {
   const correo = localStorage.getItem('correo');

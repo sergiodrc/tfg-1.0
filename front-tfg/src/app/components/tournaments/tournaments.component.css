@@ -99,6 +99,7 @@ mat-radio-group {
 /* Portátil */
 @media screen and (max-width: 1300px) {
   .body{ height: fit-content;
+    min-height: 100%;
   padding-bottom: 1rem;
   }
   .contenedor {
