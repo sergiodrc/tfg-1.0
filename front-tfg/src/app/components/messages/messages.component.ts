@@ -7,7 +7,7 @@ export interface Message {
   emitter: string;
   body: string;
   receiver: string;
-  texto_mensaje?: string; 
+  texto_mensaje?: string;
 }
 @Component({
   selector: 'app-messages',
@@ -145,6 +145,7 @@ getMySentMessages() {
   this.http.get<any>(url).subscribe(
     response => {
       if (response.status) {
+        console.log(response)
         this.messages = response.messages.map((msg: any) => ({
           emitter: msg.emitter, // Change to emitter
           body: msg.texto_mensaje,

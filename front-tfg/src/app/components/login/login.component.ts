@@ -28,11 +28,12 @@ export class LoginComponent implements OnInit {
     });
     this.formLogin = this.fb.group({
       correo: ['admin@gmail.com', Validators.required],
-      password: ['patata', [Validators.required]],
+      password: ['root', [Validators.required]],
     });
   }
 
   ngOnInit(): void {}
+
   async registerUser() {
     var nombre = this.formRegister.get('nombre')?.value;
     var apellido = this.formRegister.get('apellido')?.value;
@@ -57,6 +58,7 @@ export class LoginComponent implements OnInit {
       const response: any = await firstValueFrom(
         this.http.post('http://localhost:9002/user/register', userData)
       );
+      
       if (response.status) {
         console.log('Respuesta exitosa:', response);
         console.log('esto se envia', userData);
@@ -75,17 +77,21 @@ export class LoginComponent implements OnInit {
   async loginUser() {
     const password = this.formLogin.get('password')?.value;
     const correo = this.formLogin.get('correo')?.value;
+      
 
     const userData = {
       correo: correo,
       password: password,
+      //nickname: nickname
     };
 
     localStorage.setItem('correo', correo);
+    //localStorage.setItem('nickname', userData.nickname);
     try {
       const response: any = await firstValueFrom(
         this.http.post('http://localhost:9002/user/login', userData)
       );
+      console.log(userData)
       // console.log('Respuesta del servidor:', response);
       console.log('userData: ', userData);
       console.log('Respuesta :', response);
@@ -93,6 +99,11 @@ export class LoginComponent implements OnInit {
       if (response.status) {
         console.log('Usuario logeado correctamente');
         this.isRegistred = true;
+        try {
+        } catch(err) {
+console.log(err)
+        }
+
         this.router.navigate(['/home']);
       } else {
         console.error('Error al logear usuario:', response.msg);

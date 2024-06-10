@@ -91,7 +91,7 @@
     <div class="row">
       <div class="col-md-12">
         ¿Deseas eliminar el mensaje de
-        <span style="font-weight: 600"> @nombre? </span>
+        <span *ngFor="let message of messages" style="font-weight: 600"> {{message.emitter}}  </span>
       </div>
     </div>
   </div>
