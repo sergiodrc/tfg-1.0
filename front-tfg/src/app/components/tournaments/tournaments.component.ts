@@ -144,6 +144,7 @@ export class TournamentsComponent implements OnInit {
 
   // Eliminar partida por ID
   deleteMatch(matchId: string): void {
+    console.log(matchId)
     if (!this.correo) {
       console.error('Correo no encontrado en localStorage');
       return;

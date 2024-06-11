@@ -24,7 +24,7 @@ export class TimelineComponent implements OnInit {
     private router: Router
   ) { 
     this.createPubForm = this.fb.group({
-      user: [''],
+      user: [this.user],
       archivo_publicacion: [''],
       texto_publicacion: ['', Validators.required],
     });
@@ -32,10 +32,12 @@ export class TimelineComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  user = localStorage.getItem('correo');
   createPub() {
+    
     const url = 'http://localhost:9002/publications/createPublication';
     const requestBody = this.createPubForm.value;
+    console.log(requestBody)
 
     this.http.post(url, requestBody)
       .subscribe(
@@ -49,6 +51,21 @@ export class TimelineComponent implements OnInit {
         }
       );
   }
+
+  onFileSelected(event: any) {
+    const correo = localStorage.getItem('correo');
+    if (correo) {
+      const file: File = event.target.files[0];
+      const formData: FormData = new FormData();
+      formData.append('img_usuario', file, file.name);
+      formData.append('email_usuario', correo);
+      console.log('--> Correo:', correo);
+      console.log('Archivo:', file);
+      console.log('------->', formData);
+    }
+  }
+
+
 
   openCommentModal(element: any) {
     this.commentData = element;

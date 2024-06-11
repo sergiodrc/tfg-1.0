@@ -7,12 +7,13 @@ var path = require("path");
 var moment = require("moment");
 
 async function createPublicationBD(publicationDetails) {
+  console.log('aaaa ' ,publicationDetails.body)
   try {
     var publicationModelData = new publicationModel({
       texto_publicacion: publicationDetails.body.texto_publicacion,
       fecha_creacion_publicacion: moment().unix().toString(),
       user: publicationDetails.body.nickname_usuario,
-      archivo_publicacion: await uploadImageBD(publicationDetails.files),
+      archivo_publicacion: await uploadImageBD(publicationDetails.body),
     });
     var result = await publicationModelData.save();
     if (result) {
@@ -28,7 +29,9 @@ async function createPublicationBD(publicationDetails) {
 
 async function uploadImageBD(publicationDetails) {
   try {
-    var file_path = publicationDetails.archivo_publicacion.path;
+    console.log('-> ',publicationDetails)
+    var file_path = publicationDetails.archivo_publicacion;
+    console.log(file_path)
     var file_name = path.basename(file_path);
     var file_ext = path.extname(file_name).slice(1);
 

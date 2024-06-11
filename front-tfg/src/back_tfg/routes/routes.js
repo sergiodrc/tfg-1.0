@@ -30,7 +30,7 @@ router.route('/unviewed-messages').get(messageController.getUnviewedMessages)
 router.route('/set-viewed-messages').get(messageController.updateMessagesToViewed)
 
 router.route('/matches/createMatch').post(matchController.createMatch)//funcionando
-router.delete('/matches/deleteMatch', matchController.deleteMatch);//funcionando
+router.route('/matches/deleteMatch/:id').delete(matchController.deleteMatch);//funcionando
 router.route('/matches/joinMatch/:id').patch(matchController.joinMatch);
 router.route('/matches/leaveMatch').patch(matchController.leaveMatch)
 router.route('/matches/allMatches').get(matchController.getAllMatches)//funcionando

@@ -17,7 +17,12 @@ async function createMatch(req, res) {
 //funciona  back y front
 async function deleteMatch(req, res) {
     try {
-        const { id, correo } = req.body; // Obtener el id y el correo del cuerpo de la petición
+        const { correo } = req.body; // Obtener el id y el correo del cuerpo de la petición
+        const { id } = req.params
+        console.log(id)
+        console.log(correo)
+        console.log(req.body)
+        console.log(req.params)
         if (!id || !correo) {
             return res.status(400).send({ status: false, message: "Match ID y correo son requeridos" });
         }
