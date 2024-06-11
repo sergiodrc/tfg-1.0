@@ -1,11 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 
 
+
 .body {
   height: 100%;
   margin: 0;
   width: 100%;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Open Sans", sans-serif;  
   background-color: #131a29;
   display: flex;
   flex-direction: column;
@@ -20,11 +21,17 @@
   margin-top: 4rem;
 }
 
-
+.addMsg{
+  background-color: #edc84e!important;
+  color: #131A29!important;
+  box-shadow: none!important;
+  
+  
+}
 .container {
   border-radius: 10px;
   display: flex;
-  margin: 2rem;
+  margin: 2rem 0;
   justify-content: center;
 }
 
@@ -52,12 +59,14 @@
 
 /* portatil */
 @media screen and (max-width: 1300px) {
-  .body {
-    height: auto;
+  .body{
+    min-width: fit-content;
+    width: 100%;
   }
 
   .card {
     height: 25rem;
+  
   }
   .nombreSeccion {
     font-size: 3.5rem;
@@ -76,6 +85,7 @@
 
 /* pantalla grande */
 @media screen and (min-width: 1300px) {
+
   .container {
     gap: 1rem;
   }

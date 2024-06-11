@@ -45,25 +45,39 @@ async function deleteMatchBD(matchDetails) {
         return { status: false, msg: "Error al eliminar partida" };
     }
 }
-
-// Funciona en el back y en el front
-async function joinMatchBD(matchDetails) {
+async function joinMatchBD(matchId, userEmail) {
     try {
+        console.log(`Attempting to join match with ID: ${matchId} by user: ${userEmail}`);
+        
+        // Verificar el estado actual del documento
+        let match = await matchModel.findById(matchId);
+        if (!match) {
+            return { status: false, message: "Partida no encontrada" };
+        }
+
+        if (match.contrincante_partida === userEmail) {
+            return { status: false, message: "Ya está unido a esta partida" };
+        }
+
         let result = await matchModel.updateOne(
-            { _id: matchDetails._id },
-            { contrincante_partida: matchDetails.nickname_usuario }
+            { _id: matchId },
+            { contrincante_partida: userEmail }
         );
-        if (result) {
+
+        console.log(`Update result: ${JSON.stringify(result)}`);
+
+        if (result.matchedCount === 0) {
+            return { status: false, message: "Partida no encontrada" };
+        } else if (result.modifiedCount > 0) {
             return { status: true, message: "Se ha unido a la partida" };
         } else {
             return { status: false, message: "No se ha unido a la partida" };
         }
-    } catch(err) {
+    } catch (err) {
+        console.error(`Error joining match: ${err}`);
         return { status: false, message: "Error al unirse a la partida" };
     }
 }
-
-// Funciona en el back y en el front
 async function leaveMatchBD(matchDetails) {
     try {
         let result = await matchModel.updateOne(

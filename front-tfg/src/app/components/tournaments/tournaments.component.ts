@@ -99,6 +99,33 @@ export class TournamentsComponent implements OnInit {
         );
     }
   }
+//unise a la partida 
+  joinMatch(matchId: string) {
+    const email = localStorage.getItem('correo'); 
+
+    if (!email) {
+      console.error('No email found in local storage');
+      return;
+    }
+
+    const body = { email_usuario: email };
+
+    this.http.patch(`http://localhost:9002/matches/joinMatch/${matchId}`, body)
+      .subscribe({
+        next: (response: any) => {
+          if (response.status) {
+            alert('Successfully joined the match!');
+            this.showMatches();
+          } else {
+            alert(`Failed to join the match: ${response.message}`);
+          }
+        },
+        error: (err) => {
+          console.error('Error joining match:', err);
+          alert('Error joining the match.');
+        }
+      });
+  }
 
   // Mostrar partidas
   showMatches() {
@@ -121,14 +148,12 @@ export class TournamentsComponent implements OnInit {
       console.error('Correo no encontrado en localStorage');
       return;
     }
-
-    const body = { id: matchId, correo: this.correo };
-
-    this.http.request<DeleteMatchResponse>('delete', 'http://localhost:9002/matches/deleteMatch', {
+  
+    this.http.request<DeleteMatchResponse>('delete', `http://localhost:9002/matches/deleteMatch/${matchId}`, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       }),
-      body: body
+      body: { correo: this.correo }
     }).subscribe(response => {
       if (response.status) {
         console.log('Partida eliminada correctamente');
@@ -141,8 +166,9 @@ export class TournamentsComponent implements OnInit {
       console.error('Error al comunicarse con el servidor:', error);
     });
   }
+  
 
-  // Devolver mis partidas por correo 
+  // Devolver mis partidas 
   getMyMatches(): void {
     const correo = localStorage.getItem('correo');
   
@@ -212,6 +238,9 @@ export class TournamentsComponent implements OnInit {
       this.dialogRef.close();
     }
   }
+
+
+
   
 match:any
   openConfirmDelete(idMatch: any) {

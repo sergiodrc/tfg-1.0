@@ -35,18 +35,25 @@ async function deleteMatch(req, res) {
 }
 
 
-
 async function joinMatch(req, res) {
     try {
-        var result = null;
-        result = await matchService.joinMatchBD(req.body)
-        if (result.status === true) {
-            res.send({ status: true, message: "Se ha unido a la partida!" });
-        } else {
-            res.send({ status: true, message: "No Se ha unido a la partida!" });
+        const matchId = req.params.id; // Obtener el ID de los parámetros de la ruta
+        const email_usuario = req.body.email_usuario; // Obtener el email del cuerpo de la solicitud
+
+        console.log(`Received matchId: ${matchId}, email_usuario: ${email_usuario}`);
+
+        if (!matchId || !email_usuario) {
+            return res.status(400).send({ status: false, message: "Match ID y email del usuario son requeridos" });
         }
-    } catch(err) {
-        res.send({ status: true, message: "Error al unirse a la partida!" });
+
+        const result = await matchService.joinMatchBD(matchId, email_usuario);
+
+        console.log(`Service response: ${JSON.stringify(result)}`);
+
+        res.status(result.status ? 200 : 400).send(result);
+    } catch (err) {
+        console.error(`Error in joinMatch controller: ${err}`);
+        res.status(500).send({ status: false, message: "Error al unirse a la partida!" });
     }
 }
 

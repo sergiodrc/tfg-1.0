@@ -26,7 +26,7 @@
             <mat-radio-button value="1" checked
               >Partidas disponibles</mat-radio-button
             >
-            <mat-radio-button value="2">Tus partidas</mat-radio-button>
+            <mat-radio-button value="2">Tus partidas </mat-radio-button>
           </mat-radio-group>
         </div>
         <div
@@ -102,11 +102,23 @@
                   style="font-size: 1.1rem; color: #383f64"
                   class="fa-solid fa-user-plus"
                   matTooltip="Unirse a la partida"
-                  matTooltipPosition="above"
+                  matTooltipPosition="right"
+                  (click)="joinMatch(match._id)"
                   *ngIf="
-                    selectedOption === '1' && match.creador_partida !== correo
+                    selectedOption === '1' && match.creador_partida !== correo && match.contrincante_partida !== correo
                   "
-                  (click)="openAddGameModal(match)"
+                 
+                ></button>
+                <button
+                  mat-icon-button
+                  style="font-size: 1.1rem; color: #19b119; cursor:auto"
+                  class="fa-solid fa-square-check"
+                  matTooltip="Te has unido a la partida"
+                  matTooltipPosition="right"
+                  *ngIf="
+                    selectedOption === '1' && match.creador_partida !== correo && match.contrincante_partida == correo
+                  "
+                 
                 ></button>
                 <button
                   mat-icon-button
@@ -114,7 +126,7 @@
                   class="fa-solid fa-pen-to-square"
                   matTooltip="Modificar partida"
                   (click)="openModifyMatchModal(match)"
-                  matTooltipPosition="above"
+                  matTooltipPosition="left"
                   *ngIf="selectedOption === '2'"
                 ></button>
 
@@ -122,7 +134,7 @@
                   mat-icon-button
                   color="warn"
                   matTooltip="Eliminar partida"
-                  matTooltipPosition="above"
+                  matTooltipPosition="right"
                   *ngIf="selectedOption === '2'"
                   (click)="deleteMatch(match._id)"
                 

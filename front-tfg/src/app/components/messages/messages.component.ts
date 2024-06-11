@@ -171,6 +171,7 @@ getMySentMessages() {
       width: '25rem',
       height: '15rem',
       disableClose:true
+      
     });
   }
   openConfirmDeleteMod(element:any){
@@ -190,6 +191,7 @@ getMySentMessages() {
       disableClose:true
     });
   }
+
   openConfirmSendMod(element: any) {
     this.detailData = element;
     this.dialogConfirm = this.dialog.open(this.confirmSendMod, {

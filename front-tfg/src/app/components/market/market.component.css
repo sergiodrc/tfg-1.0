@@ -26,6 +26,7 @@
 mat-focus-indicator :hover{
     background-color: #ebc752;
 }
+
 /* Portátil */
 @media screen and (max-width: 1300px) {
   .nombreSeccion {
