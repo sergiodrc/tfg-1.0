@@ -12,13 +12,13 @@
     </div>
     <div class="col-md-8 nombreSeccion">Publicaciones</div>
   </div>
-  <div class="row">
+  <div class="row mt-4">
     <button
       mat-raised-button
-     
-      class="fa-solid fa-envelope addMsg"
+     style="padding:0.2rem 0.5rem!important;"
+      class="fa-solid fa-plus addMatch"
       (click)="openAddPubModal()"
-      [textContent]="'Nueva partida'"
+      [textContent]="'Nueva publicacion'"
     ></button>
   </div>
   <div class="row container">
@@ -26,7 +26,7 @@
       <mat-card class="card">
         <mat-card-header>
           <div class="card-imagen"></div>
-          <mat-card-title>@nombreUser</mat-card-title>
+          <mat-card-title>@pepelu</mat-card-title>
         </mat-card-header>
         <img
           mat-card-image
@@ -34,7 +34,7 @@
           alt="Imagen de Timeline"
         />
         <mat-card-content>
-          <p>titulo de la foto</p>
+          <p>Batalla de Morjurd</p>
         </mat-card-content>
         <mat-card-actions>
           <div class="row d-flex w-100" style="padding-left: 1rem; gap: 1.5rem">
@@ -73,7 +73,7 @@
             <div class="col-md-2">
               <button
                 class="fa-solid fa-comment"
-                (click)="openCommentModal(addCommentMod)"
+                (click)="openCommentModal(addGameModal)"
               ></button>
             </div>
           </div>

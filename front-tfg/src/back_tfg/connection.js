@@ -6,7 +6,7 @@ const path = require('path');
 
 const app = express();
 
-// Configura CORS para permitir solicitudes desde tu cliente
+//para permitir las solicitudes del cliente
 app.use(cors());
 
 async function connect() {

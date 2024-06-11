@@ -28,6 +28,8 @@ export class UserComponent implements OnInit {
     private http: HttpClient,
     private router: Router
   ) {
+
+    //formularios
     this.userForm = this.fb.group({
       name: [''],
       surname: [''],

@@ -3,7 +3,7 @@ let User = require('../models/user'); // Importar modelo de usuario
 let auth = require('../middlewares/authenticator');
 var path = require('path');
 
-// Funciones del controlador
+//crear usuarios
 async function createUser(req, res) {
     console.log(req.body);
     var result = await userService.createUserDB(req.body);
@@ -15,6 +15,7 @@ async function createUser(req, res) {
     }
 }
 
+//logear usuario
 async function loginUser(req, res) {
     try {
         var result = await userService.loginUserDB(req.body);
@@ -29,6 +30,7 @@ async function loginUser(req, res) {
     }
 }
 
+//borrar usuarios (por id)
 async function deleteUser(req, res) {
     console.log('deleteUser endpoint reached');
     console.log('Request body:', req.body);
@@ -47,6 +49,7 @@ async function deleteUser(req, res) {
     }
 }
 
+// actualizar usuario por correo en localstorage
 async function updateUser(req, res) {
     try {
         var userEmail = req.params.email;
@@ -62,6 +65,7 @@ async function updateUser(req, res) {
     }
 }
 
+//recuperar datos del usuario
 const getUser = async (req, res) => {
     try {
         const email = req.params.correo;
@@ -80,6 +84,8 @@ const getUser = async (req, res) => {
     }
 };
 
+
+// actualizar imagen usuario
 async function uploadImageUser(req, res) {
     try {
         if (req.files) {
@@ -112,6 +118,7 @@ async function uploadImageUser(req, res) {
     }
 }
 
+//sacar imagen usuario
 async function getImageFile(req, res) {
     let result = await userService.getImageFileBD(req.body);
     if (result.status) {

@@ -43,11 +43,10 @@ export class TimelineComponent implements OnInit {
       .subscribe(
         (response) => {
           console.log('Solicitud POST exitosa', response);
-          // Aquí puedes manejar la respuesta como desees
+         
         },
         (error) => {
           console.error('Error al realizar la solicitud POST', error);
-          // Aquí puedes manejar el error como desees
         }
       );
   }

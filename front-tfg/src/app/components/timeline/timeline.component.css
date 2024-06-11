@@ -1,12 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 
-
-
-.body {
+html, body{
   height: 100%;
   margin: 0;
+  font-family: "Open Sans", sans-serif; 
+}
+
+.body {
+  min-height: 100%;
   width: 100%;
-  font-family: "Open Sans", sans-serif;  
   background-color: #131a29;
   display: flex;
   flex-direction: column;
@@ -21,11 +23,10 @@
   margin-top: 4rem;
 }
 
-.addMsg{
+.addMatch{
   background-color: #edc84e!important;
   color: #131A29!important;
   box-shadow: none!important;
-  
   
 }
 .container {
@@ -54,13 +55,17 @@
   background-color: #ebc752;
   color: #000000;
 }
-
+.fa-plus::before {
+  margin-right: 1rem;
+  
+}
 /*medidas responsives de las tarjetas*/
 
 /* portatil */
 @media screen and (max-width: 1300px) {
   .body{
     min-width: fit-content;
+    
     width: 100%;
   }
 

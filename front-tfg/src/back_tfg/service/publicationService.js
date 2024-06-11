@@ -75,12 +75,12 @@ async function deletePublicationBD(publicationDetails) {
     });
 
     if (result) {
-      return { status: true, message: "publication deleted Successfully" };
+      return { status: true, message: "Publicacion eliminada correctamente" };
     } else {
-      return { status: false, message: "The publication does not deleted" };
+      return { status: false, message: "La publicacion no ha sido eliminada" };
     }
   } catch (error) {
-    return { status: false, message: "Error in the publication elimination" };
+    return { status: false, message: "Error al eliminar" };
   }
 }
 
@@ -107,9 +107,9 @@ async function updatePublicationBD(publicationDetails) {
       }
     );
     if (result) {
-      return { status: true, message: "publication updated Successfully" };
+      return { status: true, message: "Publicacion actualizada correctamente" };
     } else {
-      return { status: false, message: "the publication does not updated" };
+      return { status: false, message: "La publicacion no ha sido actualizada" };
     }
   } catch (err) {
     return { status: false, message: "Method error" };
@@ -121,12 +121,12 @@ async function getAllPublicationsBD() {
     let result = await publicationModel.find({})
     console.log(result)
     if (result) {
-      return { status: true, message: "Showing all Publications..."}
+      return { status: true, message: "Mostrando todas las publicaciones"}
     } else {
-      return { status: false, message: "Error showing the publications"}
+      return { status: false, message: "Error al mostrar publicaciones"}
     }
   } catch(err) {
-    return { status: false, message: "Method error"}
+    return { status: false, message: "Error"}
   }
 }
 

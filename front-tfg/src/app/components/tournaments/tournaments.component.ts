@@ -90,11 +90,11 @@ export class TournamentsComponent implements OnInit {
         .subscribe(
           (response) => {
             console.log('Partida creada:', response);
-            this.showMatches(); // Actualiza la tabla después de crear una partida
+            this.showMatches(); //recargar tabla tras crear una partida
           },
           (error) => {
             console.error('Error al crear la partida:', error);
-            // Abre modal de error
+         
           }
         );
     }
@@ -104,7 +104,7 @@ export class TournamentsComponent implements OnInit {
     const email = localStorage.getItem('correo'); 
 
     if (!email) {
-      console.error('No email found in local storage');
+      console.error('No se encuentra el correl en el LocalStorage');
       return;
     }
 
@@ -114,15 +114,15 @@ export class TournamentsComponent implements OnInit {
       .subscribe({
         next: (response: any) => {
           if (response.status) {
-            alert('Successfully joined the match!');
+            alert('Te has unido a la partida');
             this.showMatches();
           } else {
-            alert(`Failed to join the match: ${response.message}`);
+            alert(`Error al unirte a la partida: ${response.message}`);
           }
         },
         error: (err) => {
-          console.error('Error joining match:', err);
-          alert('Error joining the match.');
+          console.error('Error :', err);
+          alert('Error al unirte');
         }
       });
   }
@@ -229,11 +229,9 @@ export class TournamentsComponent implements OnInit {
         .subscribe(
           (response) => {
             console.log('Partida modificada exitosamente:', response);
-            // Aquí puedes agregar la lógica adicional después de modificar la partida
           },
           (error) => {
             console.error('Error al modificar la partida:', error);
-            // Aquí puedes manejar el error de manera apropiada
           }
         );
       this.dialogRef.close();
@@ -258,7 +256,7 @@ this.match = idMatch;
     if (this.selectedOption === '1') {
       this.showMatches(); // Si se selecciona 'Todas las partidas', obtener partidas generales
     } else if (this.selectedOption === '2') {
-    this.getMyMatches(); // Si se selecciona 'Tus partidas', obtener tus partidas
+    this.getMyMatches(); // Si se selecciona 'Tus partidas', obtener tus partidas y las que te has unido
     }
     }
     
