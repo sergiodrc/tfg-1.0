@@ -75,7 +75,11 @@
       </div>
     </div>
   </div>
-  
+  <div *ngIf="messages.length==0" class="no-messages">
+
+    No se encontraron mensajes 
+    
+  </div>
 <ng-template #deleteModal>
   <div mat-dialog-title>
     <!--  -->

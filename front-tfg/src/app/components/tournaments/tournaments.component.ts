@@ -90,7 +90,8 @@ export class TournamentsComponent implements OnInit {
         .subscribe(
           (response) => {
             console.log('Partida creada:', response);
-            this.showMatches(); //recargar tabla tras crear una partida
+            this.getMyMatches();
+            this.closeModal(); //recargar tabla tras crear una partida
           },
           (error) => {
             console.error('Error al crear la partida:', error);
@@ -116,6 +117,7 @@ export class TournamentsComponent implements OnInit {
           if (response.status) {
             alert('Te has unido a la partida');
             this.showMatches();
+            this.closeModal();
           } else {
             alert(`Error al unirte a la partida: ${response.message}`);
           }
@@ -260,6 +262,7 @@ this.match = idMatch;
     }
     }
     
+
     closeModal(){
     this.dialogRef.close();
     }
