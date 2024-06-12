@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog'; 
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface Message {
   _id: string,
@@ -45,8 +46,11 @@ export class MessagesComponent implements OnInit {
     public dialog: MatDialog,
     private fb: FormBuilder,
     private http: HttpClient,
+    private snackBar: MatSnackBar
 
   ) {
+
+    
     // formulario para responder mensajes
     this.messageForm= this.fb.group({
       receiver:['', Validators.required],
@@ -60,6 +64,12 @@ export class MessagesComponent implements OnInit {
     })
   }
    
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 3000, // Duración del snackbar en milisegundos
+    });
+  }
   ngOnInit(): void {
     //cargar los mensajes al entrar en la seccion mensajes
     this.getMyMessages();
@@ -80,7 +90,7 @@ export class MessagesComponent implements OnInit {
       result => {
         if (result.status) {
           console.log('Mensaje enviado:', result.message);
-          // Limpiar el formulario después de enviar el mensaje
+          this.openSnackBar('Mensaje enviado', 'Cerrar'); 
           
           this.newMsgForm.reset();
           setTimeout(() => { //para que no sea tan brusco, de efecto de una transicion
@@ -174,7 +184,8 @@ deleteMessage(messageId: string): void {
   }).subscribe(response => {
     if (response.status) {
       console.log('Mensaje eliminado correctamente');
-      // Actualiza la tabla eliminando el registro correspondiente
+      this.openSnackBar('Mensaje eliminado', 'Cerrar'); 
+
     } else {
       console.error('Error al eliminar la partida:', response.message);
     }

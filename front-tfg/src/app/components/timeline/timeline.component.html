@@ -20,7 +20,7 @@
       (click)="openAddPubModal()"
       [textContent]="' Nueva Publicacion'"
     ></button>
-    <div class="col-md-7" style="width: fit-content; margin-top:20px;background-color: #DADADA;border-radius: 0.3rem;align-content: center; padding: 0.7rem 2rem; display: flex;justify-content: start;">
+    <div class="col-md-7 checkgroup-position">
       <mat-radio-group
         [(ngModel)]="selectedOption"
         (change)="onOptionChange()"

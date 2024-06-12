@@ -6,6 +6,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 var moment = require('moment');
 
 export interface Tournaments {
@@ -48,7 +50,9 @@ export class TournamentsComponent implements OnInit {
     public dialog: MatDialog,
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
+
   ) {
     this.addGameForm = this.fb.group({
       date: ['', Validators.required],
@@ -60,6 +64,12 @@ export class TournamentsComponent implements OnInit {
       puntMax: ['', Validators.required],
       puntMin: ['', Validators.required],
       date: ['', Validators.required]
+    });
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 3000, // Duración del snackbar en milisegundos
     });
   }
 
@@ -93,6 +103,8 @@ export class TournamentsComponent implements OnInit {
             console.log('Partida creada:', response);
             this.getMyMatches();
             this.closeModal(); //recargar tabla tras crear una partida
+            this.openSnackBar('Partida creada', 'Cerrar'); 
+
           },
           (error) => {
             console.error('Error al crear la partida:', error);
@@ -116,11 +128,12 @@ export class TournamentsComponent implements OnInit {
       .subscribe({
         next: (response: any) => {
           if (response.status) {
-            alert('Te has unido a la partida');
+            this.openSnackBar('Te has unido a la partida', 'Cerrar'); 
             this.showMatches();
             this.closeModal();
           } else {
-            alert(`Error al unirte a la partida: ${response.message}`);
+            this.openSnackBar('Error al unirte a la partida', 'Cerrar'); 
+
           }
         },
         error: (err) => {
@@ -161,10 +174,12 @@ export class TournamentsComponent implements OnInit {
     }).subscribe(response => {
       if (response.status) {
         console.log('Partida eliminada correctamente');
-        // Actualiza la tabla eliminando el registro correspondiente
+        this.openSnackBar('Partida eliminada', 'Cerrar'); 
         this.dataSource.data = this.dataSource.data.filter(match => match._id !== matchId);
       } else {
         console.error('Error al eliminar la partida:', response.message);
+        this.openSnackBar('Error al eliminar', 'Cerrar'); 
+
       }
     }, error => {
       console.error('Error al comunicarse con el servidor:', error);

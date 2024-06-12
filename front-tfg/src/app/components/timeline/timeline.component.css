@@ -1,11 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 
-
-
 .body {
   height: auto;
   margin: 0;
-  font-family: "Open Sans", sans-serif; 
+  font-family: "Open Sans", sans-serif;
 }
 
 .body {
@@ -28,7 +26,7 @@
   flex-direction: column;
 }
 
-.header{
+.header {
   flex-direction: row;
   display: flex;
   align-items: center;
@@ -36,11 +34,10 @@
   margin-top: 4rem;
 }
 
-.addMatch{
-  background-color: #edc84e!important;
-  color: #131A29!important;
-  box-shadow: none!important;
-  
+.addMatch {
+  background-color: #edc84e !important;
+  color: #131a29 !important;
+  box-shadow: none !important;
 }
 .container {
   border-radius: 10px;
@@ -56,7 +53,17 @@
   background-color: rgba(239, 239, 239, 0.674);
   margin: 20px;
 }
+.checkgroup-position {
+  width: 100%;
 
+  margin-top: 20px;
+  background-color: #dadada;
+  border-radius: 0.3rem;
+  align-content: center;
+  padding: 0.7rem 2rem;
+  display: flex;
+  justify-content: space-around;
+}
 .cards-container {
   display: flex;
   flex-wrap: wrap;
@@ -77,32 +84,30 @@
 }
 .fa-plus::before {
   margin-right: 1rem;
-  
 }
 /*medidas responsives de las tarjetas*/
 
 /* portatil */
 @media screen and (max-width: 1300px) {
-  .body{
-    min-width: fit-content;
-    
+  .body {
+    min-width: 100%;
+
     width: 100%;
-    height: 100%;
-    background-color: #131A29;
+    height: fit-content;
+    background-color: #131a29;
   }
 
   .card {
     height: 25rem;
     width: 300px; /* Ancho de cada tarjeta */
-  margin: 10px;
-  
+    margin: 10px;
   }
   .nombreSeccion {
     font-size: 3.5rem;
     color: rgb(255, 255, 255);
     font-weight: 300;
   }
-  .header{
+  .header {
     margin-top: 2rem;
   }
   img {
@@ -114,7 +119,6 @@
 
 /* pantalla grande */
 @media screen and (min-width: 1300px) {
-
   .container {
     gap: 1rem;
   }

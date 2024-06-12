@@ -5,7 +5,7 @@ import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialog } from '@angular/material/dialog';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -26,7 +26,8 @@ export class UserComponent implements OnInit {
     private fb: FormBuilder,
     private dialog: MatDialog,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
 
     //formularios
@@ -44,7 +45,11 @@ export class UserComponent implements OnInit {
       email: [''],
     });
   }
-
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 3000, // Duración del snackbar en milisegundos
+    });
+  }
   ngOnInit(): void {
     this.getUserDetail();
   }
@@ -78,7 +83,11 @@ export class UserComponent implements OnInit {
 
       if (response.status) {
         console.log('Usuario eliminado correctamente');
-        this.dialogDel.close();
+        this.openSnackBar('Usuario eliminado', 'Cerrar');
+        setTimeout(() => { //para que no sea tan brusco, de efecto de una transicion
+          this.dialogDel.close();
+        }, 100);
+        // this.dialogDel.close();
         localStorage.removeItem('correo');
         this.router.navigate(['']);
       } else {
@@ -119,7 +128,10 @@ export class UserComponent implements OnInit {
 
             if (response.status) {
               console.log('¡Datos actualizados correctamente!');
-              this.getUserDetail(); //volver a cargar los datos del usuario para actualizarlos
+              this.openSnackBar('Datos de usuario actualizados', 'Cerrar');
+              setTimeout(() => { //para que no sea tan brusco, de efecto de una transicion
+                this.getUserDetail()
+              }, 100);
             } else {
               console.error('¡Error al actualizar los datos!');
             }
@@ -176,6 +188,9 @@ export class UserComponent implements OnInit {
            
             //actualizar la imagen en la vista si es necesario
             this.getUserDetail();
+            this.openSnackBar('Imagen actualizada', 'Cerrar');
+
+            
           },
           (error) => {
             console.error('Error al actualizar la imagen de perfil:', error);

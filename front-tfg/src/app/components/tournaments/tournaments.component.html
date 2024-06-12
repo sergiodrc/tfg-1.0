@@ -97,6 +97,7 @@
             <ng-container matColumnDef="actions">
               <th mat-header-cell *matHeaderCellDef></th>
               <td mat-cell *matCellDef="let match">
+                <div style="display: flex; flex-direction: row;">
                 <button
                   mat-icon-button
                   style="font-size: 1.1rem; color: #383f64"
@@ -129,6 +130,7 @@
                   matTooltipPosition="left"
                   *ngIf="selectedOption === '2'"
                 ></button>
+              </div>
                 <div class="col-md-2 d-flex justify-content-center align-items-center">
                   <button
                     mat-icon-button

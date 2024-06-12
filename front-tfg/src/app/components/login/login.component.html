@@ -56,6 +56,7 @@
           matTooltip="Debe completar todos los campos"
           matTooltipPosition="below"
           (click)="registerUser()"
+          [disabled]="!formRegister.valid"
        >Crear usuario</button> 
 
           <p  class="question"> ¿Ya estás registado?<br>
