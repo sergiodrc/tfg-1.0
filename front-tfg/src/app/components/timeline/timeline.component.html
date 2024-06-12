@@ -66,64 +66,6 @@
           </div>
         </mat-card-actions>
       </mat-card>
-    <!-- </div>
-    <div class="col-md-4 col-xl-3">
-      <mat-card class="card">
-        <mat-card-header>
-          <div class="card-imagen"></div>
-          <mat-card-title>@nombreUser</mat-card-title>
-        </mat-card-header>
-        <img
-          mat-card-image
-          src="../../assets/img/publicacion-card-img.png"
-          alt="Imagen de Timeline"
-        />
-        <mat-card-content>
-          <p>titulo de la foto</p>
-        </mat-card-content>
-        <mat-card-actions>
-          <div class="row d-flex w-100" style="padding-left: 1rem; gap: 1.5rem">
-            <div class="col-md-2">
-              <button class="fa-solid fa-heart"></button>
-            </div>
-            <div class="col-md-2">
-              <button
-                class="fa-solid fa-comment"
-                (click)="openCommentModal(addGameModal)"
-              ></button>
-            </div>
-          </div>
-        </mat-card-actions>
-      </mat-card>
-    </div>
-    <div class="col-md-4 col-xl-3">
-      <mat-card class="card">
-        <mat-card-header>
-          <div class="card-imagen"></div>
-          <mat-card-title>@nombreUser</mat-card-title>
-        </mat-card-header>
-        <img
-          mat-card-image
-          src="../../assets/img/publicacion-card-img.png"
-          alt="Imagen de Timeline"
-        />
-        <mat-card-content>
-          <p>titulo de la foto</p>
-        </mat-card-content>
-        <mat-card-actions>
-          <div class="row d-flex w-100" style="padding-left: 1rem; gap: 1.5rem">
-            <div class="col-md-2" id="like">
-              <button class="fa-solid fa-heart"></button>
-            </div>
-            <div class="col-md-2" id="comment">
-              <button
-                class="fa-solid fa-comment"
-                (click)="openCommentModal(addCommentMod)"
-              ></button>
-            </div>
-          </div>
-        </mat-card-actions> 
-      </mat-card>-->
     </div>
   </div>
 </div>
@@ -224,49 +166,52 @@
       </button>
     </div>
   </div>
-  <div [formGroup]="createPubForm">
-    <div mat-dialog-content>
-      <div class="row">
-        <div class="col-md-12">
-          <label for="texto_publicacion">Descripcion: </label>
-          <input formControlName="texto_publicacion" />
-        </div>
-        <div
-          class="col-md-12 mt-4"
-          style="display: flex; flex-direction: column"
-        >
-          <label for="texto_publicacion"
-            >Elige la imagen para tu publicación
-          </label>
-          <input (change)="onFileSelected($event)"
-          formControlName="archivo_publicacion" #fileInput type="file" />
-        </div>
-      </div>
+  <div class="modal-body" [formGroup]="createPubForm">
+    <div class="mb-3">
+      <label for="texto_publicacion" class="form-label">Descripcion:</label>
+      <textarea
+        formControlName="texto_publicacion"
+        class="form-control"
+        rows="3"
+      ></textarea>
     </div>
-    <div mat-dialog-action>
-      <div class="row w-100" style="justify-content: center">
-        <div class="col-md-6 d-flex justify-content-center w-auto">
-          <button
-            mat-stroked-button
-            color="primary"
-            mat-dialog-close
-            [textContent]="'Cancelar'"
-          ></button>
-        </div>
-        <div class="col-md-6 d-flex justify-content-center w-auto">
-          <button
-            mat-flat-button
-            color="primary"
-            (click)="createPub()"
-            [textContent]="'Crear publicación'"
-            [disabled]="!createPubForm.valid"
-            matTooltip="{{
-              !createPubForm.valid ? 'Debe completar todos los campos' : ''
-            }} "
-            matTooltipPosition="below"
-          ></button>
-        </div>
-      </div>
+    <div class="mb-3">
+      <label for="archivo_publicacion" class="form-label"
+        >Elige la imagen para tu publicación:</label
+      >
+      <input
+        type="file"
+        class="form-control"
+        (change)="onFileSelected($event)"
+        formControlName="archivo_publicacion"
+        #fileInput
+      />
     </div>
   </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      mat-flat-button
+      color="primary"
+      class="btn-cancelar"
+      mat-dialog-close
+    >
+      Cancelar
+    </button>
+    <button
+      type="button"
+      mat-flat-button
+      class="btn-create"
+      color="primary"
+      (click)="createPub()"
+      [disabled]="!createPubForm.valid"
+      matTooltip="{{
+        !createPubForm.valid ? 'Debe completar todos los campos' : ''
+      }}"
+      matTooltipPosition="below"
+    >
+      Crear publicación
+    </button>
+  </div>
+
 </ng-template>

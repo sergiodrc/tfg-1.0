@@ -30,8 +30,8 @@ export class LoginComponent implements OnInit {
       correo: ['', [Validators.required, Validators.email]],
     });
     this.formLogin = this.fb.group({
-      correo: ['admin@gmail.com', Validators.required],
-      password: ['root', [Validators.required]],
+      correo: ['', Validators.required],
+      password: ['', [Validators.required]],
     });
   }
   openSnackBar(message: string, action: string) {

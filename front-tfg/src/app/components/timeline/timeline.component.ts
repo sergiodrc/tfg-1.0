@@ -165,12 +165,11 @@ export class TimelineComponent implements OnInit {
 
   openAddPubModal() {
     this.dialogAdd = this.dialog.open(this.addPub, {
-      width: '35rem',
-      height: '20rem',
+      width: '37rem',
+      height: '25rem',
       disableClose: true
     });
   }
-
   closeCreateModal() {
     this.dialogAdd.close();
   }

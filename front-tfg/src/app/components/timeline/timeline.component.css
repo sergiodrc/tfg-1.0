@@ -201,3 +201,25 @@ button {
   padding: 0.4rem;
   margin-top: 0.5rem;
 }
+
+.btn-cancelar {
+  padding: 0.3rem 0.6rem;
+  background: none;
+  border: none;
+  color: inherit;
+
+  cursor: pointer;
+  outline: inherit;
+  &:hover{
+    font-weight: 600
+  }
+}
+.btn-create{
+  padding: 0.3rem 0.6rem;
+  font-weight: 400;
+  &:hover{
+    background-color: #131a29;
+    color: aliceblue;
+  }
+
+}
