@@ -101,12 +101,10 @@ async function deleteUserBD(userDetails, tokenPayload) {
 
 async function uploadImageUserBD(userDetails) {
     try {
+        console.log(userDetails)
         const file_path = userDetails.files.img_usuario.path;
         const file_name = path.basename(file_path);
         const file_ext = path.extname(file_name).slice(1);
-        console.log('a -> ',file_path)
-        console.log('b -> ',file_name)
-        console.log('c -> ',file_ext)
         if (!['png', 'jpg', 'jpeg', 'gif'].includes(file_ext.toLowerCase())) {
           await removeFilesOfUploads(file_path);
           return { status: false, message: 'Extensión no válida' };
@@ -118,7 +116,6 @@ async function uploadImageUserBD(userDetails) {
           { new: true }
         
       );
-      console.log(userUpdated)
 
       if (!userUpdated) {
           return { status: false, message: "No se ha podido encontrar el usuario" };

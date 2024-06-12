@@ -20,7 +20,7 @@ async function connect() {
 }
 connect()
 app.use('/uploads', express.static(path.join(__dirname, 'uploads/users/')));
-//app.use('/uploads', express.static(path.join(__dirname, 'uploads/publications/')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads/publications/')));
 app.use(express.json());
 app.use(routes);
 

@@ -129,18 +129,18 @@
                   matTooltipPosition="left"
                   *ngIf="selectedOption === '2'"
                 ></button>
-
-                <button
-                  mat-icon-button
-                  color="warn"
-                  matTooltip="Eliminar partida"
-                  matTooltipPosition="right"
-                  *ngIf="selectedOption === '2'"
-                  (click)="deleteMatch(match._id)"
-                
-                >
-                  <mat-icon>delete</mat-icon>
-                </button>
+                <div class="col-md-2 d-flex justify-content-center align-items-center">
+                  <button
+                    mat-icon-button
+                    color="warn"
+                    matTooltip="Eliminar partida"
+                    matTooltipPosition="right"
+                    *ngIf="selectedOption === '2'"
+                    (click)="deleteMatch(match._id)"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
               </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

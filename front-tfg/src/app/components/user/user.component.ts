@@ -166,7 +166,7 @@ export class UserComponent implements OnInit {
       console.log('Archivo:', file);
       console.log('------->', formData);
       this.http
-        .post<any>(`http://localhost:9002/uploadImage/${correo}`, formData)
+        .post<any>(`http://localhost:9002/uploadImageUser/${correo}`, formData)
         .subscribe(
           (data) => {
             this.userData = data;

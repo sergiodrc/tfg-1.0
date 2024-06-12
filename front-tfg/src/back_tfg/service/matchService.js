@@ -111,8 +111,6 @@ async function getAllMatchesBD() {
 
 async function updateMatchBD(matchDetails) {
     try {
-console.log("esto eto", matchDetails.params);
-console.log("eeeee eto", matchDetails.body);
         let result = await matchModel.updateOne(
             { _id: matchDetails.params._id },
             {

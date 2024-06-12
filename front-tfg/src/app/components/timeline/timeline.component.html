@@ -18,39 +18,55 @@
      
       class="fa-solid fa-envelope addMsg"
       (click)="openAddPubModal()"
-      [textContent]="'Nueva partida'"
+      [textContent]="' Nueva Publicacion'"
     ></button>
+    <div class="col-md-7" style="width: fit-content; margin-top:20px;background-color: #DADADA;border-radius: 0.3rem;align-content: center; padding: 0.7rem 2rem; display: flex;justify-content: start;">
+      <mat-radio-group
+        [(ngModel)]="selectedOption"
+        (change)="onOptionChange()"
+      >
+        <mat-radio-button value="1" checked style="margin-right:10px"
+          >Todas las publicaciones</mat-radio-button>
+        <mat-radio-button value="2">Tus publicaciones </mat-radio-button>
+      </mat-radio-group>
+    </div>
   </div>
   <div class="row container">
-    <div class="col-md-4 col-xl-3">
-      <mat-card class="card">
+    <div class="cards-container">
+      <mat-card class="card" *ngFor="let pub of publications">
         <mat-card-header>
           <div class="card-imagen"></div>
-          <mat-card-title>@nombreUser</mat-card-title>
+          <mat-card-title>{{pub.user}}</mat-card-title>
         </mat-card-header>
-        <img
+        <img class="card-image"
           mat-card-image
-          src="../../assets/img/publicacion-card-img.png"
+          [src]="pub?.archivo_publicacion"
           alt="Imagen de Timeline"
         />
         <mat-card-content>
-          <p>titulo de la foto</p>
+          <p>{{pub.texto_publicacion}}</p>
         </mat-card-content>
         <mat-card-actions>
           <div class="row d-flex w-100" style="padding-left: 1rem; gap: 1.5rem">
             <div class="col-md-2">
               <button class="fa-solid fa-heart"></button>
             </div>
-            <div class="col-md-2">
-              <button
-                class="fa-solid fa-comment"
-                (click)="openCommentModal(addCommentMod)"
-              ></button>
+            <div class="col-md-2 d-flex justify-content-center align-items-center">
+              <button class="deletePubButton" 
+                mat-icon-button
+                color="warn"
+                matTooltip="Eliminar partida"
+                matTooltipPosition="right"
+                *ngIf="selectedOption === '2'"
+                (click)="deletePub(pub._id)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
             </div>
           </div>
         </mat-card-actions>
       </mat-card>
-    </div>
+    <!-- </div>
     <div class="col-md-4 col-xl-3">
       <mat-card class="card">
         <mat-card-header>
@@ -106,8 +122,8 @@
               ></button>
             </div>
           </div>
-        </mat-card-actions>
-      </mat-card>
+        </mat-card-actions> 
+      </mat-card>-->
     </div>
   </div>
 </div>
@@ -222,7 +238,8 @@
           <label for="texto_publicacion"
             >Elige la imagen para tu publicación
           </label>
-          <input formControlName="archivo_publicacion" #fileInput type="file" />
+          <input (change)="onFileSelected($event)"
+          formControlName="archivo_publicacion" #fileInput type="file" />
         </div>
       </div>
     </div>

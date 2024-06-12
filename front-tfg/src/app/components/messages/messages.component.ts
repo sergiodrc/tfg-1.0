@@ -162,10 +162,26 @@ getMySentMessages() {
     }
   );
 }
+deleteMessage(messageId: string): void {
+  console.log(messageId)
 
+  this.http.request<any>('delete', `http://localhost:9002/matches/deleteMatch/${messageId}`, {
+    //body: { _id: this.messages }
+  }).subscribe(response => {
+    if (response.status) {
+      console.log('Partida eliminada correctamente');
+      // Actualiza la tabla eliminando el registro correspondiente
+    } else {
+      console.error('Error al eliminar la partida:', response.message);
+    }
+  }, error => {
+    console.error('Error al comunicarse con el servidor:', error);
+  });
+}
 
   // abrir y cerrar modales
   openDeleteModal(element: any) {
+    console.log(element)
     this.detailData = element;
     this.dialogDelete = this.dialog.open(this.deleteModal, {
       width: '25rem',

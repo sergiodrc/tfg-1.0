@@ -7,45 +7,54 @@ var path = require("path");
 var moment = require("moment");
 
 async function createPublicationBD(publicationDetails) {
-  console.log('aaaa ' ,publicationDetails.body)
   try {
-    var publicationModelData = new publicationModel({
-      texto_publicacion: publicationDetails.body.texto_publicacion,
-      fecha_creacion_publicacion: moment().unix().toString(),
-      user: publicationDetails.body.nickname_usuario,
-      archivo_publicacion: await uploadImageBD(publicationDetails.body),
-    });
-    var result = await publicationModelData.save();
-    if (result) {
-      return { status: true, message: "publicacion creada" };
+    let uploadResponse = await uploadImagePub(publicationDetails);
+
+    if (uploadResponse.status) {
+        let file_name = uploadResponse.file_name;
+
+        var publicationModelData = new publicationModel({
+            texto_publicacion: publicationDetails.body.texto_publicacion,
+            fecha_creacion_publicacion: moment().unix().toString(),
+            user: publicationDetails.body.user,
+            archivo_publicacion: file_name, // Assign the file name directly
+        });
+
+        await publicationModelData.save();
+        return { status: true, message: "Publication created successfully" };
     } else {
-      return { status: false, message: " error al crear la publicacion" };
+        return { status: false, message: uploadResponse.message };
     }
-  } catch (err) {
-    console.log("error -> ", err);
-    return { status: false, message: "catch" };
-  }
+} catch (error) {
+    console.error(error);
+    return { status: false, message: "Error creating publication" };
+}
 }
 
-async function uploadImageBD(publicationDetails) {
+async function uploadImagePub(req, res) {
   try {
-    console.log('-> ',publicationDetails)
-    var file_path = publicationDetails.archivo_publicacion;
-    console.log(file_path)
-    var file_name = path.basename(file_path);
-    var file_ext = path.extname(file_name).slice(1);
+    if (req.files && req.files.archivo_publicacion) {
+        let file_path = req.files.archivo_publicacion.path;
+        let file_name = path.basename(file_path);
+        let file_ext = path.extname(file_name).slice(1);
 
-    if (!["png", "jpg", "jpeg", "gif"].includes(file_ext.toLowerCase())) {
-      await removeFilesOfUploads(file_path);
-      return { status: false, message: "Extensión no válida" };
+        if (!["png", "jpg", "jpeg", "gif"].includes(file_ext.toLowerCase())) {
+            await removeFilesOfUploads(file_path);
+            return { status: false, message: "Invalid file extension" };
+        } else {
+            // Only return the file name
+            return { status: true, file_name: file_name };
+        }
     } else {
-      return file_name;
+        return { status: false, message: "No file uploaded" };
     }
-  } catch (err) {
-    console.error(err);
-    return { status: false, message: "Error al insertar la imagen" };
-  }
+} catch (error) {
+    console.error(error);
+    return { status: false, message: "An error occurred while uploading the image" };
 }
+}
+
+
 
 async function removeFilesOfUploads(file_path) {
   try {
@@ -57,6 +66,7 @@ async function removeFilesOfUploads(file_path) {
 
 async function deletePublicationBD(publicationDetails) {
   try {
+    console.log(publicationDetails)
     var findPublication = await publicationModel.findOne({
       _id: publicationDetails._id,
     });
@@ -73,7 +83,7 @@ async function deletePublicationBD(publicationDetails) {
     let result = await publicationModel.deleteOne({
       _id: publicationDetails._id,
     });
-
+    console.log(result)
     if (result) {
       return { status: true, message: "publication deleted Successfully" };
     } else {
@@ -121,7 +131,22 @@ async function getAllPublicationsBD() {
     let result = await publicationModel.find({})
     console.log(result)
     if (result) {
-      return { status: true, message: "Showing all Publications..."}
+      return { status: true, publications: result}
+    } else {
+      return { status: false, message: "Error showing the publications"}
+    }
+  } catch(err) {
+    return { status: false, message: "Method error"}
+  }
+}
+
+async function getMyPublicationsBD(publicationDetails) {
+  try {
+    console.log(publicationDetails)
+    let result = await publicationModel.find({user: publicationDetails.email})
+    console.log(result)
+    if (result) {
+      return { status: true, publications: result}
     } else {
       return { status: false, message: "Error showing the publications"}
     }
@@ -132,8 +157,9 @@ async function getAllPublicationsBD() {
 
 module.exports = {
   createPublicationBD,
-  uploadImageBD,
+  uploadImagePub,
   deletePublicationBD,
   updatePublicationBD,
-  getAllPublicationsBD
+  getAllPublicationsBD,
+  getMyPublicationsBD
 };

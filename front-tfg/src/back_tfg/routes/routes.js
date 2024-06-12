@@ -38,8 +38,9 @@ router.route('/matches/updateMatch/:_id').patch(matchController.updateMatch)
 router.route('/matches/myMatches').get(matchController.getMyMatches)//funcionando
 
 router.route('/publications/createPublication').post(md_upload_publications,publicationController.createPublication)
-router.route('/publications/deletePublication').delete(publicationController.deletePublication)
+router.route('/publications/deletePublication/:_id').delete(publicationController.deletePublication)
 router.route('/publications/updatePublication').patch(md_upload_publications,publicationController.updatePublication)
 router.route('/publications/getAllPublications').get(publicationController.getAllPublications)
+router.route('/publications/getMyPublications/:email').get(publicationController.getMyPublications)
 
 module.exports = router;
