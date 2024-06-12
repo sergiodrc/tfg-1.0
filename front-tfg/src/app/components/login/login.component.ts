@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,9 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
+
   ) {
     this.formRegister = this.fb.group({
       nombre: ['', Validators.required],
@@ -29,6 +32,11 @@ export class LoginComponent implements OnInit {
     this.formLogin = this.fb.group({
       correo: ['admin@gmail.com', Validators.required],
       password: ['root', [Validators.required]],
+    });
+  }
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 3000, // Duración del snackbar en milisegundos
     });
   }
 
@@ -66,7 +74,7 @@ export class LoginComponent implements OnInit {
         // Redirigir a la página de inicio después del registro exitoso
         this.router.navigate(['/home']);
       }
-      // Manejar la respuesta exitosa de la API
+      
     } catch (error) {
       // Manejar errores de la solicitud
       console.error('Error al registrar usuario:', error);
@@ -106,7 +114,8 @@ console.log(err)
 
         this.router.navigate(['/home']);
       } else {
-        console.error('Error al logear usuario:', response.msg);
+        this.openSnackBar('Datos incorrectos', 'Cerrar');
+       
       }
     } catch (error) {
       console.error('Error al logear usuario:', error);
