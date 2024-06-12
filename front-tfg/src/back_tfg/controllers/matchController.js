@@ -11,7 +11,7 @@ async function createMatch(req, res) {
     if (result.status === true) {
         return res.send({ status: true, message: "partida creada" });
     } else {
-        return res.send({ status: false, message: 'fallo en el controller' });
+        return res.send({ status: false, message: result.message });
     }
 }
 //funciona  back y front

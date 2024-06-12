@@ -97,44 +97,41 @@
             <ng-container matColumnDef="actions">
               <th mat-header-cell *matHeaderCellDef></th>
               <td mat-cell *matCellDef="let match">
-                <div style="display: flex; flex-direction: row;">
-                <button
-                  mat-icon-button
-                  style="font-size: 1.1rem; color: #383f64"
-                  class="fa-solid fa-user-plus"
-                  matTooltip="Unirse a la partida"
-                  matTooltipPosition="right"
-                  (click)="joinMatch(match._id)"
-                  *ngIf="
-                    selectedOption === '1' && match.creador_partida !== correo && match.contrincante_partida !== correo
-                  "
-                 
-                ></button>
-                <button
-                  mat-icon-button
-                  style="font-size: 1.1rem; color: #19b119; cursor:auto"
-                  class="fa-solid fa-square-check"
-                  matTooltip="Te has unido a la partida"
-                  matTooltipPosition="right"
-                  *ngIf="
-                    selectedOption === '1' && match.creador_partida !== correo && match.contrincante_partida == correo
-                  "
-                 
-                ></button>
-                <button
-                  mat-icon-button
-                  style="font-size: 1.1rem; color: #383f64"
-                  class="fa-solid fa-pen-to-square"
-                  matTooltip="Modificar partida"
-                  (click)="openModifyMatchModal(match)"
-                  matTooltipPosition="left"
-                  *ngIf="selectedOption === '2'"
-                ></button>
-              </div>
-                <div class="col-md-2 d-flex justify-content-center align-items-center">
+                <div style="display: flex; flex-direction: row; align-items: center;">
+                  <button
+                    mat-icon-button
+                    style="font-size: 1.1rem; color: #383f64"
+                    class="fa-solid fa-user-plus"
+                    matTooltip="Unirse a la partida"
+                    matTooltipPosition="right"
+                    (click)="joinMatch(match._id)"
+                    *ngIf="
+                      selectedOption === '1' && match.creador_partida !== correo && match.contrincante_partida !== correo
+                    "
+                  ></button>
+                  <button
+                    mat-icon-button
+                    style="font-size: 1.1rem; color: #19b119; cursor:auto"
+                    class="fa-solid fa-square-check"
+                    matTooltip="Te has unido a la partida"
+                    matTooltipPosition="right"
+                    *ngIf="
+                      selectedOption === '1' && match.creador_partida !== correo && match.contrincante_partida == correo
+                    "
+                  ></button>
+                  <button
+                    mat-icon-button
+                    style="font-size: 1.1rem; color: #383f64"
+                    class="fa-solid fa-pen-to-square"
+                    matTooltip="Modificar partida"
+                    (click)="openModifyMatchModal(match)"
+                    matTooltipPosition="left"
+                    *ngIf="selectedOption === '2'"
+                  ></button>
                   <button
                     mat-icon-button
                     color="warn"
+                    style="font-size: 1.1rem; color: #f44336; margin-left: 1rem;"
                     matTooltip="Eliminar partida"
                     matTooltipPosition="right"
                     *ngIf="selectedOption === '2'"
@@ -203,7 +200,7 @@
           <mat-form-field appearance="fill" class="w-100">
             <mat-label>Elige la fecha de la partida</mat-label>
             <input matInput [matDatepicker]="picker" formControlName="date" />
-            <mat-hint>DD/MM/YYYY</mat-hint>
+            <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle
               matSuffix
               [for]="picker"

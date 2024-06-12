@@ -6,27 +6,30 @@ var moment = require('moment');
 // Funciona en el back y en el front
 async function createMatchBD(matchDetails) {
     try {
-        if (Math.floor(new Date(matchDetails.fecha_partida).getTime() / 1000) > moment().unix()) {
+        if (Math.floor(new Date(matchDetails.fecha_partida).getTime() / 1000) < moment().unix()) {
+            return { status:false, message: 'Por favor, seleccione una fecha válida'}
+           
+        } else if(matchDetails.puntuacion_maxima_partida < matchDetails.puntuacion_minima_partida) {
+            return { status:false, message: 'Por favor seleccione un rango de puntuaciones maximas'}
+        } else {
             let matchModelData = new matchModel();
-        matchModelData.fecha_partida = matchDetails.fecha_partida;
-        matchModelData.puntuacion_maxima_partida = matchDetails.puntuacion_maxima_partida;
-        matchModelData.puntuacion_minima_partida = matchDetails.puntuacion_minima_partida;
-        matchModelData.creador_partida = matchDetails.creador_partida;
-        matchModelData.contrincante_partida = ""; // Esta seteado como campo vacío porque al principio no debe haber contrincante hasta que otro lo acepte
-
-        console.log("Datos del partido antes de guardar:", matchModelData);
-
-        let result = await matchModelData.save();
-
-        console.log("Resultado de la inserción en la base de datos:", result);
-
-        if (result) {
-            return { status: true, message: "Partida creada" };
-        } else {
-            return { status: false, message: "Error al crear la partida" };
-        }
-        } else {
-            return { status:false, message: 'Fecha no valida'}
+            matchModelData.fecha_partida = matchDetails.fecha_partida;
+            matchModelData.puntuacion_maxima_partida = matchDetails.puntuacion_maxima_partida;
+            matchModelData.puntuacion_minima_partida = matchDetails.puntuacion_minima_partida;
+            matchModelData.creador_partida = matchDetails.creador_partida;
+            matchModelData.contrincante_partida = ""; // Esta seteado como campo vacío porque al principio no debe haber contrincante hasta que otro lo acepte
+    
+            console.log("Datos del partido antes de guardar:", matchModelData);
+    
+            let result = await matchModelData.save();
+    
+            console.log("Resultado de la inserción en la base de datos:", result);
+    
+            if (result) {
+                return { status: true, message: "Partida creada" };
+            } else {
+                return { status: false, message: "Error al crear la partida" };
+            }   
         }
         
     } catch(err) {

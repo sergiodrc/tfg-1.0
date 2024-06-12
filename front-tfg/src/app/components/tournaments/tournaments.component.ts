@@ -100,10 +100,15 @@ export class TournamentsComponent implements OnInit {
       this.http.post<any>('http://localhost:9002/matches/createMatch', matchDetails)
         .subscribe(
           (response) => {
-            console.log('Partida creada:', response);
-            this.getMyMatches();
-            this.closeModal(); //recargar tabla tras crear una partida
-            this.openSnackBar('Partida creada', 'Cerrar'); 
+            if (response.status === true) {
+              console.log('Partida creada:', response);
+              this.getMyMatches();
+              this.closeModal(); //recargar tabla tras crear una partida
+              this.openSnackBar('Partida creada', 'Cerrar'); 
+            } else {
+              this.openSnackBar(response.message, 'Cerrar'); 
+            }
+
 
           },
           (error) => {
@@ -280,6 +285,7 @@ this.match = idMatch;
     
 
     closeModal(){
+      this.addGameForm.reset();
     this.dialogRef.close();
     }
     }
