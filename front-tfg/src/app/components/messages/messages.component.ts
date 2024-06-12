@@ -173,7 +173,7 @@ deleteMessage(messageId: string): void {
     //body: { _id: this.messages }
   }).subscribe(response => {
     if (response.status) {
-      console.log('Partida eliminada correctamente');
+      console.log('Mensaje eliminado correctamente');
       // Actualiza la tabla eliminando el registro correspondiente
     } else {
       console.error('Error al eliminar la partida:', response.message);
@@ -181,6 +181,7 @@ deleteMessage(messageId: string): void {
   }, error => {
     console.error('Error al comunicarse con el servidor:', error);
   });
+  this.selectedOption = '1'; 
 }
 
   // abrir y cerrar modales
