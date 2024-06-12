@@ -2,7 +2,7 @@ var messageModel = require("../models/message")
 var userModel = require("../models/user");
 var jwt = require('./jwt');
 
-const mongoose = require('mongoose');
+ const mongoose = require('mongoose');
 
 var moment = require('moment');
 
@@ -10,25 +10,33 @@ async function saveMessageBD(messageDetails) {
     if (!messageDetails.texto_mensaje || !messageDetails.receiver) {
         return { status: false, message: 'Envia los datos necesarios' };
     }
-    try {
-        var messageModelData = new messageModel();
-        messageModelData.emitter = messageDetails.emitter;
-        messageModelData.receiver = messageDetails.receiver;
-        messageModelData.texto_mensaje = messageDetails.texto_mensaje;
-        messageModelData.fecha_creacion_mensaje = moment().unix().toString();
-        messageModelData.viewed = 'false';
-
-        let result = await messageModelData.save();
-        console.log(result);
-        if (result) {
-            return { status: true, message: "mensaje creado" };
-        } else {
-            return { status: false, message: "error al enviar el mensaje" };
+    var auxUser = await userModel.findOne({email_usuario: messageDetails.receiver})
+    console.log(auxUser)
+    if (auxUser === null) {
+        return { status: false, message: 'El remitente no existe'}
+    } else {
+        
+        try {
+            var messageModelData = new messageModel();
+            messageModelData.emitter = messageDetails.emitter;
+            messageModelData.receiver = messageDetails.receiver;
+            messageModelData.texto_mensaje = messageDetails.texto_mensaje;
+            messageModelData.fecha_creacion_mensaje = moment().unix().toString();
+            messageModelData.viewed = 'false';
+    
+            let result = await messageModelData.save();
+            console.log(result);
+            if (result) {
+                return { status: true, message: "mensaje creado" };
+            } else {
+                return { status: false, message: "error al enviar el mensaje" };
+            }
+        } catch (err) {
+            console.error(err);
+            return { status: false, message: 'Error al guardar el mensaje en la base de datos' };
         }
-    } catch (err) {
-        console.error(err);
-        return { status: false, message: 'Error al guardar el mensaje en la base de datos' };
     }
+   
 };
 
 async function getReceivedMessagesBD(receiverEmail) {

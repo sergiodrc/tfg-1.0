@@ -51,9 +51,12 @@
   <div *ngFor="let message of messages" class="row w-100 mt-2" style="justify-content: center; ">
     <div class="col-md-10 col-xs-12" style="background-color: hsla(0, 0%, 86%, 0.993); border-radius: 0.5rem; display: flex; justify-content: center; padding: 0.5rem;">
       <div class="row w-100" style="padding: 0.5rem; background-color: hsla(0, 0%, 98%, 0.993); justify-content: center; flex-direction: column; border-radius: 0.5rem;">
-        <div class="col-md-2" style="font-weight: 400;display: flex;flex-direction: row;">
+        <div class="col-md-2" style="font-weight: 400;display: flex;flex-direction: row;" *ngIf="selectedOption === '1'">
         <span style="margin-right:0.5rem; font-weight: 700;">Envía:</span> 
           {{ message.emitter }}</div>
+          <div class="col-md-2" style="font-weight: 400;display: flex;flex-direction: row;" *ngIf="selectedOption === '2'">
+            <span style="margin-right:0.5rem; font-weight: 700;">Recibe:</span> 
+              {{ message.receiver }}</div>
         <div class="col-md-10 mt-2" style="padding: 0 2rem">{{ message.body }}</div> <!-- Changed texto_mensaje to body -->
         <div class="col-md-12" style="display: flex; justify-content: flex-end; gap: 1.5rem;">
           <button

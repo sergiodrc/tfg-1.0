@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
     this.formRegister = this.fb.group({
       nombre: ['', Validators.required],
@@ -27,11 +29,15 @@ export class LoginComponent implements OnInit {
       correo: ['', [Validators.required, Validators.email]],
     });
     this.formLogin = this.fb.group({
-      correo: ['admin@gmail.com', Validators.required],
-      password: ['root', [Validators.required]],
+      correo: ['', Validators.required],
+      password: ['', [Validators.required]],
     });
   }
-
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 3000, // Duración del snackbar en milisegundos
+    });
+  }
   ngOnInit(): void {}
 
   async registerUser() {
@@ -65,6 +71,8 @@ export class LoginComponent implements OnInit {
         this.isRegistred = true;
         // Redirigir a la página de inicio después del registro exitoso
         this.router.navigate(['/home']);
+      } else {
+        this.openSnackBar('Correo o nombre de usuario en uso', 'Cerrar');
       }
       // Manejar la respuesta exitosa de la API
     } catch (error) {

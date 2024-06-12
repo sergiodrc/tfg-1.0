@@ -19,13 +19,13 @@ async function saveMessage(req, res) {
 }
 
 async function getMessages(req, res) {
-    const { receiver } = req.params; // Obtenemos el receiver desde los parámetros de la URL
+    let { receiver } = req.params; // Obtenemos el receiver desde los parámetros de la URL
     console.log(receiver)
     if (!receiver) {
         return res.json({ status: false, message: 'Falta el email' });
     }
     try {
-        const result = await messageService.getReceivedMessagesBD(receiver);
+        let result = await messageService.getReceivedMessagesBD(receiver);
         if (result.status) {
             return res.json({ status: true, messages: result.messages });
         } else {
