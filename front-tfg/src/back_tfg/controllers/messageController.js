@@ -37,6 +37,15 @@ async function getMessages(req, res) {
     }
 }
 
+async function deleteMessage(req, res) {
+    let result = await messageService.deleteMessageBD(req.params)
+    if (result) {
+        return res.send({ status: true, message: 'exito' });
+    } else {
+        return res.send({ status: false, message: 'fallo' });
+    }
+}
+
 async function getMySentMessages(req, res) {
     var { email } = req.params;
     if (!email) {
@@ -91,4 +100,4 @@ async function updateMessagesToViewed(req, res) {
     }
 }
 
-module.exports = { saveMessage, getMessages, getMySentMessages, getUnviewedMessages, updateMessagesToViewed };
+module.exports = { saveMessage, getMessages, getMySentMessages, getUnviewedMessages, updateMessagesToViewed,deleteMessage };

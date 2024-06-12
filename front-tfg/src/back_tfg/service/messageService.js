@@ -33,7 +33,7 @@ async function saveMessageBD(messageDetails) {
 
 async function getReceivedMessagesBD(receiverEmail) {
     try {
-        const messages = await messageModel.find({ receiver: receiverEmail }).exec();
+        let messages = await messageModel.find({ receiver: receiverEmail }).exec();
         if (messages.length > 0) {
             return { status: true, messages: messages };
         } else {
@@ -42,6 +42,21 @@ async function getReceivedMessagesBD(receiverEmail) {
     } catch (err) {
         console.error(err);
         return { status: false, message: 'Error retrieving messages from the database' };
+    }
+}
+
+async function deleteMessageBD(messageDetails) {
+    try {
+        console.log(messageDetails)
+        let result = await messageModel.deleteOne({_id: messageDetails.id})
+        console.log(result)
+        if (result) {
+            return {status: true, message: 'mensaje borrado'}
+        } else {
+            return {status: false, message: 'problemas al borrar el mensaje'}
+        }
+    } catch (error) {
+        return {status: false, message: error}
     }
 }
 
@@ -92,5 +107,6 @@ module.exports = {
     getReceivedMessagesBD,
     getEmmitMessagesBD,
     getUnviewedMessagesBD,
-    markMessagesAsViewedBD
+    markMessagesAsViewedBD,
+    deleteMessageBD
 };

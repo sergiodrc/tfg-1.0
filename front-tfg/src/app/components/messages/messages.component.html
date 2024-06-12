@@ -58,7 +58,7 @@
         <div class="col-md-12" style="display: flex; justify-content: flex-end; gap: 1.5rem;">
           <button
             mat-raised-button
-            (click)="openDeleteModal(deleteModal)"
+            (click)="openDeleteModal(message._id)"
             class="fa-solid fa-trash btnDelete"
             color="primary"
             [textContent]="'Eliminar'"
@@ -110,7 +110,7 @@
         <button
           mat-flat-button
           color="primary"
-          (click)="openConfirmDeleteMod(confirmDeleteMod)"
+          (click)="confirmDelete()"
         >
           Eliminar
         </button>

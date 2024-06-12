@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 export interface Message {
+  _id: string,
   emitter: string;
   body: string;
   receiver: string;
@@ -107,8 +108,10 @@ getMyMessages() {
 
   this.http.get<any>(url).subscribe(
     response => {
+      console.log(response)
       if (response.status) {
         this.messages = response.messages.map((msg: any) => ({
+          _id: msg._id,
           emitter: msg.emitter,
           body: msg.texto_mensaje,
           receiver: msg.receiver
@@ -147,6 +150,7 @@ getMySentMessages() {
       if (response.status) {
         console.log(response)
         this.messages = response.messages.map((msg: any) => ({
+          _id: msg._id,
           emitter: msg.emitter, 
           body: msg.texto_mensaje,
           receiver: msg.receiver
@@ -165,7 +169,7 @@ getMySentMessages() {
 deleteMessage(messageId: string): void {
   console.log(messageId)
 
-  this.http.request<any>('delete', `http://localhost:9002/matches/deleteMatch/${messageId}`, {
+  this.http.request<any>('delete', `http://localhost:9002/messages/deleteMessage/${messageId}`, {
     //body: { _id: this.messages }
   }).subscribe(response => {
     if (response.status) {
@@ -180,15 +184,24 @@ deleteMessage(messageId: string): void {
 }
 
   // abrir y cerrar modales
-  openDeleteModal(element: any) {
-    console.log(element)
-    this.detailData = element;
+  openDeleteModal(messageId: string): void {
+    console.log('ID del mensaje a eliminar:', messageId);
+    this.detailData = messageId;
     this.dialogDelete = this.dialog.open(this.deleteModal, {
       width: '25rem',
       height: '15rem',
-      disableClose:true
-      
+      disableClose: true
     });
+  }
+
+  // Método para confirmar la eliminación
+  confirmDelete(): void {
+    if (this.detailData) {
+      this.deleteMessage(this.detailData);
+      this.dialogDelete.close();
+    } else {
+      console.error('No hay mensaje seleccionado para eliminar.');
+    }
   }
   openConfirmDeleteMod(element:any){
     this.detailData = element;

@@ -28,6 +28,7 @@ router.route('/my-messages/:receiver').get(messageController.getMessages);//func
 router.route('/sentMessages/:email').get(messageController.getMySentMessages);//funcionando
 router.route('/unviewed-messages').get(messageController.getUnviewedMessages)
 router.route('/set-viewed-messages').get(messageController.updateMessagesToViewed)
+router.route('/messages/deleteMessage/:id').delete(messageController.deleteMessage)
 
 router.route('/matches/createMatch').post(matchController.createMatch)//funcionando
 router.route('/matches/deleteMatch/:id').delete(matchController.deleteMatch);//funcionando
