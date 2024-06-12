@@ -55,6 +55,10 @@
     }
 }
 @media (max-width:1300px) {
+  .question{
+    margin-top: 2rem;
+    text-align: center;
+  }
     .tittle{
         margin-top: 8rem;
     }

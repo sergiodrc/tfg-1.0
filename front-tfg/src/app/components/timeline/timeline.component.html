@@ -12,11 +12,11 @@
     </div>
     <div class="col-md-8 nombreSeccion">Publicaciones</div>
   </div>
-  <div class="row">
+  <div class="row mt-4">
     <button
       mat-raised-button
-     
-      class="fa-solid fa-envelope addMsg"
+     style="padding:0.2rem 0.5rem!important;"
+      class="fa-solid fa-plus addMatch"
       (click)="openAddPubModal()"
       [textContent]="' Nueva Publicacion'"
     ></button>
@@ -89,7 +89,7 @@
             <div class="col-md-2">
               <button
                 class="fa-solid fa-comment"
-                (click)="openCommentModal(addCommentMod)"
+                (click)="openCommentModal(addGameModal)"
               ></button>
             </div>
           </div>

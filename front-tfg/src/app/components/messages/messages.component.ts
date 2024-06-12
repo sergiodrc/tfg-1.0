@@ -147,7 +147,7 @@ getMySentMessages() {
       if (response.status) {
         console.log(response)
         this.messages = response.messages.map((msg: any) => ({
-          emitter: msg.emitter, // Change to emitter
+          emitter: msg.emitter, 
           body: msg.texto_mensaje,
           receiver: msg.receiver
         }));

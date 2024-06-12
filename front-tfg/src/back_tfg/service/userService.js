@@ -26,10 +26,10 @@ async function createUserDB(userDetails) {
                 img_usuario: "r3KEsoR8M3RTGKpEXktdp5ZD.jpg"
             });
             const result = await userModelData.save();
-            return { status: true, msg: "User registered successfully", result: result };
+            return { status: true, msg: "Usuario registrado con éxito", result: result };
         }
     } catch (error) {
-        return { status: false, msg: "Registration failed", error: error.message };
+        return { status: false, msg: "Registro fallido", error: error.message };
     }
 }
 
@@ -48,7 +48,7 @@ async function loginUserDB(userDetails) {
             return { status: false, msg: "Usuario no encontrado" };
         }
     } catch (error) {
-        console.error("Error during login: ", error);
+        console.error("Error al logear: ", error);
         return { status: false, msg: "Error en el servidor" };
     }
 }
@@ -75,9 +75,9 @@ async function getUserBD(userEmail) {
     try {
         let result = await User.findOne({ email_usuario: userEmail });
         if (result) {
-            return { status: true, msg: "User found successfully", user: result };
+            return { status: true, msg: "Usuario encontrado ", user: result };
         } else {
-            return { status: false, msg: "User not found" };
+            return { status: false, msg: "Usuario no encontrado" };
         }
     } catch (err) {
         console.log(err);
@@ -89,13 +89,13 @@ async function deleteUserBD(userDetails, tokenPayload) {
     try {
         let result = await User.deleteOne({ email_usuario: userDetails.correo });
         if (result.deletedCount > 0) {
-            return { status: true, msg: "User delete successfully" };
+            return { status: true, msg: "Usuario eliminado con exito" };
         } else {
-            return { status: false, msg: "Problems deleting user" };
+            return { status: false, msg: "Pobremas al eliminar usuario" };
         }
     } catch (err) {
         console.log(err);
-        return { status: false, msg: "Problems with user delete" };
+        return { status: false, msg: "Problemas al eliminar" };
     }
 }
 

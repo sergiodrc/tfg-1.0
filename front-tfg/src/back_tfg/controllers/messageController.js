@@ -22,7 +22,7 @@ async function getMessages(req, res) {
     const { receiver } = req.params; // Obtenemos el receiver desde los parámetros de la URL
     console.log(receiver)
     if (!receiver) {
-        return res.json({ status: false, message: 'Receiver email is required' });
+        return res.json({ status: false, message: 'Falta el email' });
     }
     try {
         const result = await messageService.getReceivedMessagesBD(receiver);
@@ -58,7 +58,7 @@ async function getMySentMessages(req, res) {
 async function getUnviewedMessages(req, res) {
     var { receiver } = req.body;
     if (!receiver) {
-        return res.json({ status: false, message: 'Receiver ID is required' });
+        return res.json({ status: false, message: 'Falta el id del receptor' });
     }
     try {
         var result = await messageService.getUnviewedMessagesBD(receiver);
@@ -69,14 +69,14 @@ async function getUnviewedMessages(req, res) {
         }
     } catch (err) {
         console.error(err);
-        return res.json({ status: false, message: 'Error processing request' });
+        return res.json({ status: false, message: 'error en la request' });
     }
 }
 
 async function updateMessagesToViewed(req, res) {
     var { receiver } = req.body;
     if (!receiver) {
-        return res.json({ status: false, message: 'Receiver ID is required' });
+        return res.json({ status: false, message: 'falta id receptor' });
     }
     try {
         var result = await messageService.markMessagesAsViewedBD(receiver);

@@ -52,7 +52,11 @@ mat-icon {
 .fa-envelope::before {
   margin-right: 1rem;
 }
-
+.no-messages{
+  margin-top: 4rem;
+  font-size: 1.5rem;
+color: #eeeeee;
+}
 .sendMesage{
   box-shadow: none;
 }
@@ -98,6 +102,7 @@ mat-radio-group {
 /* Portátil */
 @media screen and (max-width: 1600px) {
   .body{
+    min-height: 100%;
     height: fit-content;
     padding-bottom: 1rem;
   }

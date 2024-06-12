@@ -1,6 +1,8 @@
 const message = require('../models/message')
 let publicationService = require('../service/publicationService')
 
+
+//crear publicacion
 async function createPublication(req,res) {
     console.log(req)
     var result = await publicationService.createPublicationBD(req)
@@ -12,6 +14,7 @@ async function createPublication(req,res) {
     }
 }
 
+//borrar publicacion
 async function deletePublication(req, res) {
     var result = await publicationService.deletePublicationBD(req.params)
     console.log(result)
@@ -22,6 +25,7 @@ async function deletePublication(req, res) {
     }
 }
 
+//actualizar publicacion
 async function updatePublication(req,res) {
     let result = await publicationService.updatePublicationBD(req)
     if (result.status === true) {
@@ -31,6 +35,7 @@ async function updatePublication(req,res) {
     }
 }
 
+//devolver todas publicaciones
 async function getAllPublications(req, res) {
     try {
         let result = await publicationService.getAllPublicationsBD()

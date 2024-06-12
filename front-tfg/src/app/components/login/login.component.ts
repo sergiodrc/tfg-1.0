@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
       
       if (response.status) {
         console.log('Respuesta exitosa:', response);
-        console.log('esto se envia', userData);
+       
         this.isRegistred = true;
         // Redirigir a la página de inicio después del registro exitoso
         this.router.navigate(['/home']);
